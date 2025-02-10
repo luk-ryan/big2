@@ -1,0 +1,76 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "9d4484fd60409758fe85d493abebba6a",
+    "entities": [
+      {
+        "tableName": "games",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`gameId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `player1` TEXT, `player2` TEXT, `player3` TEXT, `player4` TEXT, `startTime` TEXT, `isCompleted` INTEGER NOT NULL, `rounds` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "gameId",
+            "columnName": "gameId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "player1",
+            "columnName": "player1",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "player2",
+            "columnName": "player2",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "player3",
+            "columnName": "player3",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "player4",
+            "columnName": "player4",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "startTime",
+            "columnName": "startTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isCompleted",
+            "columnName": "isCompleted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rounds",
+            "columnName": "rounds",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "gameId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9d4484fd60409758fe85d493abebba6a')"
+    ]
+  }
+}
