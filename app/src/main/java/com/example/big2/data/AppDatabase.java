@@ -22,7 +22,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "big2_db")
-                            .allowMainThreadQueries() // Run on main thread for simplicity
+                            .allowMainThreadQueries()
                             .build();
                 }
             }

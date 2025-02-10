@@ -16,19 +16,14 @@ public interface GameDao {
     long insertGame(Game game);
     @Update
     void updateGame(Game game);
-
     @Delete
     void deleteGame(Game game);
-
-    @Query("SELECT * FROM games WHERE isCompleted = 0 ORDER BY startTime DESC LIMIT 1")
+    @Query("SELECT * FROM games WHERE isCompleted = 0")
     Game getOngoingGame();
-
     @Query("UPDATE games SET isCompleted = 1 WHERE gameId = :gameId")
     void completeGame(int gameId);
-
     @Query("SELECT * FROM games")
     List<Game> getAllGames();
-
     @Query("SELECT * FROM games WHERE gameId = :gameId")
     Game getGameById(long gameId);
 }
