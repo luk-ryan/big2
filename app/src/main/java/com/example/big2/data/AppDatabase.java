@@ -1,16 +1,14 @@
 package com.example.big2.data;
 
-import android.content.Context;
-
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.TypeConverters;
+import android.content.Context;
 
+import com.example.big2.data.dao.GameDao;
 import com.example.big2.data.entities.Game;
 
 @Database(entities = {Game.class}, version = 1)
-@TypeConverters(RoundConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
     private static volatile AppDatabase INSTANCE;
 
@@ -21,8 +19,8 @@ public abstract class AppDatabase extends RoomDatabase {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    AppDatabase.class, "big2_db")
-                            .allowMainThreadQueries()
+                                    AppDatabase.class, "big2_database")
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }
