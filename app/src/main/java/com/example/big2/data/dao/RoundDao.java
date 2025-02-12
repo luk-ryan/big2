@@ -3,17 +3,37 @@ package com.example.big2.data.dao;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
+import androidx.room.Delete;
+
+import com.example.big2.data.entity.Round;
+
 import java.util.List;
-import com.example.big2.data.entities.Round;
 
 @Dao
 public interface RoundDao {
+
+    // Insert a new round
     @Insert
-    long insertRound(Round round);
+    void insert(Round round);
 
-    @Query("SELECT * FROM rounds WHERE gameId = :gameId")
-    List<Round> getRoundsForGame(int gameId);
+    // Update an existing round
+    @Update
+    void update(Round round);
 
-    @Query("DELETE FROM rounds WHERE gameId = :gameId")
-    void deleteRoundsForGame(int gameId);
+    // Delete a round
+    @Delete
+    void delete(Round round);
+
+    // Get all rounds for a specific game, ordered by round number
+    @Query("SELECT * FROM rounds WHERE gameId = :gameId ORDER BY roundNumber ASC")
+    List<Round> getRoundsByGameId(int gameId);
+
+    // Get a specific round by its ID
+    @Query("SELECT * FROM rounds WHERE roundId = :roundId LIMIT 1")
+    Round getRoundById(int roundId);
+
+    // Get the most recent round for a specific game
+    @Query("SELECT * FROM rounds WHERE gameId = :gameId ORDER BY roundNumber DESC LIMIT 1")
+    Round getMostRecentRound(int gameId);
 }

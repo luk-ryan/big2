@@ -1,4 +1,4 @@
-package com.example.big2.activities;
+package com.example.big2.ui.activity;
 
 import android.os.Bundle;
 
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 //
-//package com.example.big2.activities;
+//package com.example.big2.activity;
 //
 //import android.content.Intent;
 //import android.os.Bundle;
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 //import androidx.appcompat.app.AppCompatActivity;
 //import androidx.lifecycle.ViewModelProvider;
 //import com.example.big2.adapters.GameListAdapter;
-//import com.example.big2.data.entities.Game;
+//import com.example.big2.data.entity.Game;
 //import com.example.big2.viewmodel.GameViewModel;
 //
 //public class MainActivity extends AppCompatActivity {

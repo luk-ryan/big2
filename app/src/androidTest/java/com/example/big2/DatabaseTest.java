@@ -9,8 +9,8 @@
 //
 //import com.example.big2.data.AppDatabase;
 //import com.example.big2.data.GameDao;
-//import com.example.big2.data.entities.Game;
-//import com.example.big2.data.entities.Round;
+//import com.example.big2.data.entity.Game;
+//import com.example.big2.data.entity.Round;
 //
 //import org.junit.After;
 //import org.junit.Before;

@@ -7,7 +7,7 @@
 //import androidx.annotation.NonNull;
 //import androidx.recyclerview.widget.RecyclerView;
 //import com.example.big2.R;
-//import com.example.big2.data.entities.Game;
+//import com.example.big2.data.entity.Game;
 //import java.text.SimpleDateFormat;
 //import java.util.List;
 //import java.util.Locale;
