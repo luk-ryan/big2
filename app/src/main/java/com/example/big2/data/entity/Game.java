@@ -1,22 +1,35 @@
 package com.example.big2.data.entity;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "games")
 public class Game {
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "gameId")
     private int gameId;
+    @ColumnInfo(name = "gameName")
     private String gameName;
+    @ColumnInfo(name = "p1")
     private String p1;
+    @ColumnInfo(name = "p2")
     private String p2;
+    @ColumnInfo(name = "p3")
     private String p3;
+    @ColumnInfo(name = "p4")
     private String p4;
+    @ColumnInfo(name = "s1")
     private int s1;
+    @ColumnInfo(name = "s2")
     private int s2;
+    @ColumnInfo(name = "s3")
     private int s3;
+    @ColumnInfo(name = "s4")
     private int s4;
+    @ColumnInfo(name = "cardValue")
     private double cardValue;
+    @ColumnInfo(name = "isCompleted")
     private boolean isCompleted;
 
     public Game(String gameName, String p1, String p2, String p3, String p4, double cardValue) {

@@ -1,23 +1,32 @@
 package com.example.big2.data.entity;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "rounds",
         foreignKeys = @ForeignKey(entity = Game.class,
                 parentColumns = "gameId",
                 childColumns = "gameId",
-                onDelete = ForeignKey.CASCADE))
+                onDelete = ForeignKey.CASCADE),
+        indices = @Index(value = "gameId")
+)
 public class Round {
     @PrimaryKey(autoGenerate = true)
     private int roundId;  // Unique ID for each round
-
+    @ColumnInfo(name = "gameId")
     private int gameId;  // Foreign key linking to a Game
+    @ColumnInfo(name = "roundNumber")
     private int roundNumber;
+    @ColumnInfo(name = "s1")
     private int s1;
+    @ColumnInfo(name = "s2")
     private int s2;
+    @ColumnInfo(name = "s3")
     private int s3;
+    @ColumnInfo(name = "s4")
     private int s4;
 
     public Round(int gameId, int roundNumber, int s1, int s2, int s3, int s4) {
@@ -29,10 +38,21 @@ public class Round {
         this.s4 = s4;
     }
 
+    public int getRoundId() {
+        return roundId;
+    }
+
+    public void setRoundId(int roundId) {
+        this.roundId = roundId;
+    }
+
     public int getGameId() {
         return gameId;
     }
 
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
+    }
     public int getRoundNumber() {
         return roundNumber;
     }
