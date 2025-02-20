@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         btnRules = findViewById(R.id.btnRules);
         btnExit = findViewById(R.id.btnExit);
 
-        // Play Game Button - Navigate to Game Activity (Placeholder)
+        // Play Game Button - Navigate to Game Activity
         btnPlayGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Rules Button - Navigate to Rules Activity (Placeholder)
+        // Rules Button - Navigate to Rules Activity
         btnRules.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,32 +48,3 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
-
-
-//package com.example.big2.ui.activity;
-//
-//import android.os.Bundle;
-//
-//import androidx.activity.EdgeToEdge;
-//import androidx.appcompat.app.AppCompatActivity;
-//import androidx.core.graphics.Insets;
-//import androidx.core.view.ViewCompat;
-//import androidx.core.view.WindowInsetsCompat;
-//
-//import com.example.big2.R;
-//
-//public class MainActivity extends AppCompatActivity {
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        EdgeToEdge.enable(this);
-//        setContentView(R.layout.activity_main);
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
-//
-//    }
-//}
