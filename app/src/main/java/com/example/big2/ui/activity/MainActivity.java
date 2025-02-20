@@ -1,75 +1,79 @@
 package com.example.big2.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
+import android.view.View;
+import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import com.example.big2.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Button btnPlayGame, btnRules, btnExit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        // Initialize buttons
+        btnPlayGame = findViewById(R.id.btnPlayGame);
+        btnRules = findViewById(R.id.btnRules);
+        btnExit = findViewById(R.id.btnExit);
+
+        // Play Game Button - Navigate to Game Activity (Placeholder)
+        btnPlayGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SelectGameActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Rules Button - Navigate to Rules Activity (Placeholder)
+        btnRules.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RulesActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Exit Button - Close the app
+        btnExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishAffinity(); // Close all activities
+            }
         });
     }
 }
+
+
+//package com.example.big2.ui.activity;
 //
-//package com.example.big2.activity;
-//
-//import android.content.Intent;
 //import android.os.Bundle;
-//import android.widget.Button;
-//import android.widget.ListView;
+//
+//import androidx.activity.EdgeToEdge;
 //import androidx.appcompat.app.AppCompatActivity;
-//import androidx.lifecycle.ViewModelProvider;
-//import com.example.big2.adapters.GameListAdapter;
-//import com.example.big2.data.entity.Game;
-//import com.example.big2.viewmodel.GameViewModel;
+//import androidx.core.graphics.Insets;
+//import androidx.core.view.ViewCompat;
+//import androidx.core.view.WindowInsetsCompat;
+//
+//import com.example.big2.R;
 //
 //public class MainActivity extends AppCompatActivity {
-//
-//    private GameViewModel gameViewModel;
-//    private GameListAdapter adapter;
 //
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
+//        EdgeToEdge.enable(this);
 //        setContentView(R.layout.activity_main);
-//
-//        ListView gameListView = findViewById(R.id.gameListView);
-//        Button newGameButton = findViewById(R.id.newGameButton);
-//
-//        gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
-//
-//        adapter = new GameListAdapter(this);
-//        gameListView.setAdapter(adapter);
-//
-//        gameViewModel.getAllGames().observe(this, games -> adapter.setGames(games));
-//
-//        gameListView.setOnItemClickListener((parent, view, position, id) -> {
-//            Game selectedGame = adapter.getItem(position);
-//            Intent intent = new Intent(MainActivity.this, GameDetailActivity.class);
-//            intent.putExtra("gameId", selectedGame.getGameId());
-//            startActivity(intent);
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+//            return insets;
 //        });
 //
-//        newGameButton.setOnClickListener(v -> {
-//            Game newGame = new Game();
-//            long gameId = gameViewModel.insertGame(newGame);
-//            Intent intent = new Intent(MainActivity.this, GameDetailActivity.class);
-//            intent.putExtra("gameId", gameId);
-//            startActivity(intent);
-//        });
 //    }
 //}
