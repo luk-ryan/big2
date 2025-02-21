@@ -23,13 +23,17 @@
             </intent-filter>
         </activity>
 
+        <!-- RulesActivity -->
+        <activity android:name=".ui.activity.RulesActivity"
+            android:exported="true" />
+
         <!-- SelectGameActivity -->
         <activity android:name=".ui.activity.SelectGameActivity"
             android:exported="true" />
 
-        <!-- RulesActivity -->
-        <activity android:name=".ui.activity.RulesActivity"
-            android:exported="true" />
+        <!-- CreateGameActivity -->
+        <activity android:name=".ui.activity.CreateGameActivity"
+            android:exported="true"/>
 
     </application>
 

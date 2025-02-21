@@ -1,5 +1,6 @@
 package com.example.big2.data.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -27,13 +28,13 @@ public interface RoundDao {
 
     // Get all rounds for a specific game, ordered by round number
     @Query("SELECT * FROM rounds WHERE gameId = :gameId ORDER BY roundNumber ASC")
-    List<Round> getRoundsByGameId(int gameId);
+    LiveData<List<Round>> getRoundsByGameId(int gameId);
 
     // Get a specific round by its ID
     @Query("SELECT * FROM rounds WHERE roundId = :roundId LIMIT 1")
-    Round getRoundById(int roundId);
+    LiveData<Round> getRoundById(int roundId);
 
     // Get the most recent round for a specific game
     @Query("SELECT * FROM rounds WHERE gameId = :gameId ORDER BY roundNumber DESC LIMIT 1")
-    Round getMostRecentRound(int gameId);
+    LiveData<Round> getMostRecentRound(int gameId);
 }

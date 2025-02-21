@@ -1,5 +1,6 @@
 package com.example.big2.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,9 +21,9 @@ import java.util.List;
 
 public class SelectGameActivity extends AppCompatActivity {
 
-    private Button btnBack;
+    private Button btnCreate, btnBack;
     private RecyclerView recyclerView;
-    private GameRecyclerViewAdapter gameAdapter;
+    private GameRecyclerViewAdapter gameRecyclerViewAdapter;
     private GameViewModel gameViewModel;
     private TextView tvNoGames;
 
@@ -31,17 +32,20 @@ public class SelectGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_games);
 
+        // Initialize ViewModel
+        gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
+
         // Initialize Views
+        btnCreate = findViewById(R.id.btnCreate);
         btnBack = findViewById(R.id.btnBack);
         recyclerView = findViewById(R.id.gamesRecyclerView);
         tvNoGames = findViewById(R.id.tvNoGames); // "No Games" message
 
-        // Initialize ViewModel
-        gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
-
+        // Initialize RecyclerView with gameRecyclerViewAdapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        gameAdapter = new GameRecyclerViewAdapter();
-        recyclerView.setAdapter(gameAdapter);
+        gameRecyclerViewAdapter = new GameRecyclerViewAdapter();
+        recyclerView.setAdapter(gameRecyclerViewAdapter);
+
 
         // Observe LiveData from ViewModel
         gameViewModel.getAllGames().observe(this, new Observer<List<Game>>() {
@@ -53,12 +57,18 @@ public class SelectGameActivity extends AppCompatActivity {
                 } else {
                     tvNoGames.setVisibility(View.GONE); // Hide "No Games" message
                     recyclerView.setVisibility(View.VISIBLE); // Show RecyclerView
-                    gameAdapter.setGameList(games);
+                    gameRecyclerViewAdapter.setGameList(games);
                 }
             }
+        });
+
+        btnCreate.setOnClickListener(v -> {
+            Intent intent = new Intent(SelectGameActivity.this, CreateGameActivity.class);
+            startActivityForResult(intent, 1);
         });
 
         // Back button closes activity and sends user back to main menu
         btnBack.setOnClickListener(v -> finish());
     }
+
 }

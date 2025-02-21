@@ -1,5 +1,6 @@
 package com.example.big2.data.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -27,17 +28,17 @@ public interface GameDao {
 
     // Get all games (ordered by ID in descending order)
     @Query("SELECT * FROM games ORDER BY gameId DESC")
-    List<Game> getAllGames();
+    LiveData<List<Game>> getAllGames();
 
     // Get a specific game by ID
     @Query("SELECT * FROM games WHERE gameId = :id LIMIT 1")
-    Game getGameById(int id);
+    LiveData<Game> getGameById(int id);
 
     // Get all completed games
     @Query("SELECT * FROM games WHERE isCompleted = 1 ORDER BY gameId DESC")
-    List<Game> getCompletedGames();
+    LiveData<List<Game>> getCompletedGames();
 
     // Get all ongoing games
     @Query("SELECT * FROM games WHERE isCompleted = 0 ORDER BY gameId DESC")
-    List<Game> getOngoingGames();
+    LiveData<List<Game>> getOngoingGames();
 }
