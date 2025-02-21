@@ -1,5 +1,6 @@
 package com.example.big2.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -22,7 +23,7 @@ public class GameDetailActivity extends AppCompatActivity {
 
     private TextView tvGameDetails;
     private TextView tvP1Header, tvP2Header, tvP3Header, tvP4Header;
-    private Button btnBack;
+    private Button btnAdd, btnEdit, btnDelete, btnBack;
     private TableLayout tlGameDetails;
     private GameViewModel gameViewModel;
     private RoundViewModel roundViewModel;
@@ -38,8 +39,11 @@ public class GameDetailActivity extends AppCompatActivity {
 
         // Initialize Views
         tvGameDetails = findViewById(R.id.tvGameDetails);
+        tlGameDetails = findViewById(R.id.tlGameDetails); // table layout
+        btnAdd = findViewById(R.id.btnAdd);
+        btnEdit = findViewById(R.id.btnEdit);
+        btnDelete = findViewById(R.id.btnDelete);
         btnBack = findViewById(R.id.btnBack);
-        tlGameDetails = findViewById(R.id.tlGameDetails);
 
         // Map Header TextViews
         tvP1Header = findViewById(R.id.tvP1Header);
@@ -72,11 +76,25 @@ public class GameDetailActivity extends AppCompatActivity {
             tvGameDetails.setText("Invalid game ID.");
         }
 
+        // Add Round Button
+        btnAdd.setOnClickListener(v -> {
+            Intent intent = new Intent(GameDetailActivity.this, AddRoundActivity.class);
+            intent.putExtra("gameId", gameId);
+            startActivity(intent);
+        });
+
         // Back button - closes activity and sends user back to main menu
         btnBack.setOnClickListener(v -> finish());
     }
 
     private void populateTableWithRounds(List<Round> rounds) {
+
+        // Remove all rows, but leave the headers intact
+        int childCount = tlGameDetails.getChildCount();
+        for (int i = 1; i < childCount; i++) { // Start from 1 to skip the header row
+            tlGameDetails.removeViewAt(1); // Remove from index 1 to avoid removing the header
+        }
+
         for (Round round : rounds) {
             TableRow row = new TableRow(this);
 

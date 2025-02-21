@@ -37,4 +37,8 @@ public interface RoundDao {
     // Get the most recent round for a specific game
     @Query("SELECT * FROM rounds WHERE gameId = :gameId ORDER BY roundNumber DESC LIMIT 1")
     LiveData<Round> getMostRecentRound(int gameId);
+
+    // Get the most recent round for a specific game
+    @Query("SELECT * FROM rounds WHERE gameId = :gameId ORDER BY roundNumber DESC LIMIT 1")
+    Round getMostRecentRoundSync(int gameId);  // Synchronous version
 }

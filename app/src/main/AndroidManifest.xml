@@ -39,6 +39,10 @@
         <activity android:name=".ui.activity.GameDetailActivity"
             android:exported="true" />
 
+        <!-- AddRoundActivity -->
+        <activity android:name=".ui.activity.AddRoundActivity"
+            android:exported="true"/>
+
     </application>
 
 </manifest>

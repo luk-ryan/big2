@@ -30,6 +30,11 @@ public class RoundViewModel extends AndroidViewModel {
         roundRepository.insert(round);
     }
 
+    // Insert without round number parameter
+    public void insert(int gameId, int s1, int s2, int s3, int s4) {
+        roundRepository.insertWithAutoRoundNumber(gameId, s1, s2, s3, s4);
+    }
+
     // Update an existing round
     public void update(Round round) {
         roundRepository.update(round);
