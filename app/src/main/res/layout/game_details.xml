@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -12,21 +13,82 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.339" />
+        app:layout_constraintVertical_bias="0.1" />
 
     <TextView
         android:id="@+id/tvGameDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Game ID: \nGame Name: "
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"/>
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <TableLayout
+        android:id="@+id/tlGameDetails"
+        android:layout_width="375dp"
+        android:layout_height="420dp"
+        app:layout_goneMarginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvGameDetails"
+        android:stretchColumns="*" >
+
+        <!-- Header Row -->
+        <TableRow
+            android:id="@+id/headerRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/cardview_dark_background"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/tvRoundHeader"
+                android:layout_weight="1"
+                android:text="Round"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tvP1Header"
+                android:layout_weight="1"
+                android:text="Player 1"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tvP2Header"
+                android:layout_weight="1"
+                android:text="Player 2"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tvP3Header"
+                android:layout_weight="1"
+                android:text="Player 3"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tvP4Header"
+                android:layout_weight="1"
+                android:text="Player 4"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/white" />
+
+        </TableRow>
+    </TableLayout>
 
     <Button
         android:id="@+id/btnBack"
@@ -35,8 +97,7 @@
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.836" />
+        app:layout_constraintVertical_bias="0.903" />
 </androidx.constraintlayout.widget.ConstraintLayout>
