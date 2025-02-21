@@ -23,7 +23,7 @@ import java.util.List;
 
 public class SelectGameActivity extends AppCompatActivity {
 
-    private Button btnCreate, btnLoad, btnBack;
+    private Button btnCreate, btnLoad, btnDelete, btnBack;
     private RecyclerView recyclerView;
     private GameRecyclerViewAdapter gameRecyclerViewAdapter;
     private GameViewModel gameViewModel;
@@ -40,6 +40,7 @@ public class SelectGameActivity extends AppCompatActivity {
         // Initialize Views
         btnCreate = findViewById(R.id.btnCreate);
         btnLoad = findViewById(R.id.btnLoad);
+        btnDelete = findViewById(R.id.btnDelete);
         btnBack = findViewById(R.id.btnBack);
         recyclerView = findViewById(R.id.gamesRecyclerView);
         tvNoGames = findViewById(R.id.tvNoGames);
@@ -80,7 +81,17 @@ public class SelectGameActivity extends AppCompatActivity {
                 intent.putExtra("gameId", selectedGame.getGameId());
                 startActivity(intent);
             } else {
-                // Show a message or do nothing if no game is selected
+                Toast.makeText(SelectGameActivity.this, "Please select a game", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Delete Game Button
+        btnDelete.setOnClickListener(v -> {
+            Game selectedGame = gameRecyclerViewAdapter.getSelectedGame();
+            if (selectedGame != null) {
+                gameViewModel.delete(selectedGame);
+                Toast.makeText(SelectGameActivity.this, "Game deleted", Toast.LENGTH_SHORT).show();
+            } else {
                 Toast.makeText(SelectGameActivity.this, "Please select a game", Toast.LENGTH_SHORT).show();
             }
         });
