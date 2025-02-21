@@ -37,7 +37,6 @@ public class GameDetailActivity extends AppCompatActivity {
             // Observe the LiveData returned by getGameById
             gameViewModel.getGameById(gameId).observe(this, game -> {
                 if (game != null) {
-                    // Set the TextView to display the game details
                     tvGameDetails.setText("Game ID: " + game.getGameId() + "\nGame Name: " + game.getGameName());
                 } else {
                     tvGameDetails.setText("Game not found.");
