@@ -2,9 +2,11 @@ package com.example.big2.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -21,7 +23,7 @@ import java.util.List;
 
 public class SelectGameActivity extends AppCompatActivity {
 
-    private Button btnCreate, btnBack;
+    private Button btnCreate, btnLoad, btnBack;
     private RecyclerView recyclerView;
     private GameRecyclerViewAdapter gameRecyclerViewAdapter;
     private GameViewModel gameViewModel;
@@ -37,9 +39,10 @@ public class SelectGameActivity extends AppCompatActivity {
 
         // Initialize Views
         btnCreate = findViewById(R.id.btnCreate);
+        btnLoad = findViewById(R.id.btnLoad);
         btnBack = findViewById(R.id.btnBack);
         recyclerView = findViewById(R.id.gamesRecyclerView);
-        tvNoGames = findViewById(R.id.tvNoGames); // "No Games" message
+        tvNoGames = findViewById(R.id.tvNoGames);
 
         // Initialize RecyclerView with gameRecyclerViewAdapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -62,12 +65,27 @@ public class SelectGameActivity extends AppCompatActivity {
             }
         });
 
+        // Create Game button
         btnCreate.setOnClickListener(v -> {
             Intent intent = new Intent(SelectGameActivity.this, CreateGameActivity.class);
             startActivityForResult(intent, 1);
         });
 
-        // Back button closes activity and sends user back to main menu
+        // Load Game Button
+        btnLoad.setOnClickListener(v -> {
+            Game selectedGame = gameRecyclerViewAdapter.getSelectedGame();
+            if (selectedGame != null) {
+                // Load the selected game into the GameDetailActivity
+                Intent intent = new Intent(SelectGameActivity.this, GameDetailActivity.class);
+                intent.putExtra("gameId", selectedGame.getGameId());
+                startActivity(intent);
+            } else {
+                // Show a message or do nothing if no game is selected
+                Toast.makeText(SelectGameActivity.this, "Please select a game", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Back button - closes activity and sends user back to main menu
         btnBack.setOnClickListener(v -> finish());
     }
 

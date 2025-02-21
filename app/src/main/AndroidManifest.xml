@@ -35,6 +35,10 @@
         <activity android:name=".ui.activity.CreateGameActivity"
             android:exported="true"/>
 
+        <!-- GameDetailActivity -->
+        <activity android:name=".ui.activity.GameDetailActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>

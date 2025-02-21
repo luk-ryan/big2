@@ -16,7 +16,7 @@ public class RulesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rules);
 
-        // Back button closes activity and sends user back to main menu
+        // Back button - closes activity and sends user back to main menu
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
     }
