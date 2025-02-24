@@ -3,6 +3,7 @@ package com.example.big2.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -23,6 +24,7 @@ public class GameDetailActivity extends AppCompatActivity {
 
     private TextView tvGameDetails;
     private TextView tvP1Header, tvP2Header, tvP3Header, tvP4Header;
+    private TextView tvTotalP1, tvTotalP2, tvTotalP3, tvTotalP4;
     private Button btnAdd, btnEdit, btnDelete, btnBack;
     private TableLayout tlGameDetails;
     private GameViewModel gameViewModel;
@@ -51,6 +53,12 @@ public class GameDetailActivity extends AppCompatActivity {
         tvP3Header = findViewById(R.id.tvP3Header);
         tvP4Header = findViewById(R.id.tvP4Header);
 
+        // Map Total Score TextViews
+        TextView tvTotalP1 = findViewById(R.id.tvTotalP1);
+        TextView tvTotalP2 = findViewById(R.id.tvTotalP2);
+        TextView tvTotalP3 = findViewById(R.id.tvTotalP3);
+        TextView tvTotalP4 = findViewById(R.id.tvTotalP4);
+
         // Retrieve gameId from the Intent
         int gameId = getIntent().getIntExtra("gameId", -1);
 
@@ -65,6 +73,12 @@ public class GameDetailActivity extends AppCompatActivity {
                     tvP2Header.setText(game.getP2());
                     tvP3Header.setText(game.getP3());
                     tvP4Header.setText(game.getP4());
+
+                    // Set player total scores
+                    tvTotalP1.setText(String.valueOf(game.getS1()));
+                    tvTotalP2.setText(String.valueOf(game.getS2()));
+                    tvTotalP3.setText(String.valueOf(game.getS3()));
+                    tvTotalP4.setText(String.valueOf(game.getS4()));
                 } else {
                     tvGameDetails.setText("Game not found.");
                 }
@@ -89,10 +103,16 @@ public class GameDetailActivity extends AppCompatActivity {
 
     private void populateTableWithRounds(List<Round> rounds) {
 
-        // Remove all rows, but leave the headers intact
-        int childCount = tlGameDetails.getChildCount();
-        for (int i = 1; i < childCount; i++) { // Start from 1 to skip the header row
-            tlGameDetails.removeViewAt(1); // Remove from index 1 to avoid removing the header
+        View totalRow = null;
+        // Remove all rows, except for header and total row
+        while (tlGameDetails.getChildCount() > 2) {
+            tlGameDetails.removeViewAt(1);
+        }
+
+        // Check if there is already a total row and store it
+        if (tlGameDetails.getChildCount() > 1) {
+            totalRow = tlGameDetails.getChildAt(tlGameDetails.getChildCount() - 1);
+            tlGameDetails.removeView(totalRow); // Remove it temporarily
         }
 
         for (Round round : rounds) {
@@ -125,6 +145,10 @@ public class GameDetailActivity extends AppCompatActivity {
 
             tlGameDetails.addView(row);
         }
-    }
 
+        // Re-add the total row at the bottom if it exists
+        if (totalRow != null) {
+            tlGameDetails.addView(totalRow);
+        }
+    }
 }

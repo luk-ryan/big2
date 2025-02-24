@@ -88,6 +88,51 @@
                 android:textColor="@color/white" />
 
         </TableRow>
+
+        <!-- Total Row -->
+        <TableRow
+            android:id="@+id/totalScoreRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/tvTotalHeader"
+                android:layout_weight="1"
+                android:text="Total"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvTotalP1"
+                android:layout_weight="1"
+                android:text="0"
+                android:gravity="center"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvTotalP2"
+                android:layout_weight="1"
+                android:text="0"
+                android:gravity="center"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvTotalP3"
+                android:layout_weight="1"
+                android:text="0"
+                android:gravity="center"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvTotalP4"
+                android:layout_weight="1"
+                android:text="0"
+                android:gravity="center"
+                android:textColor="@color/black" />
+        </TableRow>
     </TableLayout>
 
     <Button

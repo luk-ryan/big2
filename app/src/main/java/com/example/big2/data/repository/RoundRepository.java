@@ -21,6 +21,7 @@ public class RoundRepository {
     public RoundRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
         roundDao = db.roundDao();
+        gameDao = db.gameDao();
     }
 
     // Insert a new round into the database (default insert)
