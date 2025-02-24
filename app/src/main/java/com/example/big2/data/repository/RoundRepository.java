@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.example.big2.data.AppDatabase;
+import com.example.big2.data.dao.GameDao;
 import com.example.big2.data.dao.RoundDao;
 import com.example.big2.data.entity.Round;
 
@@ -15,6 +16,7 @@ import java.util.concurrent.Future;
 public class RoundRepository {
 
     private RoundDao roundDao;
+    private GameDao gameDao;
 
     public RoundRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
@@ -65,5 +67,14 @@ public class RoundRepository {
     // Get the most recent round for a specific game
     public LiveData<Round> getMostRecentRound(int gameId) {
         return roundDao.getMostRecentRound(gameId);  // Directly return LiveData from DAO
+    }
+
+    private void updateGameTotalScores(int gameId) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            int totalS1 = roundDao.getTotalS1ForGame(gameId);
+            int totalS2 = roundDao.getTotalS2ForGame(gameId);
+            int totalS3 = roundDao.getTotalS3ForGame(gameId);
+            int totalS4 = roundDao.getTotalS4ForGame(gameId);
+        });
     }
 }

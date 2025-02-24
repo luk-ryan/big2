@@ -41,4 +41,5 @@ public interface GameDao {
     // Get all ongoing games
     @Query("SELECT * FROM games WHERE isCompleted = 0 ORDER BY gameId DESC")
     LiveData<List<Game>> getOngoingGames();
+
 }

@@ -41,4 +41,17 @@ public interface RoundDao {
     // Get the most recent round for a specific game
     @Query("SELECT * FROM rounds WHERE gameId = :gameId ORDER BY roundNumber DESC LIMIT 1")
     Round getMostRecentRoundSync(int gameId);  // Synchronous version
+
+    // Get total scores for all rounds of each player (4 players)
+    @Query("SELECT SUM(s1) FROM rounds WHERE gameId = :gameId")
+    int getTotalS1ForGame(int gameId);
+
+    @Query("SELECT SUM(s2) FROM rounds WHERE gameId = :gameId")
+    int getTotalS2ForGame(int gameId);
+
+    @Query("SELECT SUM(s3) FROM rounds WHERE gameId = :gameId")
+    int getTotalS3ForGame(int gameId);
+
+    @Query("SELECT SUM(s4) FROM rounds WHERE gameId = :gameId")
+    int getTotalS4ForGame(int gameId);
 }
