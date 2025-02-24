@@ -25,7 +25,10 @@ public class RoundRepository {
 
     // Insert a new round into the database (default insert)
     public void insert(Round round) {
-        AppDatabase.databaseWriteExecutor.execute(() -> roundDao.insert(round));
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            roundDao.insert(round);
+            updateGameTotalScores(round.getGameId());
+        });
     }
 
     // Insert a new round with auto-incrementing roundNumber
@@ -33,7 +36,7 @@ public class RoundRepository {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             int newRoundNumber = getNextRoundNumber(gameId);
             Round newRound = new Round(gameId, newRoundNumber, s1, s2, s3, s4);
-            roundDao.insert(newRound);
+            insert(newRound);
         });
     }
 
@@ -51,12 +54,18 @@ public class RoundRepository {
 
     // Update an existing round
     public void update(Round round) {
-        AppDatabase.databaseWriteExecutor.execute(() -> roundDao.update(round));
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            roundDao.update(round);
+            updateGameTotalScores(round.getGameId());
+        });
     }
 
     // Delete a round
     public void delete(Round round) {
-        AppDatabase.databaseWriteExecutor.execute(() -> roundDao.delete(round));
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            roundDao.delete(round);
+            updateGameTotalScores(round.getGameId());
+        });
     }
 
     // Get all rounds for a specific game, ordered by round number
@@ -75,6 +84,8 @@ public class RoundRepository {
             int totalS2 = roundDao.getTotalS2ForGame(gameId);
             int totalS3 = roundDao.getTotalS3ForGame(gameId);
             int totalS4 = roundDao.getTotalS4ForGame(gameId);
+
+            gameDao.updateTotalScores(gameId, totalS1, totalS2, totalS3, totalS4);
         });
     }
 }

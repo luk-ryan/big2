@@ -22,6 +22,9 @@ public interface GameDao {
     @Update
     void update(Game game);
 
+    @Query("UPDATE games SET s1 = :totalS1, s2 = :totalS2, s3 = :totalS3, s4 = :totalS4 WHERE gameId = :gameId")
+    void updateTotalScores(int gameId, int totalS1, int totalS2, int totalS3, int totalS4);
+
     // Delete a game
     @Delete
     void delete(Game game);
