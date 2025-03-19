@@ -35,6 +35,10 @@
         <activity android:name=".ui.activity.CreateGameActivity"
             android:exported="true"/>
 
+        <!-- GameplayActivity -->
+        <activity android:name=".ui.activity.GameplayActivity"
+            android:exported="true" />
+
         <!-- GameSummaryActivity -->
         <activity android:name=".ui.activity.GameSummaryActivity"
             android:exported="true" />
