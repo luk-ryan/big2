@@ -75,8 +75,8 @@ public class SelectGameActivity extends AppCompatActivity {
         btnLoad.setOnClickListener(v -> {
             Game selectedGame = gameRecyclerViewAdapter.getSelectedGame();
             if (selectedGame != null) {
-                // Load the selected game into the GameDetailActivity
-                Intent intent = new Intent(SelectGameActivity.this, GameDetailActivity.class);
+                // Load the selected game into the GameSummaryActivity
+                Intent intent = new Intent(SelectGameActivity.this, GameSummaryActivity.class);
                 intent.putExtra("gameId", selectedGame.getGameId());
                 startActivity(intent);
             } else {

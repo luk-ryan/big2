@@ -35,8 +35,8 @@
         <activity android:name=".ui.activity.CreateGameActivity"
             android:exported="true"/>
 
-        <!-- GameDetailActivity -->
-        <activity android:name=".ui.activity.GameDetailActivity"
+        <!-- GameSummaryActivity -->
+        <activity android:name=".ui.activity.GameSummaryActivity"
             android:exported="true" />
 
         <!-- AddRoundActivity -->

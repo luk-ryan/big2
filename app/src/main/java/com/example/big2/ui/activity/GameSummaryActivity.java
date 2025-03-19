@@ -2,7 +2,6 @@ package com.example.big2.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -13,14 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.big2.R;
-import com.example.big2.data.entity.Game;
 import com.example.big2.data.entity.Round;
 import com.example.big2.ui.viewmodel.GameViewModel;
 import com.example.big2.ui.viewmodel.RoundViewModel;
 
 import java.util.List;
 
-public class GameDetailActivity extends AppCompatActivity {
+public class GameSummaryActivity extends AppCompatActivity {
 
     private TextView tvGameDetails;
     private TextView tvP1Header, tvP2Header, tvP3Header, tvP4Header;
@@ -33,7 +31,7 @@ public class GameDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.game_details);
+        setContentView(R.layout.game_summary);
 
         // Initialize ViewModel
         gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
@@ -92,7 +90,7 @@ public class GameDetailActivity extends AppCompatActivity {
 
         // Add Round Button
         btnAdd.setOnClickListener(v -> {
-            Intent intent = new Intent(GameDetailActivity.this, AddRoundActivity.class);
+            Intent intent = new Intent(GameSummaryActivity.this, AddRoundActivity.class);
             intent.putExtra("gameId", gameId);
             startActivity(intent);
         });
