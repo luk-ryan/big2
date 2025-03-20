@@ -53,8 +53,8 @@ public class GameplayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GameplayActivity.this, GameSummaryActivity.class);
-                startActivity(intent);
                 intent.putExtra("gameId", gameId);
+                startActivity(intent);
             }
         });
 
