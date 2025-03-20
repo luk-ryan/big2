@@ -31,6 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Player 1"
+            android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/tvS1"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,6 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Player 2"
+            android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/tvS2"
             app:layout_constraintStart_toEndOf="@+id/tvP1"
@@ -51,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Player 3"
+            android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/tvS3"
             app:layout_constraintStart_toEndOf="@+id/tvP2"
@@ -61,6 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Player 4"
+            android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/tvS4"
             app:layout_constraintStart_toEndOf="@+id/tvP3"
@@ -116,13 +120,12 @@
         app:layout_constraintTop_toBottomOf="@+id/clScore"
         app:layout_constraintBottom_toTopOf="@id/clInputScores"/>
 
-    <!-- Input Scores -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clInputScores"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/tvRoundNumber"
-        app:layout_constraintBottom_toTopOf="@+id/clButtons">
+        app:layout_constraintBottom_toTopOf="@+id/clButtons" >
 
         <!-- Player 1 Input -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -131,16 +134,21 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/clP2Input"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/clP3Input"
+            android:paddingVertical="5dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/border" >
 
             <TextView
                 android:id="@+id/tvP1Input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Player 1"
+                android:gravity="center_horizontal"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:layout_marginStart="5dp"/>
 
             <NumberPicker
                 android:id="@+id/npP1Score"
@@ -150,7 +158,8 @@
                 android:layout_marginEnd="30dp"
                 app:layout_constraintTop_toBottomOf="@id/tvP1Input"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="8dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Player 2 Input -->
@@ -160,16 +169,21 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@+id/clP1Input"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/clP4Input"
+            android:paddingVertical="5dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/border" >
 
             <TextView
                 android:id="@+id/tvP2Input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Player 2"
+                android:gravity="center_horizontal"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:layout_marginStart="5dp" />
 
             <NumberPicker
                 android:id="@+id/npP2Score"
@@ -179,7 +193,8 @@
                 android:layout_marginEnd="30dp"
                 app:layout_constraintTop_toBottomOf="@id/tvP2Input"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="8dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Player 3 Input -->
@@ -189,16 +204,20 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/clP4Input"
-            app:layout_constraintTop_toBottomOf="@+id/clP1Input">
+            app:layout_constraintTop_toBottomOf="@+id/clP1Input"
+            android:paddingVertical="5dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/border"  >
 
             <TextView
                 android:id="@+id/tvP3Input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Player 3"
+                android:gravity="center_horizontal"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:layout_marginStart="5dp" />
 
             <NumberPicker
                 android:id="@+id/npP3Score"
@@ -208,7 +227,8 @@
                 android:layout_marginEnd="30dp"
                 app:layout_constraintTop_toBottomOf="@id/tvP3Input"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="8dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Player 4 Input -->
@@ -218,16 +238,20 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@+id/clP3Input"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clP2Input">
+            app:layout_constraintTop_toBottomOf="@+id/clP2Input"
+            android:paddingVertical="5dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/border"  >
 
             <TextView
                 android:id="@+id/tvP4Input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Player 4"
+                android:gravity="center_horizontal"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:layout_marginStart="5dp" />
 
             <NumberPicker
                 android:id="@+id/npP4Score"
@@ -237,12 +261,14 @@
                 android:layout_marginEnd="30dp"
                 app:layout_constraintTop_toBottomOf="@id/tvP4Input"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="8dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+    <!-- Buttons -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clButtons"
         android:layout_width="match_parent"

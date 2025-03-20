@@ -33,7 +33,7 @@ public class GameSummaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_summary);
 
-        // Initialize ViewModel
+        // Initialize ViewModels
         gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
         roundViewModel = new ViewModelProvider(this).get(RoundViewModel.class);
 
