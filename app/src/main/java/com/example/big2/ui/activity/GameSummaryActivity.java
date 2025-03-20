@@ -33,7 +33,7 @@ public class GameSummaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_summary);
 
-        // Initialize ViewModel
+        // Initialize ViewModels
         gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
         roundViewModel = new ViewModelProvider(this).get(RoundViewModel.class);
 
@@ -52,10 +52,10 @@ public class GameSummaryActivity extends AppCompatActivity {
         tvP4Header = findViewById(R.id.tvP4Header);
 
         // Map Total Score TextViews
-        TextView tvTotalP1 = findViewById(R.id.tvTotalP1);
-        TextView tvTotalP2 = findViewById(R.id.tvTotalP2);
-        TextView tvTotalP3 = findViewById(R.id.tvTotalP3);
-        TextView tvTotalP4 = findViewById(R.id.tvTotalP4);
+        tvTotalP1 = findViewById(R.id.tvTotalP1);
+        tvTotalP2 = findViewById(R.id.tvTotalP2);
+        tvTotalP3 = findViewById(R.id.tvTotalP3);
+        tvTotalP4 = findViewById(R.id.tvTotalP4);
 
         // Retrieve gameId from the Intent
         int gameId = getIntent().getIntExtra("gameId", -1);
