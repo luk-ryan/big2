@@ -5,6 +5,95 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Players Row -->
+        <TextView
+            android:id="@+id/tvP1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Player 1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tvS1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvP2" />
+
+        <TextView
+            android:id="@+id/tvP2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Player 2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tvS2"
+            app:layout_constraintStart_toEndOf="@+id/tvP1"
+            app:layout_constraintEnd_toStartOf="@+id/tvP3" />
+
+        <TextView
+            android:id="@+id/tvP3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Player 3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tvS3"
+            app:layout_constraintStart_toEndOf="@+id/tvP2"
+            app:layout_constraintEnd_toStartOf="@+id/tvP4" />
+
+        <TextView
+            android:id="@+id/tvP4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Player 4"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tvS4"
+            app:layout_constraintStart_toEndOf="@+id/tvP3"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Scores Row -->
+        <TextView
+            android:id="@+id/tvS1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S1"
+            app:layout_constraintTop_toBottomOf="@+id/tvP1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvS2" />
+
+        <TextView
+            android:id="@+id/tvS2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S2"
+            app:layout_constraintTop_toBottomOf="@+id/tvP2"
+            app:layout_constraintStart_toEndOf="@+id/tvS1"
+            app:layout_constraintEnd_toStartOf="@+id/tvS3" />
+
+        <TextView
+            android:id="@+id/tvS3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S3"
+            app:layout_constraintTop_toBottomOf="@+id/tvP3"
+            app:layout_constraintStart_toEndOf="@+id/tvS2"
+            app:layout_constraintEnd_toStartOf="@+id/tvS4" />
+
+        <TextView
+            android:id="@+id/tvS4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S4"
+            app:layout_constraintTop_toBottomOf="@+id/tvP4"
+            app:layout_constraintStart_toEndOf="@+id/tvS3"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -31,8 +120,8 @@
 
     <Button
         android:id="@+id/btnBack"
-        android:layout_width="137dp"
-        android:layout_height="56dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnSummary"
@@ -43,13 +132,26 @@
 
     <Button
         android:id="@+id/btnSummary"
-        android:layout_width="137dp"
-        android:layout_height="56dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Game Summary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnNext"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toEndOf="@id/btnBack"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.836" />
+
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toEndOf="@id/btnSummary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.836" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
