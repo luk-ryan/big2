@@ -26,7 +26,7 @@ public class GameplayActivity extends AppCompatActivity {
         // Initialize Views
         btnBack = findViewById(R.id.btnBack);
         btnSummary = findViewById(R.id.btnSummary);
-        tvGameDetails = findViewById(R.id.tvGameDetails);
+        tvGameDetails = findViewById(R.id.tvRoundNumber);
 
         gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
 
