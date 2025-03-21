@@ -264,7 +264,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/clP3Input"
             android:paddingVertical="5dp"
-            android:layout_margin="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/border" >
 
             <ImageView
@@ -311,7 +313,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/clP4Input"
             android:paddingVertical="5dp"
-            android:layout_margin="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/border" >
 
             <ImageView
@@ -357,7 +361,9 @@
             app:layout_constraintEnd_toStartOf="@+id/clP4Input"
             app:layout_constraintTop_toBottomOf="@+id/clP1Input"
             android:paddingVertical="5dp"
-            android:layout_margin="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/border" >
 
             <ImageView
@@ -403,7 +409,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clP2Input"
             android:paddingVertical="5dp"
-            android:layout_margin="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/border"  >
 
             <ImageView
