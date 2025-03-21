@@ -16,99 +16,225 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Constraint Layout Display Scores -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clScore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         app:layout_constraintBottom_toTopOf="@+id/tvRoundNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title">
 
-        <!-- Players Row -->
-        <TextView
-            android:id="@+id/tvP1"
-            android:layout_width="wrap_content"
+        <!-- Player 1 Container -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clP1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Player 1"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/tvS1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tvP2" />
-
-        <TextView
-            android:id="@+id/tvP2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Player 2"
-            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/clP2"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/tvS2"
-            app:layout_constraintStart_toEndOf="@+id/tvP1"
-            app:layout_constraintEnd_toStartOf="@+id/tvP3" />
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <TextView
-            android:id="@+id/tvP3"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/ivSuitP1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                android:src="@drawable/card_suit_spade"
+                android:alpha="0.9"
+                app:layout_constraintWidth_percent="0.4"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvP1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Player 1"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/ivSuitP1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/tvS1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="S1"
+                app:layout_constraintTop_toBottomOf="@+id/tvP1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Player 2 Container -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clP2"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Player 3"
-            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/clP1"
+            app:layout_constraintEnd_toStartOf="@+id/clP3"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/tvS3"
-            app:layout_constraintStart_toEndOf="@+id/tvP2"
-            app:layout_constraintEnd_toStartOf="@+id/tvP4" />
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <TextView
-            android:id="@+id/tvP4"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/ivSuitP2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                android:src="@drawable/card_suit_heart"
+                android:alpha="0.9"
+                app:layout_constraintWidth_percent="0.4"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvP2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Player 2"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/ivSuitP2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/tvS2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="S2"
+                app:layout_constraintTop_toBottomOf="@+id/tvP2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Player 3 Container -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clP3"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Player 4"
-            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/clP2"
+            app:layout_constraintEnd_toStartOf="@+id/clP4"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/tvS4"
-            app:layout_constraintStart_toEndOf="@+id/tvP3"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- Scores Row -->
-        <TextView
-            android:id="@+id/tvS1"
+            <ImageView
+                android:id="@+id/ivSuitP3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                android:src="@drawable/card_suit_club"
+                android:alpha="0.9"
+                app:layout_constraintWidth_percent="0.4"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvP3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Player 3"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/ivSuitP3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/tvS3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="S3"
+                app:layout_constraintTop_toBottomOf="@+id/tvP3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Player 4 Container -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clP4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/clP3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/ivSuitP4"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                android:src="@drawable/card_suit_diamond"
+                android:alpha="0.9"
+                app:layout_constraintWidth_percent="0.4"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvP4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Player 4"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/ivSuitP4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/tvS4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="S4"
+                app:layout_constraintTop_toBottomOf="@+id/tvP4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Distribute Player Containers Evenly -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="S1"
-            app:layout_constraintTop_toBottomOf="@+id/tvP1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tvS2" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.0"/>
 
-        <TextView
-            android:id="@+id/tvS2"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineEnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="S2"
-            app:layout_constraintTop_toBottomOf="@+id/tvP2"
-            app:layout_constraintStart_toEndOf="@+id/tvS1"
-            app:layout_constraintEnd_toStartOf="@+id/tvS3" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="1.0"/>
 
-        <TextView
-            android:id="@+id/tvS3"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineMid1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="S3"
-            app:layout_constraintTop_toBottomOf="@+id/tvP3"
-            app:layout_constraintStart_toEndOf="@+id/tvS2"
-            app:layout_constraintEnd_toStartOf="@+id/tvS4" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="78dp" />
 
-        <TextView
-            android:id="@+id/tvS4"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineMid2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="S4"
-            app:layout_constraintTop_toBottomOf="@+id/tvP4"
-            app:layout_constraintStart_toEndOf="@+id/tvS3"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.50"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineMid3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- Round Number -->
     <TextView
         android:id="@+id/tvRoundNumber"
         android:layout_width="wrap_content"
@@ -118,8 +244,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clScore"
-        app:layout_constraintBottom_toTopOf="@id/clInputScores"/>
+        app:layout_constraintBottom_toTopOf="@+id/clInputScores"/>
 
+<!-- Constraint Layout Input Scores -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clInputScores"
         android:layout_width="match_parent"
