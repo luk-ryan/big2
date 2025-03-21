@@ -67,8 +67,11 @@ public class GameRepository {
                 playerScores.add(new Pair<>("P3", game.getS3()));
                 playerScores.add(new Pair<>("P4", game.getS4()));
 
-                // Sort by score in ascending order
-                playerScores.sort((a, b) -> Integer.compare(b.second, a.second));
+                // Stable sort by score in descending order (same order for ties)
+                playerScores.sort((a, b) -> {
+                    int scoreComparison = Integer.compare(b.second, a.second); // Sort by score descending
+                    return scoreComparison != 0 ? scoreComparison : Integer.compare(a.first.compareTo(b.first), 0);
+                });
 
                 return playerScores;
             }

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GameplayActivity extends AppCompatActivity {
 
@@ -229,36 +230,47 @@ public class GameplayActivity extends AppCompatActivity {
                         R.drawable.card_suit_diamond // 4th place (lowest score)
                 };
 
+                // Create a map to store the current suit for each player
+                Map<String, Integer> previousScores = new HashMap<>();
+
                 // Loop through sortedScores and assign the correct suit image to each player
                 for (int i = 0; i < sortedScores.size(); i++) {
                     String player = sortedScores.get(i).first;
+                    int score = sortedScores.get(i).second;
 
                     // Calculate the index of the suit image based on the sorted order (ascending)
                     int imageIndex = 3 - i; // 3 for highest rank (first), 0 for lowest rank (last)
 
-                    // Assign the correct suit image to the corresponding player
-                    switch (player) {
-                        case "P1":
-                            ivP1Suit.setImageResource(suitImages[imageIndex]);
-                            fadeIn(ivP1Suit);
-                            break;
-                        case "P2":
-                            ivP2Suit.setImageResource(suitImages[imageIndex]);
-                            fadeIn(ivP2Suit);
-                            break;
-                        case "P3":
-                            ivP3Suit.setImageResource(suitImages[imageIndex]);
-                            fadeIn(ivP3Suit);
-                            break;
-                        case "P4":
-                            ivP4Suit.setImageResource(suitImages[imageIndex]);
-                            fadeIn(ivP4Suit);
-                            break;
+                    // Check if the player has a new score, and update only if it's changed
+                    if (!previousScores.containsKey(player) || previousScores.get(player) != score) {
+                        // Update the player's suit image
+                        switch (player) {
+                            case "P1":
+                                ivP1Suit.setImageResource(suitImages[imageIndex]);
+                                fadeIn(ivP1Suit);
+                                break;
+                            case "P2":
+                                ivP2Suit.setImageResource(suitImages[imageIndex]);
+                                fadeIn(ivP2Suit);
+                                break;
+                            case "P3":
+                                ivP3Suit.setImageResource(suitImages[imageIndex]);
+                                fadeIn(ivP3Suit);
+                                break;
+                            case "P4":
+                                ivP4Suit.setImageResource(suitImages[imageIndex]);
+                                fadeIn(ivP4Suit);
+                                break;
+                        }
                     }
+
+                    // Store the current score to track for the next update
+                    previousScores.put(player, score);
                 }
             }
         });
     }
+
 
     private void fadeIn(ImageView imageView) {
         ObjectAnimator fadeIn = ObjectAnimator.ofFloat(imageView, "alpha", 0f, 0.15f);
