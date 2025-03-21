@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:text="No games available"
         android:textSize="24sp"
-        android:textColor="@color/design_default_color_secondary"
+        android:textColor="@color/accent"
         android:gravity="center"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
