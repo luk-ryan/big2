@@ -1,6 +1,7 @@
 package com.example.big2.ui.viewmodel;
 
 import android.app.Application;
+import android.util.Pair;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -60,5 +61,10 @@ public class GameViewModel extends AndroidViewModel {
     // Get all ongoing games
     public LiveData<List<Game>> getOngoingGames() {
         return ongoingGames;
+    }
+
+    // Get sorted scores with corresponding player names
+    public LiveData<List<Pair<String, Integer>>> getSortedScoresWithPlayers(int gameId) {
+        return gameRepository.getSortedScoresWithPlayers(gameId);
     }
 }

@@ -270,11 +270,12 @@
             android:background="@drawable/border" >
 
             <ImageView
+                android:id="@+id/ivP1Suit"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:scaleType="centerCrop"
+                android:scaleType="centerInside"
                 android:src="@drawable/card_suit_spade"
-                android:alpha="0.1"
+                android:alpha="0.15"
                 android:layout_margin="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -319,11 +320,12 @@
             android:background="@drawable/border" >
 
             <ImageView
+                android:id="@+id/ivP2Suit"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:scaleType="centerCrop"
+                android:scaleType="centerInside"
                 android:src="@drawable/card_suit_heart"
-                android:alpha="0.1"
+                android:alpha="0.15"
                 android:layout_margin="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -367,11 +369,12 @@
             android:background="@drawable/border" >
 
             <ImageView
+                android:id="@+id/ivP3Suit"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:scaleType="centerCrop"
+                android:scaleType="centerInside"
                 android:src="@drawable/card_suit_diamond"
-                android:alpha="0.1"
+                android:alpha="0.15"
                 android:layout_margin="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -415,11 +418,12 @@
             android:background="@drawable/border"  >
 
             <ImageView
+                android:id="@+id/ivP4Suit"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:scaleType="centerCrop"
+                android:scaleType="centerInside"
                 android:src="@drawable/card_suit_club"
-                android:alpha="0.1"
+                android:alpha="0.15"
                 android:layout_margin="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
