@@ -44,7 +44,7 @@
             android:id="@+id/headerRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/cardview_dark_background"
+            android:background="@color/accent"
             android:padding="8dp">
 
             <TextView
@@ -52,40 +52,35 @@
                 android:layout_weight="1"
                 android:text="Round"
                 android:textStyle="bold"
-                android:gravity="center"
-                android:textColor="@color/white" />
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/tvP1Header"
                 android:layout_weight="1"
                 android:text="Player 1"
                 android:textStyle="bold"
-                android:gravity="center"
-                android:textColor="@color/white" />
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/tvP2Header"
                 android:layout_weight="1"
                 android:text="Player 2"
                 android:textStyle="bold"
-                android:gravity="center"
-                android:textColor="@color/white" />
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/tvP3Header"
                 android:layout_weight="1"
                 android:text="Player 3"
                 android:textStyle="bold"
-                android:gravity="center"
-                android:textColor="@color/white" />
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/tvP4Header"
                 android:layout_weight="1"
                 android:text="Player 4"
                 android:textStyle="bold"
-                android:gravity="center"
-                android:textColor="@color/white" />
+                android:gravity="center" />
 
         </TableRow>
 
@@ -94,7 +89,6 @@
             android:id="@+id/totalScoreRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/cardview_light_background"
             android:padding="8dp">
 
             <TextView
@@ -102,36 +96,35 @@
                 android:layout_weight="1"
                 android:text="Total"
                 android:textStyle="bold"
-                android:gravity="center"
-                android:textColor="@color/black" />
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/tvTotalP1"
                 android:layout_weight="1"
                 android:text="0"
-                android:gravity="center"
-                android:textColor="@color/black" />
+                android:textStyle="bold"
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/tvTotalP2"
                 android:layout_weight="1"
                 android:text="0"
-                android:gravity="center"
-                android:textColor="@color/black" />
+                android:textStyle="bold"
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/tvTotalP3"
                 android:layout_weight="1"
                 android:text="0"
-                android:gravity="center"
-                android:textColor="@color/black" />
+                android:textStyle="bold"
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/tvTotalP4"
                 android:layout_weight="1"
                 android:text="0"
-                android:gravity="center"
-                android:textColor="@color/black" />
+                android:textStyle="bold"
+                android:gravity="center" />
         </TableRow>
     </TableLayout>
 
