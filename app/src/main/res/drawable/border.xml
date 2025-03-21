@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/divider" /> <!-- Set a background color if needed -->
-    <stroke
-        android:color="@color/dark_primary"
-        android:width="2dp" />      <!-- Border width -->
-    <corners android:radius="4dp" /> <!-- Optional: rounded corners -->
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <!-- Shape layer on top -->
+    <item>
+        <shape>
+            <solid android:color="@color/divider" />
+            <stroke
+                android:color="@color/dark_primary"
+                android:width="2dp" />
+            <corners android:radius="4dp" />
+        </shape>
+    </item>
+    
+</layer-list>

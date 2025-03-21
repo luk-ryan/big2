@@ -140,6 +140,18 @@
             android:layout_margin="10dp"
             android:background="@drawable/border" >
 
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/card_suit_spade"
+                android:alpha="0.1"
+                android:layout_margin="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
             <TextView
                 android:id="@+id/tvP1Input"
                 android:layout_width="wrap_content"
@@ -175,6 +187,18 @@
             android:layout_margin="10dp"
             android:background="@drawable/border" >
 
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/card_suit_heart"
+                android:alpha="0.1"
+                android:layout_margin="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
             <TextView
                 android:id="@+id/tvP2Input"
                 android:layout_width="wrap_content"
@@ -207,7 +231,19 @@
             app:layout_constraintTop_toBottomOf="@+id/clP1Input"
             android:paddingVertical="5dp"
             android:layout_margin="10dp"
-            android:background="@drawable/border"  >
+            android:background="@drawable/border" >
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/card_suit_diamond"
+                android:alpha="0.1"
+                android:layout_margin="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
                 android:id="@+id/tvP3Input"
@@ -242,6 +278,18 @@
             android:paddingVertical="5dp"
             android:layout_margin="10dp"
             android:background="@drawable/border"  >
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/card_suit_club"
+                android:alpha="0.1"
+                android:layout_margin="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
                 android:id="@+id/tvP4Input"
