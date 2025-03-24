@@ -3,6 +3,9 @@ package com.example.big2.ui.activity;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.ChangeBounds;
+import android.transition.Transition;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.big2.R;
@@ -30,7 +34,7 @@ import java.util.Map;
 public class GameplayActivity extends AppCompatActivity {
 
     private TextView tvTitle, tvP1, tvP2, tvP3, tvP4, tvS1, tvS2, tvS3, tvS4, tvRoundNumber;
-    private LinearLayout llP1Text, llP2Text, llP3Text, llP4Text;
+    private ImageView ivSuitP1, ivSuitP2, ivSuitP3, ivSuitP4;
     private TextView tvP1Input, tvP2Input, tvP3Input, tvP4Input;
     private NumberPicker npP1, npP2, npP3, npP4;
     private ImageView ivP1Suit, ivP2Suit, ivP3Suit, ivP4Suit;
@@ -60,11 +64,11 @@ public class GameplayActivity extends AppCompatActivity {
         tvS4 = findViewById(R.id.tvS4);
         tvRoundNumber = findViewById(R.id.tvRoundNumber);
 
-        // Linear Layout Scoreboard Views
-        llP1Text = findViewById(R.id.llP1Text);
-        llP2Text = findViewById(R.id.llP2Text);
-        llP3Text = findViewById(R.id.llP3Text);
-        llP4Text = findViewById(R.id.llP4Text);
+        // Card Suit Image Views
+        ivSuitP1 = findViewById(R.id.ivSuitP1);
+        ivSuitP2 = findViewById(R.id.ivSuitP2);
+        ivSuitP3 = findViewById(R.id.ivSuitP3);
+        ivSuitP4 = findViewById(R.id.ivSuitP4);
 
         // Input Text Views
         tvP1Input = findViewById(R.id.tvP1Input);
@@ -234,32 +238,73 @@ public class GameplayActivity extends AppCompatActivity {
                 // Create a map to store the current suit for each player
                 Map<String, Integer> previousRankings = new HashMap<>();
 
+                // Create a mapping for player names to their layout IDs
+                Map<String, Integer> playerToViewId = new HashMap<>();
+                playerToViewId.put("P1", R.id.clP1);
+                playerToViewId.put("P2", R.id.clP2);
+                playerToViewId.put("P3", R.id.clP3);
+                playerToViewId.put("P4", R.id.clP4);
+
+                // Get the parent layout that holds the players (e.g., the score layout)
+                ConstraintLayout layout = findViewById(R.id.clScore);
+                ConstraintSet constraintSet = new ConstraintSet();
+                constraintSet.clone(layout);
+
+                // Create a Transition object (ChangeBounds) and set the duration
+                Transition changeBounds = new ChangeBounds();
+                changeBounds.setDuration(1000); // Set the duration to 1000 milliseconds (1 second) or any other value you prefer
+
+                // Begin the transition animation
+                TransitionManager.beginDelayedTransition(layout, changeBounds);  // Add this line for animation
+
                 // Loop through sortedScores and assign the correct suit image to each player
-                for (int i = 0; i < sortedScores.size(); i++) {
+                // Reversing the loop order so that the highest-ranked player is placed first
+                for (int i = sortedScores.size() - 1; i >= 0; i--) {
                     String player = sortedScores.get(i).first;
                     int score = sortedScores.get(i).second;
+                    int playerViewId = playerToViewId.get(player); // Get the corresponding player layout ID
 
-                    // Calculate the index of the suit image based on the sorted order (ascending)
-                    int imageIndex = 3 - i; // 3 for highest rank (first), 0 for lowest rank (last)
+                    // Reset the horizontal position constraint before applying the new layout
+                    constraintSet.clear(playerViewId, ConstraintSet.START);
+                    constraintSet.clear(playerViewId, ConstraintSet.END);
+
+                    // For the first player, align them to the left of the parent (START)
+                    if (i == sortedScores.size() - 1) {
+                        constraintSet.connect(playerViewId, ConstraintSet.START, R.id.clScore, ConstraintSet.START);
+                    } else {
+                        // For the other players, connect the previous player's END to this player's START
+                        constraintSet.connect(playerViewId, ConstraintSet.START, playerToViewId.get(sortedScores.get(i + 1).first), ConstraintSet.END);
+                    }
+
+                    // For the last player, ensure they are connected to the parent's END
+                    if (i == 0) {
+                        constraintSet.connect(playerViewId, ConstraintSet.END, R.id.clScore, ConstraintSet.END);
+                    }
+
+                    // Set the width for each player's container to a fixed percentage of the parent width
+                    constraintSet.constrainPercentWidth(playerViewId, 0.25f); // Ensure each player takes up 25% of the width
+
+                    // Calculate the index of the suit image based on the reversed sorted order (descending)
+                    int imageIndex = sortedScores.size() - 1 - i; // Reversed: 0 for highest rank (first), 3 for lowest rank (last)
 
                     // Check if the player has a new score, and update only if it's changed
                     if (!previousRankings.containsKey(player) || previousRankings.get(player) != score) {
                         // Update the player's suit image
                         switch (player) {
                             case "P1":
-                                ivP1Suit.setImageResource(getSuitForRank(imageIndex));
+                                setSharedImageP1(getSuitForRank(imageIndex));
                                 fadeIn(ivP1Suit);
                                 break;
                             case "P2":
-                                ivP2Suit.setImageResource(getSuitForRank(imageIndex));
+                                setSharedImageP2(getSuitForRank(imageIndex));
                                 fadeIn(ivP2Suit);
                                 break;
                             case "P3":
-                                ivP3Suit.setImageResource(getSuitForRank(imageIndex));
+                                setSharedImageP3(getSuitForRank(imageIndex));
                                 fadeIn(ivP3Suit);
                                 break;
                             case "P4":
-                                ivP4Suit.setImageResource(getSuitForRank(imageIndex));
+                                setSharedImageP4(getSuitForRank(imageIndex));
                                 fadeIn(ivP4Suit);
                                 break;
                         }
@@ -268,8 +313,29 @@ public class GameplayActivity extends AppCompatActivity {
                     // Store the current score to track for the next update
                     previousRankings.put(player, score);
                 }
+
+                // Apply the constraint changes to move the player views
+                constraintSet.applyTo(layout);
             }
         });
+    }
+
+
+
+    // Helper method to get the view ID based on the player name
+    private int getPlayerViewId(String player) {
+        switch (player) {
+            case "P1":
+                return R.id.clP1;
+            case "P2":
+                return R.id.clP2;
+            case "P3":
+                return R.id.clP3;
+            case "P4":
+                return R.id.clP4;
+            default:
+                return -1;  // Invalid player, you could handle this case more gracefully
+        }
     }
 
     // Helper method to assign suits based on rank (lowest to highest)
@@ -286,6 +352,30 @@ public class GameplayActivity extends AppCompatActivity {
             default:
                 return R.drawable.card_suit_spade;
         }
+    }
+
+    // Method to set the same image to both ImageViews
+    public void setSharedImageP1(int imageResource) {
+        ivSuitP1.setImageResource(imageResource);
+        ivP1Suit.setImageResource(imageResource);
+    }
+
+    // Method to set the same image to both ImageViews
+    public void setSharedImageP2(int imageResource) {
+        ivSuitP2.setImageResource(imageResource);
+        ivP2Suit.setImageResource(imageResource);
+    }
+
+    // Method to set the same image to both ImageViews
+    public void setSharedImageP3(int imageResource) {
+        ivSuitP3.setImageResource(imageResource);
+        ivP3Suit.setImageResource(imageResource);
+    }
+
+    // Method to set the same image to both ImageViews
+    public void setSharedImageP4(int imageResource) {
+        ivSuitP4.setImageResource(imageResource);
+        ivP4Suit.setImageResource(imageResource);
     }
 
     private void fadeIn(ImageView imageView) {
