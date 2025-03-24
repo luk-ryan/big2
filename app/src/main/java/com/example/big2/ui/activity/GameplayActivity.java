@@ -257,9 +257,8 @@ public class GameplayActivity extends AppCompatActivity {
                 // Begin the transition animation
                 TransitionManager.beginDelayedTransition(layout, changeBounds);  // Add this line for animation
 
-                // Loop through sortedScores and assign the correct suit image to each player
-                // Reversing the loop order so that the highest-ranked player is placed first
-                for (int i = sortedScores.size() - 1; i >= 0; i--) {
+                // Loop through sortedScores in ascending order (lowest to highest)
+                for (int i = 0; i < sortedScores.size(); i++) {
                     String player = sortedScores.get(i).first;
                     int score = sortedScores.get(i).second;
                     int playerViewId = playerToViewId.get(player); // Get the corresponding player layout ID
@@ -269,23 +268,23 @@ public class GameplayActivity extends AppCompatActivity {
                     constraintSet.clear(playerViewId, ConstraintSet.END);
 
                     // For the first player, align them to the left of the parent (START)
-                    if (i == sortedScores.size() - 1) {
-                        constraintSet.connect(playerViewId, ConstraintSet.START, R.id.clScore, ConstraintSet.START);
+                    if (i == 0) {
+                        constraintSet.connect(playerViewId, ConstraintSet.END, R.id.clScore, ConstraintSet.END);
                     } else {
                         // For the other players, connect the previous player's END to this player's START
-                        constraintSet.connect(playerViewId, ConstraintSet.START, playerToViewId.get(sortedScores.get(i + 1).first), ConstraintSet.END);
+                        constraintSet.connect(playerViewId, ConstraintSet.END, playerToViewId.get(sortedScores.get(i - 1).first), ConstraintSet.START);
                     }
 
                     // For the last player, ensure they are connected to the parent's END
-                    if (i == 0) {
-                        constraintSet.connect(playerViewId, ConstraintSet.END, R.id.clScore, ConstraintSet.END);
+                    if (i == sortedScores.size() - 1) {
+                        constraintSet.connect(playerViewId, ConstraintSet.START, R.id.clScore, ConstraintSet.START);
                     }
 
                     // Set the width for each player's container to a fixed percentage of the parent width
                     constraintSet.constrainPercentWidth(playerViewId, 0.25f); // Ensure each player takes up 25% of the width
 
-                    // Calculate the index of the suit image based on the reversed sorted order (descending)
-                    int imageIndex = sortedScores.size() - 1 - i; // Reversed: 0 for highest rank (first), 3 for lowest rank (last)
+                    // Set the image index directly based on the sorted order (lowest to highest)
+                    int imageIndex = i; // No reversal needed, just use the current position in the sorted list
 
                     // Check if the player has a new score, and update only if it's changed
                     if (!previousRankings.containsKey(player) || previousRankings.get(player) != score) {
@@ -342,15 +341,15 @@ public class GameplayActivity extends AppCompatActivity {
     private int getSuitForRank(int rank) {
         switch (rank) {
             case 0:
-                return R.drawable.card_suit_spade;  // Lowest score
+                return R.drawable.card_suit_diamond;  // Highest score
             case 1:
-                return R.drawable.card_suit_heart;
-            case 2:
                 return R.drawable.card_suit_club;
+            case 2:
+                return R.drawable.card_suit_heart;
             case 3:
-                return R.drawable.card_suit_diamond; // Highest score
+                return R.drawable.card_suit_spade; // Lowest score
             default:
-                return R.drawable.card_suit_spade;
+                return R.drawable.card_suit_diamond;
         }
     }
 
