@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.big2.R;
@@ -28,6 +30,7 @@ import java.util.Map;
 public class GameplayActivity extends AppCompatActivity {
 
     private TextView tvTitle, tvP1, tvP2, tvP3, tvP4, tvS1, tvS2, tvS3, tvS4, tvRoundNumber;
+    private LinearLayout llP1Text, llP2Text, llP3Text, llP4Text;
     private TextView tvP1Input, tvP2Input, tvP3Input, tvP4Input;
     private NumberPicker npP1, npP2, npP3, npP4;
     private ImageView ivP1Suit, ivP2Suit, ivP3Suit, ivP4Suit;
@@ -56,6 +59,12 @@ public class GameplayActivity extends AppCompatActivity {
         tvS3 = findViewById(R.id.tvS3);
         tvS4 = findViewById(R.id.tvS4);
         tvRoundNumber = findViewById(R.id.tvRoundNumber);
+
+        // Linear Layout Scoreboard Views
+        llP1Text = findViewById(R.id.llP1Text);
+        llP2Text = findViewById(R.id.llP2Text);
+        llP3Text = findViewById(R.id.llP3Text);
+        llP4Text = findViewById(R.id.llP4Text);
 
         // Input Text Views
         tvP1Input = findViewById(R.id.tvP1Input);
@@ -222,16 +231,8 @@ public class GameplayActivity extends AppCompatActivity {
     private void observeAndUpdateSuitIcons(int gameId) {
         gameViewModel.getSortedScoresWithPlayers(gameId).observe(this, sortedScores -> {
             if (sortedScores.size() == 4) {
-                // List of suit drawables in order: highest to lowest score
-                int[] suitImages = {
-                        R.drawable.card_suit_spade,  // 1st place (lowest score)
-                        R.drawable.card_suit_heart,  // 2nd place
-                        R.drawable.card_suit_club,   // 3rd place
-                        R.drawable.card_suit_diamond // 4th place (highest score)
-                };
-
                 // Create a map to store the current suit for each player
-                Map<String, Integer> previousScores = new HashMap<>();
+                Map<String, Integer> previousRankings = new HashMap<>();
 
                 // Loop through sortedScores and assign the correct suit image to each player
                 for (int i = 0; i < sortedScores.size(); i++) {
@@ -242,33 +243,49 @@ public class GameplayActivity extends AppCompatActivity {
                     int imageIndex = 3 - i; // 3 for highest rank (first), 0 for lowest rank (last)
 
                     // Check if the player has a new score, and update only if it's changed
-                    if (!previousScores.containsKey(player) || previousScores.get(player) != score) {
+                    if (!previousRankings.containsKey(player) || previousRankings.get(player) != score) {
                         // Update the player's suit image
                         switch (player) {
                             case "P1":
-                                ivP1Suit.setImageResource(suitImages[imageIndex]);
+                                ivP1Suit.setImageResource(getSuitForRank(imageIndex));
                                 fadeIn(ivP1Suit);
                                 break;
                             case "P2":
-                                ivP2Suit.setImageResource(suitImages[imageIndex]);
+                                ivP2Suit.setImageResource(getSuitForRank(imageIndex));
                                 fadeIn(ivP2Suit);
                                 break;
                             case "P3":
-                                ivP3Suit.setImageResource(suitImages[imageIndex]);
+                                ivP3Suit.setImageResource(getSuitForRank(imageIndex));
                                 fadeIn(ivP3Suit);
                                 break;
                             case "P4":
-                                ivP4Suit.setImageResource(suitImages[imageIndex]);
+                                ivP4Suit.setImageResource(getSuitForRank(imageIndex));
                                 fadeIn(ivP4Suit);
                                 break;
                         }
                     }
 
                     // Store the current score to track for the next update
-                    previousScores.put(player, score);
+                    previousRankings.put(player, score);
                 }
             }
         });
+    }
+
+    // Helper method to assign suits based on rank (lowest to highest)
+    private int getSuitForRank(int rank) {
+        switch (rank) {
+            case 0:
+                return R.drawable.card_suit_spade;  // Lowest score
+            case 1:
+                return R.drawable.card_suit_heart;
+            case 2:
+                return R.drawable.card_suit_club;
+            case 3:
+                return R.drawable.card_suit_diamond; // Highest score
+            default:
+                return R.drawable.card_suit_spade;
+        }
     }
 
     private void fadeIn(ImageView imageView) {
