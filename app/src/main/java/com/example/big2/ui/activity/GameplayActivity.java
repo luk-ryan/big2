@@ -224,10 +224,10 @@ public class GameplayActivity extends AppCompatActivity {
             if (sortedScores.size() == 4) {
                 // List of suit drawables in order: highest to lowest score
                 int[] suitImages = {
-                        R.drawable.card_suit_spade,  // 1st place (highest score)
+                        R.drawable.card_suit_spade,  // 1st place (lowest score)
                         R.drawable.card_suit_heart,  // 2nd place
                         R.drawable.card_suit_club,   // 3rd place
-                        R.drawable.card_suit_diamond // 4th place (lowest score)
+                        R.drawable.card_suit_diamond // 4th place (highest score)
                 };
 
                 // Create a map to store the current suit for each player
@@ -270,7 +270,6 @@ public class GameplayActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void fadeIn(ImageView imageView) {
         ObjectAnimator fadeIn = ObjectAnimator.ofFloat(imageView, "alpha", 0f, 0.15f);
