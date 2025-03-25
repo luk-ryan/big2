@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.transition.ChangeBounds;
 import android.transition.Transition;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,20 +23,16 @@ import com.example.big2.R;
 import com.example.big2.ui.viewmodel.GameViewModel;
 import com.example.big2.ui.viewmodel.RoundViewModel;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class GameplayActivity extends AppCompatActivity {
 
-    private TextView tvTitle, tvP1, tvP2, tvP3, tvP4, tvS1, tvS2, tvS3, tvS4, tvRoundNumber;
+    private TextView tvTitle, tvP1, tvP2, tvP3, tvP4, tvS1, tvS2, tvS3, tvS4, tvRoundNumber, tvRoundDirection;
     private ImageView ivSuitP1, ivSuitP2, ivSuitP3, ivSuitP4;
     private TextView tvP1Input, tvP2Input, tvP3Input, tvP4Input;
     private NumberPicker npP1, npP2, npP3, npP4;
     private ImageView ivP1Suit, ivP2Suit, ivP3Suit, ivP4Suit;
-
     private Button btnSummary, btnBack, btnNext;
     private GameViewModel gameViewModel;
     private RoundViewModel roundViewModel;
@@ -63,6 +57,7 @@ public class GameplayActivity extends AppCompatActivity {
         tvS3 = findViewById(R.id.tvS3);
         tvS4 = findViewById(R.id.tvS4);
         tvRoundNumber = findViewById(R.id.tvRoundNumber);
+        tvRoundDirection = findViewById(R.id.tvRoundDirection);
 
         // Card Suit Image Views
         ivSuitP1 = findViewById(R.id.ivSuitP1);
@@ -127,13 +122,18 @@ public class GameplayActivity extends AppCompatActivity {
             }
         });
 
-        // Observe sorted list of scores and update images accordingly
-        observeAndUpdateSuitIcons(gameId);
+        // Observe sorted list of scores and update images/scoreboard accordingly
+        observeAndUpdatePlayerRanks(gameId);
 
         // Observe the most recent round for the given gameId
         roundViewModel.getMostRecentRound(gameId).observe(this, round -> {
             int nextRoundNumber = (round != null) ? round.getRoundNumber() + 1 : 1;
             tvRoundNumber.setText("Round: " + nextRoundNumber);
+            if (nextRoundNumber % 2 == 0) {
+                tvRoundDirection.setText("CCW");
+            } else {
+                tvRoundDirection.setText("CW");
+            }
         });
 
         // Configure NumberPickers
@@ -179,6 +179,15 @@ public class GameplayActivity extends AppCompatActivity {
                         tvRoundNumber.setAlpha(0f); // Start invisible
                         tvRoundNumber.animate().alpha(1f).setDuration(1000); // Fade-in animation
 
+                        if (nextRoundNumber % 2 == 0) {
+                            tvRoundDirection.setText("CCW");
+                        } else {
+                            tvRoundDirection.setText("CW");
+                        }
+
+                        // Animate the round number for a clear transition
+                        tvRoundDirection.setAlpha(0f); // Start invisible
+                        tvRoundDirection.animate().alpha(1f).setDuration(1000); // Fade-in animation
                     });
 
                     // Update the player scores UI after inserting the round
@@ -187,7 +196,7 @@ public class GameplayActivity extends AppCompatActivity {
                     tvS3.setText(String.valueOf(npP3.getValue()));
                     tvS4.setText(String.valueOf(npP4.getValue()));
 
-                    observeAndUpdateSuitIcons(gameId);
+                    observeAndUpdatePlayerRanks(gameId);
 
                 } else if (zeroCount > 1) {
                     // Show a toast or a message that Too many people are set to zero
@@ -232,7 +241,7 @@ public class GameplayActivity extends AppCompatActivity {
         }
     }
 
-    private void observeAndUpdateSuitIcons(int gameId) {
+    private void observeAndUpdatePlayerRanks(int gameId) {
         gameViewModel.getSortedScoresWithPlayers(gameId).observe(this, sortedScores -> {
             if (sortedScores.size() == 4) {
                 // Create a map to store the current suit for each player
@@ -318,8 +327,6 @@ public class GameplayActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     // Helper method to get the view ID based on the player name
     private int getPlayerViewId(String player) {

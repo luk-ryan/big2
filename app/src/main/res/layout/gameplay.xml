@@ -226,7 +226,17 @@
         app:layout_constraintTop_toBottomOf="@+id/clScore"
         app:layout_constraintBottom_toTopOf="@+id/clInputScores"/>
 
-<!-- Constraint Layout Input Scores -->
+    <TextView
+        android:id="@+id/tvRoundDirection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CW"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/clInputScores"
+        app:layout_constraintStart_toEndOf="@id/tvRoundNumber"
+        app:layout_constraintTop_toBottomOf="@+id/clScore" />
+
+    <!-- Constraint Layout Input Scores -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clInputScores"
         android:layout_width="match_parent"
