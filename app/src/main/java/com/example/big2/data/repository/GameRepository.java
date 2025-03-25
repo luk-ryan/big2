@@ -1,13 +1,16 @@
 package com.example.big2.data.repository;
 
 import android.app.Application;
+import android.util.Pair;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 
 import com.example.big2.data.AppDatabase;
 import com.example.big2.data.dao.GameDao;
 import com.example.big2.data.entity.Game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameRepository {
@@ -53,4 +56,27 @@ public class GameRepository {
     public LiveData<List<Game>> getOngoingGames() {
         return gameDao.getOngoingGames();  // Directly return LiveData from DAO
     }
+
+    // Get pairs of players and their scores in order
+    public LiveData<List<Pair<String, Integer>>> getSortedScoresWithPlayers(int gameId) {
+        return Transformations.map(gameDao.getGameById(gameId), game -> {
+            if (game != null) {
+                List<Pair<String, Integer>> playerScores = new ArrayList<>();
+                playerScores.add(new Pair<>("P1", game.getS1()));
+                playerScores.add(new Pair<>("P2", game.getS2()));
+                playerScores.add(new Pair<>("P3", game.getS3()));
+                playerScores.add(new Pair<>("P4", game.getS4()));
+
+                // Stable sort by score in descending order (same order for ties)
+                playerScores.sort((a, b) -> {
+                    int scoreComparison = Integer.compare(b.second, a.second); // Sort by score descending
+                    return scoreComparison != 0 ? scoreComparison : Integer.compare(a.first.compareTo(b.first), 0);
+                });
+
+                return playerScores;
+            }
+            return new ArrayList<>();
+        });
+    }
+
 }
