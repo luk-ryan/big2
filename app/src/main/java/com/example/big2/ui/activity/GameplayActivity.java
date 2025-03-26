@@ -20,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.big2.R;
+import com.example.big2.ui.fragment.InfoFragment;
 import com.example.big2.ui.viewmodel.GameViewModel;
 import com.example.big2.ui.viewmodel.RoundViewModel;
 
@@ -29,7 +30,7 @@ import java.util.Map;
 public class GameplayActivity extends AppCompatActivity {
 
     private TextView tvTitle, tvP1, tvP2, tvP3, tvP4, tvS1, tvS2, tvS3, tvS4, tvRoundNumber, tvRoundDirection;
-    private ImageView ivSuitP1, ivSuitP2, ivSuitP3, ivSuitP4;
+    private ImageView ivSuitP1, ivSuitP2, ivSuitP3, ivSuitP4, ivInfo;
     private TextView tvP1Input, tvP2Input, tvP3Input, tvP4Input;
     private NumberPicker npP1, npP2, npP3, npP4;
     private ImageView ivP1Suit, ivP2Suit, ivP3Suit, ivP4Suit;
@@ -64,6 +65,9 @@ public class GameplayActivity extends AppCompatActivity {
         ivSuitP2 = findViewById(R.id.ivSuitP2);
         ivSuitP3 = findViewById(R.id.ivSuitP3);
         ivSuitP4 = findViewById(R.id.ivSuitP4);
+
+        // Info Fragment Button
+        ivInfo = findViewById(R.id.ivInfo);
 
         // Input Text Views
         tvP1Input = findViewById(R.id.tvP1Input);
@@ -171,6 +175,15 @@ public class GameplayActivity extends AppCompatActivity {
                     Toast.makeText(GameplayActivity.this, "One person must be the winner of a round to move on", Toast.LENGTH_SHORT).show();
                 }
             }
+        });
+
+        // Info Fragment Button - Opens information fragment
+        ivInfo.setOnClickListener(v -> {
+            // Begin FragmentTransaction to show the InfoFragment
+            getSupportFragmentManager().beginTransaction()
+                    .replace(android.R.id.content, new InfoFragment()) // Replace with InfoFragment
+                    .addToBackStack(null) // Allows the back button to close it
+                    .commit();
         });
 
         // Game Summary Button - Navigate to Game Summary Activity
