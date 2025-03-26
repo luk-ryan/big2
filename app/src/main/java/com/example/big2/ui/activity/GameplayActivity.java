@@ -122,19 +122,9 @@ public class GameplayActivity extends AppCompatActivity {
             }
         });
 
-        // Observe sorted list of scores and update images/scoreboard accordingly
-        observeAndUpdatePlayerRanks(gameId);
-
-        // Observe the most recent round for the given gameId
-        roundViewModel.getMostRecentRound(gameId).observe(this, round -> {
-            int nextRoundNumber = (round != null) ? round.getRoundNumber() + 1 : 1;
-            tvRoundNumber.setText("Round: " + nextRoundNumber);
-            if (nextRoundNumber % 2 == 0) {
-                tvRoundDirection.setText("CCW");
-            } else {
-                tvRoundDirection.setText("CW");
-            }
-        });
+        // Update Activity with gameId
+        updatePlayerRankVisuals(gameId);
+        updateCurrentRound(gameId);
 
         // Configure NumberPickers
         setupNumberPicker(npP1);
@@ -170,33 +160,8 @@ public class GameplayActivity extends AppCompatActivity {
                     npP3.setValue(0);
                     npP4.setValue(0);
 
-                    // Refresh the round number UI
-                    roundViewModel.getMostRecentRound(gameId).observe(GameplayActivity.this, round -> {
-                        int nextRoundNumber = (round != null) ? round.getRoundNumber() + 1 : 1;
-                        tvRoundNumber.setText("Round: " + nextRoundNumber);
-
-                        // Animate the round number for a clear transition
-                        tvRoundNumber.setAlpha(0f); // Start invisible
-                        tvRoundNumber.animate().alpha(1f).setDuration(1000); // Fade-in animation
-
-                        if (nextRoundNumber % 2 == 0) {
-                            tvRoundDirection.setText("CCW");
-                        } else {
-                            tvRoundDirection.setText("CW");
-                        }
-
-                        // Animate the round number for a clear transition
-                        tvRoundDirection.setAlpha(0f); // Start invisible
-                        tvRoundDirection.animate().alpha(1f).setDuration(1000); // Fade-in animation
-                    });
-
-                    // Update the player scores UI after inserting the round
-                    tvS1.setText(String.valueOf(npP1.getValue()));
-                    tvS2.setText(String.valueOf(npP2.getValue()));
-                    tvS3.setText(String.valueOf(npP3.getValue()));
-                    tvS4.setText(String.valueOf(npP4.getValue()));
-
-                    observeAndUpdatePlayerRanks(gameId);
+                    updateCurrentRound(gameId);
+                    updatePlayerRankVisuals(gameId);
 
                 } else if (zeroCount > 1) {
                     // Show a toast or a message that Too many people are set to zero
@@ -222,9 +187,27 @@ public class GameplayActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> finish());
     }
 
+    private void updateCurrentRound(int gameId) {
+        // Refresh the round number UI
+        roundViewModel.getMostRecentRound(gameId).observe(GameplayActivity.this, round -> {
+            int nextRoundNumber = (round != null) ? round.getRoundNumber() + 1 : 1;
+            tvRoundNumber.setText("Round: " + nextRoundNumber);
+
+            // Animate the round number for a clear transition
+            tvRoundNumber.setAlpha(0f); // Start invisible
+            tvRoundNumber.animate().alpha(1f).setDuration(1000); // Fade-in animation
+
+            tvRoundDirection.setText((nextRoundNumber % 2 == 0) ? "CCW" : "CW");
+
+            // Animate the round number for a clear transition
+            tvRoundDirection.setAlpha(0f); // Start invisible
+            tvRoundDirection.animate().alpha(1f).setDuration(1000); // Fade-in animation
+        });
+    }
+
     private void setupNumberPicker(NumberPicker numberPicker) {
         numberPicker.setMinValue(0);  // Set minimum value
-        numberPicker.setMaxValue(13); // Set maximum value (adjust as needed)
+        numberPicker.setMaxValue(13); // Set maximum value
         numberPicker.setWrapSelectorWheel(false);
     }
 
@@ -241,7 +224,7 @@ public class GameplayActivity extends AppCompatActivity {
         }
     }
 
-    private void observeAndUpdatePlayerRanks(int gameId) {
+    private void updatePlayerRankVisuals(int gameId) {
         gameViewModel.getSortedScoresWithPlayers(gameId).observe(this, sortedScores -> {
             if (sortedScores.size() == 4) {
                 // Create a map to store the current suit for each player
