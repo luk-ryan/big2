@@ -29,8 +29,8 @@ import java.util.Map;
 
 public class GameplayActivity extends AppCompatActivity {
 
-    private TextView tvTitle, tvP1, tvP2, tvP3, tvP4, tvS1, tvS2, tvS3, tvS4, tvRoundNumber, tvRoundDirection;
-    private ImageView ivSuitP1, ivSuitP2, ivSuitP3, ivSuitP4, ivInfo;
+    private TextView tvTitle, tvP1, tvP2, tvP3, tvP4, tvS1, tvS2, tvS3, tvS4, tvRoundNumber;
+    private ImageView ivSuitP1, ivSuitP2, ivSuitP3, ivSuitP4, ivInfo, ivRoundDirection;
     private TextView tvP1Input, tvP2Input, tvP3Input, tvP4Input;
     private NumberPicker npP1, npP2, npP3, npP4;
     private ImageView ivP1Suit, ivP2Suit, ivP3Suit, ivP4Suit;
@@ -58,7 +58,6 @@ public class GameplayActivity extends AppCompatActivity {
         tvS3 = findViewById(R.id.tvS3);
         tvS4 = findViewById(R.id.tvS4);
         tvRoundNumber = findViewById(R.id.tvRoundNumber);
-        tvRoundDirection = findViewById(R.id.tvRoundDirection);
 
         // Card Suit Image Views
         ivSuitP1 = findViewById(R.id.ivSuitP1);
@@ -68,6 +67,9 @@ public class GameplayActivity extends AppCompatActivity {
 
         // Info Fragment Button
         ivInfo = findViewById(R.id.ivInfo);
+
+        // Round Direction Image View
+        ivRoundDirection = findViewById(R.id.ivRoundDirection);
 
         // Input Text Views
         tvP1Input = findViewById(R.id.tvP1Input);
@@ -210,11 +212,19 @@ public class GameplayActivity extends AppCompatActivity {
             tvRoundNumber.setAlpha(0f); // Start invisible
             tvRoundNumber.animate().alpha(1f).setDuration(1000); // Fade-in animation
 
-            tvRoundDirection.setText((nextRoundNumber % 2 == 0) ? "CCW" : "CW");
+            ivRoundDirection.setImageResource((nextRoundNumber % 2 == 0) ? R.drawable.rotate_left : R.drawable.rotate_right);
 
             // Animate the round number for a clear transition
-            tvRoundDirection.setAlpha(0f); // Start invisible
-            tvRoundDirection.animate().alpha(1f).setDuration(1000); // Fade-in animation
+            ivRoundDirection.setAlpha(0f); // Start invisible
+            ivRoundDirection.animate().alpha(1f).setDuration(1000); // Fade-in animation
+
+            // Start a continuous rotation animation
+            ObjectAnimator rotation = ObjectAnimator.ofFloat(ivRoundDirection, "rotation",
+                    0f, (nextRoundNumber % 2 == 0) ? -360f : 360f);
+            rotation.setDuration(5000);
+            rotation.setRepeatCount(ObjectAnimator.INFINITE);
+            rotation.setRepeatMode(ObjectAnimator.RESTART);
+            rotation.start();
         });
     }
 

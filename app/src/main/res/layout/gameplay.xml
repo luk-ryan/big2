@@ -20,9 +20,9 @@
         android:id="@+id/ivInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:src="@android:drawable/ic_dialog_info"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/info_outline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/dark_primary" />
@@ -237,15 +237,26 @@
         app:layout_constraintTop_toBottomOf="@+id/clScore"
         app:layout_constraintBottom_toTopOf="@+id/clInputScores"/>
 
-    <TextView
-        android:id="@+id/tvRoundDirection"
+    <ImageView
+        android:id="@+id/ivRoundDirection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CW"
-        android:layout_marginStart="20dp"
+        android:src="@drawable/rotate_right"
+        android:layout_marginStart="10dp"
         app:layout_constraintBottom_toTopOf="@+id/clInputScores"
         app:layout_constraintStart_toEndOf="@id/tvRoundNumber"
-        app:layout_constraintTop_toBottomOf="@+id/clScore" />
+        app:layout_constraintTop_toBottomOf="@+id/clScore"
+        />
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvRoundDirection"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="CW"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/clInputScores"-->
+<!--        app:layout_constraintStart_toEndOf="@id/tvRoundNumber"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/clScore" />-->
 
     <!-- Constraint Layout Input Scores -->
     <androidx.constraintlayout.widget.ConstraintLayout
