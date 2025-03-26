@@ -248,15 +248,16 @@
         app:layout_constraintTop_toBottomOf="@+id/clScore"
         />
 
-<!--    <TextView-->
-<!--        android:id="@+id/tvRoundDirection"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="CW"-->
-<!--        android:layout_marginStart="20dp"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/clInputScores"-->
-<!--        app:layout_constraintStart_toEndOf="@id/tvRoundNumber"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/clScore" />-->
+    <ImageView
+        android:id="@+id/ivStar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/star"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/clInputScores"
+        app:layout_constraintEnd_toStartOf="@id/tvRoundNumber"
+        app:layout_constraintTop_toBottomOf="@+id/clScore"
+        />
 
     <!-- Constraint Layout Input Scores -->
     <androidx.constraintlayout.widget.ConstraintLayout

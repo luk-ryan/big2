@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.transition.ChangeBounds;
 import android.transition.Transition;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,7 +32,8 @@ import java.util.Map;
 public class GameplayActivity extends AppCompatActivity {
 
     private TextView tvTitle, tvP1, tvP2, tvP3, tvP4, tvS1, tvS2, tvS3, tvS4, tvRoundNumber;
-    private ImageView ivSuitP1, ivSuitP2, ivSuitP3, ivSuitP4, ivInfo, ivRoundDirection;
+    private ImageView ivSuitP1, ivSuitP2, ivSuitP3, ivSuitP4;
+    private ImageView ivInfo, ivRoundDirection, ivStar;
     private TextView tvP1Input, tvP2Input, tvP3Input, tvP4Input;
     private NumberPicker npP1, npP2, npP3, npP4;
     private ImageView ivP1Suit, ivP2Suit, ivP3Suit, ivP4Suit;
@@ -68,8 +71,9 @@ public class GameplayActivity extends AppCompatActivity {
         // Info Fragment Button
         ivInfo = findViewById(R.id.ivInfo);
 
-        // Round Direction Image View
+        // Round Control Image Views
         ivRoundDirection = findViewById(R.id.ivRoundDirection);
+        ivStar = findViewById(R.id.ivStar);
 
         // Input Text Views
         tvP1Input = findViewById(R.id.tvP1Input);
@@ -212,6 +216,53 @@ public class GameplayActivity extends AppCompatActivity {
             tvRoundNumber.setAlpha(0f); // Start invisible
             tvRoundNumber.animate().alpha(1f).setDuration(1000); // Fade-in animation
 
+//            // Get the scores for each player
+//            int[] scores = {round.getS1(), round.getS2(), round.getS3(), round.getS4()};
+//            String[] players = {"P1", "P2", "P3", "P4"};
+//
+//            // Find the player who won the last round (score of 0)
+//            int maxScore = scores[0];
+//            String winRoundPlayer = players[0];
+//            for (int i = 1; i < scores.length; i++) {
+//                if (scores[i] == 0) {
+//                    winRoundPlayer = players[i];
+//                    break;
+//                }
+//            }
+//
+//            // Get the view ID for the highest player and highlight them
+//            int starPlayerViewId = getPlayerInputViewId(winRoundPlayer);
+//
+//            // Get the parent layout that holds the players
+//            ConstraintLayout layout = findViewById(starPlayerViewId);
+//            // Create a ConstraintSet to modify the constraints
+//            ConstraintSet constraintSet = new ConstraintSet();
+//            constraintSet.clone(layout); // Clone the current layout's constraints
+//
+//            // Clear any existing constraints for ivStar (if necessary)
+//            constraintSet.clear(ivStar.getId());
+//
+//            // Define the new constraints for ivStar
+//            constraintSet.connect(ivStar.getId(), ConstraintSet.END, starPlayerViewId, ConstraintSet.END, 10);
+//            constraintSet.connect(ivStar.getId(), ConstraintSet.TOP, starPlayerViewId, ConstraintSet.TOP, 10);
+//
+//            // Apply the new constraints to the layout
+//            constraintSet.applyTo(layout);
+//
+//            // Bring ivStar to the front to ensure it's visible
+//            ivStar.bringToFront();
+//
+//            // Check if ivStar is attached to the expected layout
+//            if (ivStar.getParent() == null) {
+//                Log.d("DEBUG", "ivStar is not attached to any layout.");
+//            } else {
+//                if (ivStar.getParent() instanceof ConstraintLayout) {
+//                    Log.d("DEBUG", "ivStar is successfully added to " + ((ConstraintLayout) ivStar.getParent()).getSceneString());
+//                } else {
+//                    Log.d("DEBUG", "ivStar is attached to a different parent: " + ivStar.getParent().getClass().getSimpleName());
+//                }
+//            }
+
             ivRoundDirection.setImageResource((nextRoundNumber % 2 == 0) ? R.drawable.rotate_left : R.drawable.rotate_right);
 
             // Animate the round number for a clear transition
@@ -228,22 +279,19 @@ public class GameplayActivity extends AppCompatActivity {
         });
     }
 
-    private void setupNumberPicker(NumberPicker numberPicker) {
-        numberPicker.setMinValue(0);  // Set minimum value
-        numberPicker.setMaxValue(13); // Set maximum value
-        numberPicker.setWrapSelectorWheel(false);
-    }
-
-    // Helper method to calculate score based on the value
-    private int calculateScore(int value) {
-        if (value == 11) {
-            return value * 2;  // Score = 11 * 2 = 22
-        } else if (value == 12) {
-            return value * 2;  // Score = 12 * 2 = 24
-        } else if (value == 13) {
-            return value * 3;  // Score = 13 * 3 = 39
-        } else {
-            return value;      // Default, just return the number if no special rule applies
+    // Helper method to get the view ID based on the player name
+    private int getPlayerInputViewId(String player) {
+        switch (player) {
+            case "P1":
+                return R.id.clP1Input;
+            case "P2":
+                return R.id.clP2Input;
+            case "P3":
+                return R.id.clP3Input;
+            case "P4":
+                return R.id.clP4Input;
+            default:
+                return -1;  // Invalid player, you could handle this case more gracefully
         }
     }
 
@@ -260,7 +308,7 @@ public class GameplayActivity extends AppCompatActivity {
                 playerToViewId.put("P3", R.id.clP3);
                 playerToViewId.put("P4", R.id.clP4);
 
-                // Get the parent layout that holds the players (e.g., the score layout)
+                // Get the parent layout that holds the players
                 ConstraintLayout layout = findViewById(R.id.clScore);
                 ConstraintSet constraintSet = new ConstraintSet();
                 constraintSet.clone(layout);
@@ -390,10 +438,31 @@ public class GameplayActivity extends AppCompatActivity {
         ivP4Suit.setImageResource(imageResource);
     }
 
+    // Helper method to Fade in each card Image View
     private void fadeIn(ImageView imageView) {
         ObjectAnimator fadeIn = ObjectAnimator.ofFloat(imageView, "alpha", 0f, 0.15f);
         fadeIn.setDuration(1000);  // Duration of the fade-in animation
         fadeIn.setInterpolator(new AccelerateDecelerateInterpolator());
         fadeIn.start();
+    }
+
+    // 4 Number Pickers all have te same options
+    private void setupNumberPicker(NumberPicker numberPicker) {
+        numberPicker.setMinValue(0);
+        numberPicker.setMaxValue(13);
+        numberPicker.setWrapSelectorWheel(false);
+    }
+
+    // Helper method to calculate score based on the value
+    private int calculateScore(int value) {
+        if (value == 11) {
+            return value * 2;  // Score = 11 * 2 = 22
+        } else if (value == 12) {
+            return value * 2;  // Score = 12 * 2 = 24
+        } else if (value == 13) {
+            return value * 3;  // Score = 13 * 3 = 39
+        } else {
+            return value;
+        }
     }
 }
