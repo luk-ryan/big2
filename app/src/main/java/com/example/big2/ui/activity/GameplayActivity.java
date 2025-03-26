@@ -2,11 +2,14 @@ package com.example.big2.ui.activity;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.transition.ChangeBounds;
 import android.transition.Transition;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,6 +23,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.big2.R;
+import com.example.big2.ui.fragment.InfoFragment;
 import com.example.big2.ui.viewmodel.GameViewModel;
 import com.example.big2.ui.viewmodel.RoundViewModel;
 
@@ -28,8 +32,10 @@ import java.util.Map;
 
 public class GameplayActivity extends AppCompatActivity {
 
-    private TextView tvTitle, tvP1, tvP2, tvP3, tvP4, tvS1, tvS2, tvS3, tvS4, tvRoundNumber, tvRoundDirection;
+    private TextView tvTitle, tvP1, tvP2, tvP3, tvP4, tvS1, tvS2, tvS3, tvS4, tvRoundNumber;
     private ImageView ivSuitP1, ivSuitP2, ivSuitP3, ivSuitP4;
+    private ImageView ivInfo, ivRoundDirection;
+    private ImageView ivStar, ivP1Star, ivP2Star, ivP3Star, ivP4Star;
     private TextView tvP1Input, tvP2Input, tvP3Input, tvP4Input;
     private NumberPicker npP1, npP2, npP3, npP4;
     private ImageView ivP1Suit, ivP2Suit, ivP3Suit, ivP4Suit;
@@ -57,13 +63,23 @@ public class GameplayActivity extends AppCompatActivity {
         tvS3 = findViewById(R.id.tvS3);
         tvS4 = findViewById(R.id.tvS4);
         tvRoundNumber = findViewById(R.id.tvRoundNumber);
-        tvRoundDirection = findViewById(R.id.tvRoundDirection);
 
         // Card Suit Image Views
         ivSuitP1 = findViewById(R.id.ivSuitP1);
         ivSuitP2 = findViewById(R.id.ivSuitP2);
         ivSuitP3 = findViewById(R.id.ivSuitP3);
         ivSuitP4 = findViewById(R.id.ivSuitP4);
+
+        // Info Fragment Button
+        ivInfo = findViewById(R.id.ivInfo);
+
+        // Round Control Image Views
+        ivRoundDirection = findViewById(R.id.ivRoundDirection);
+        ivStar = findViewById(R.id.ivStar);
+        ivP1Star = findViewById(R.id.ivP1Star);
+        ivP2Star = findViewById(R.id.ivP2Star);
+        ivP3Star = findViewById(R.id.ivP3Star);
+        ivP4Star = findViewById(R.id.ivP4Star);
 
         // Input Text Views
         tvP1Input = findViewById(R.id.tvP1Input);
@@ -122,19 +138,9 @@ public class GameplayActivity extends AppCompatActivity {
             }
         });
 
-        // Observe sorted list of scores and update images/scoreboard accordingly
-        observeAndUpdatePlayerRanks(gameId);
-
-        // Observe the most recent round for the given gameId
-        roundViewModel.getMostRecentRound(gameId).observe(this, round -> {
-            int nextRoundNumber = (round != null) ? round.getRoundNumber() + 1 : 1;
-            tvRoundNumber.setText("Round: " + nextRoundNumber);
-            if (nextRoundNumber % 2 == 0) {
-                tvRoundDirection.setText("CCW");
-            } else {
-                tvRoundDirection.setText("CW");
-            }
-        });
+        // Update Activity with gameId
+        updateCurrentRound(gameId);
+        updatePlayerRankVisuals(gameId);
 
         // Configure NumberPickers
         setupNumberPicker(npP1);
@@ -170,33 +176,8 @@ public class GameplayActivity extends AppCompatActivity {
                     npP3.setValue(0);
                     npP4.setValue(0);
 
-                    // Refresh the round number UI
-                    roundViewModel.getMostRecentRound(gameId).observe(GameplayActivity.this, round -> {
-                        int nextRoundNumber = (round != null) ? round.getRoundNumber() + 1 : 1;
-                        tvRoundNumber.setText("Round: " + nextRoundNumber);
-
-                        // Animate the round number for a clear transition
-                        tvRoundNumber.setAlpha(0f); // Start invisible
-                        tvRoundNumber.animate().alpha(1f).setDuration(1000); // Fade-in animation
-
-                        if (nextRoundNumber % 2 == 0) {
-                            tvRoundDirection.setText("CCW");
-                        } else {
-                            tvRoundDirection.setText("CW");
-                        }
-
-                        // Animate the round number for a clear transition
-                        tvRoundDirection.setAlpha(0f); // Start invisible
-                        tvRoundDirection.animate().alpha(1f).setDuration(1000); // Fade-in animation
-                    });
-
-                    // Update the player scores UI after inserting the round
-                    tvS1.setText(String.valueOf(npP1.getValue()));
-                    tvS2.setText(String.valueOf(npP2.getValue()));
-                    tvS3.setText(String.valueOf(npP3.getValue()));
-                    tvS4.setText(String.valueOf(npP4.getValue()));
-
-                    observeAndUpdatePlayerRanks(gameId);
+                    updateCurrentRound(gameId);
+                    updatePlayerRankVisuals(gameId);
 
                 } else if (zeroCount > 1) {
                     // Show a toast or a message that Too many people are set to zero
@@ -206,6 +187,15 @@ public class GameplayActivity extends AppCompatActivity {
                     Toast.makeText(GameplayActivity.this, "One person must be the winner of a round to move on", Toast.LENGTH_SHORT).show();
                 }
             }
+        });
+
+        // Info Fragment Button - Opens information fragment
+        ivInfo.setOnClickListener(v -> {
+            // Begin FragmentTransaction to show the InfoFragment
+            getSupportFragmentManager().beginTransaction()
+                    .replace(android.R.id.content, new InfoFragment()) // Replace with InfoFragment
+                    .addToBackStack(null) // Allows the back button to close it
+                    .commit();
         });
 
         // Game Summary Button - Navigate to Game Summary Activity
@@ -222,26 +212,80 @@ public class GameplayActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> finish());
     }
 
-    private void setupNumberPicker(NumberPicker numberPicker) {
-        numberPicker.setMinValue(0);  // Set minimum value
-        numberPicker.setMaxValue(13); // Set maximum value (adjust as needed)
-        numberPicker.setWrapSelectorWheel(false);
+    private void updateCurrentRound(int gameId) {
+        // Refresh the round number UI
+        roundViewModel.getMostRecentRound(gameId).observe(GameplayActivity.this, round -> {
+            int nextRoundNumber = (round != null) ? round.getRoundNumber() + 1 : 1;
+            tvRoundNumber.setText("Round: " + nextRoundNumber);
+
+            // Animate the round number for a clear transition
+            tvRoundNumber.setAlpha(0f); // Start invisible
+            tvRoundNumber.animate().alpha(1f).setDuration(1000); // Fade-in animation
+
+            String winRoundPlayer = "";
+
+            if (round != null) {
+                // Get the scores for each player
+                int[] scores = {round.getS1(), round.getS2(), round.getS3(), round.getS4()};
+                String[] players = {"P1", "P2", "P3", "P4"};
+
+                // Find the player who won the last round (score of 0)
+                int maxScore = scores[0];
+                winRoundPlayer = players[0];
+                for (int i = 1; i < scores.length; i++) {
+                    if (scores[i] == 0) {
+                        winRoundPlayer = players[i];
+                        break;
+                    }
+                }
+            }
+
+            // Reset all stars to invisible
+            ivStar.setVisibility(View.INVISIBLE);
+            ivP1Star.setVisibility(View.INVISIBLE);
+            ivP2Star.setVisibility(View.INVISIBLE);
+            ivP3Star.setVisibility(View.INVISIBLE);
+            ivP4Star.setVisibility(View.INVISIBLE);
+
+            ImageView star = getPlayerStarId(winRoundPlayer);
+            star.setVisibility(View.VISIBLE);
+
+            star.setAlpha(0f); // Start invisible
+            star.animate().alpha(1f).setDuration(1000); // Fade-in animation
+
+            ivRoundDirection.setImageResource((nextRoundNumber % 2 == 0) ? R.drawable.rotate_left : R.drawable.rotate_right);
+
+            // Animate the round number for a clear transition
+            ivRoundDirection.setAlpha(0f); // Start invisible
+            ivRoundDirection.animate().alpha(1f).setDuration(1000); // Fade-in animation
+
+            // Start a continuous rotation animation
+            ObjectAnimator rotation = ObjectAnimator.ofFloat(ivRoundDirection, "rotation",
+                    0f, (nextRoundNumber % 2 == 0) ? -360f : 360f);
+            rotation.setDuration(5000);
+            rotation.setRepeatCount(ObjectAnimator.INFINITE);
+            rotation.setRepeatMode(ObjectAnimator.RESTART);
+            rotation.start();
+        });
     }
 
-    // Helper method to calculate score based on the value
-    private int calculateScore(int value) {
-        if (value == 11) {
-            return value * 2;  // Score = 11 * 2 = 22
-        } else if (value == 12) {
-            return value * 2;  // Score = 12 * 2 = 24
-        } else if (value == 13) {
-            return value * 3;  // Score = 13 * 3 = 39
-        } else {
-            return value;      // Default, just return the number if no special rule applies
+    // Helper method to get the Image view based on player String
+    private ImageView getPlayerStarId(String winRoundPlayer) {
+        switch (winRoundPlayer) {
+            case "P1":
+                return ivP1Star;
+            case "P2":
+                return ivP2Star;
+            case "P3":
+                return ivP3Star;
+            case "P4":
+                return ivP4Star;
+            default:
+                return ivStar;
         }
     }
 
-    private void observeAndUpdatePlayerRanks(int gameId) {
+    private void updatePlayerRankVisuals(int gameId) {
         gameViewModel.getSortedScoresWithPlayers(gameId).observe(this, sortedScores -> {
             if (sortedScores.size() == 4) {
                 // Create a map to store the current suit for each player
@@ -254,7 +298,7 @@ public class GameplayActivity extends AppCompatActivity {
                 playerToViewId.put("P3", R.id.clP3);
                 playerToViewId.put("P4", R.id.clP4);
 
-                // Get the parent layout that holds the players (e.g., the score layout)
+                // Get the parent layout that holds the players
                 ConstraintLayout layout = findViewById(R.id.clScore);
                 ConstraintSet constraintSet = new ConstraintSet();
                 constraintSet.clone(layout);
@@ -384,10 +428,31 @@ public class GameplayActivity extends AppCompatActivity {
         ivP4Suit.setImageResource(imageResource);
     }
 
+    // Helper method to Fade in each card Image View
     private void fadeIn(ImageView imageView) {
         ObjectAnimator fadeIn = ObjectAnimator.ofFloat(imageView, "alpha", 0f, 0.15f);
         fadeIn.setDuration(1000);  // Duration of the fade-in animation
         fadeIn.setInterpolator(new AccelerateDecelerateInterpolator());
         fadeIn.start();
+    }
+
+    // 4 Number Pickers all have te same options
+    private void setupNumberPicker(NumberPicker numberPicker) {
+        numberPicker.setMinValue(0);
+        numberPicker.setMaxValue(13);
+        numberPicker.setWrapSelectorWheel(false);
+    }
+
+    // Helper method to calculate score based on the value
+    private int calculateScore(int value) {
+        if (value == 11) {
+            return value * 2;  // Score = 11 * 2 = 22
+        } else if (value == 12) {
+            return value * 2;  // Score = 12 * 2 = 24
+        } else if (value == 13) {
+            return value * 3;  // Score = 13 * 3 = 39
+        } else {
+            return value;
+        }
     }
 }
