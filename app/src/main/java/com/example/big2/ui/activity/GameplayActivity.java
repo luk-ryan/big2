@@ -2,6 +2,7 @@ package com.example.big2.ui.activity;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.transition.ChangeBounds;
 import android.transition.Transition;
@@ -33,7 +34,8 @@ public class GameplayActivity extends AppCompatActivity {
 
     private TextView tvTitle, tvP1, tvP2, tvP3, tvP4, tvS1, tvS2, tvS3, tvS4, tvRoundNumber;
     private ImageView ivSuitP1, ivSuitP2, ivSuitP3, ivSuitP4;
-    private ImageView ivInfo, ivRoundDirection, ivStar;
+    private ImageView ivInfo, ivRoundDirection;
+    private ImageView ivStar, ivP1Star, ivP2Star, ivP3Star, ivP4Star;
     private TextView tvP1Input, tvP2Input, tvP3Input, tvP4Input;
     private NumberPicker npP1, npP2, npP3, npP4;
     private ImageView ivP1Suit, ivP2Suit, ivP3Suit, ivP4Suit;
@@ -74,6 +76,10 @@ public class GameplayActivity extends AppCompatActivity {
         // Round Control Image Views
         ivRoundDirection = findViewById(R.id.ivRoundDirection);
         ivStar = findViewById(R.id.ivStar);
+        ivP1Star = findViewById(R.id.ivP1Star);
+        ivP2Star = findViewById(R.id.ivP2Star);
+        ivP3Star = findViewById(R.id.ivP3Star);
+        ivP4Star = findViewById(R.id.ivP4Star);
 
         // Input Text Views
         tvP1Input = findViewById(R.id.tvP1Input);
@@ -133,8 +139,8 @@ public class GameplayActivity extends AppCompatActivity {
         });
 
         // Update Activity with gameId
-        updatePlayerRankVisuals(gameId);
         updateCurrentRound(gameId);
+        updatePlayerRankVisuals(gameId);
 
         // Configure NumberPickers
         setupNumberPicker(npP1);
@@ -216,52 +222,36 @@ public class GameplayActivity extends AppCompatActivity {
             tvRoundNumber.setAlpha(0f); // Start invisible
             tvRoundNumber.animate().alpha(1f).setDuration(1000); // Fade-in animation
 
-//            // Get the scores for each player
-//            int[] scores = {round.getS1(), round.getS2(), round.getS3(), round.getS4()};
-//            String[] players = {"P1", "P2", "P3", "P4"};
-//
-//            // Find the player who won the last round (score of 0)
-//            int maxScore = scores[0];
-//            String winRoundPlayer = players[0];
-//            for (int i = 1; i < scores.length; i++) {
-//                if (scores[i] == 0) {
-//                    winRoundPlayer = players[i];
-//                    break;
-//                }
-//            }
-//
-//            // Get the view ID for the highest player and highlight them
-//            int starPlayerViewId = getPlayerInputViewId(winRoundPlayer);
-//
-//            // Get the parent layout that holds the players
-//            ConstraintLayout layout = findViewById(starPlayerViewId);
-//            // Create a ConstraintSet to modify the constraints
-//            ConstraintSet constraintSet = new ConstraintSet();
-//            constraintSet.clone(layout); // Clone the current layout's constraints
-//
-//            // Clear any existing constraints for ivStar (if necessary)
-//            constraintSet.clear(ivStar.getId());
-//
-//            // Define the new constraints for ivStar
-//            constraintSet.connect(ivStar.getId(), ConstraintSet.END, starPlayerViewId, ConstraintSet.END, 10);
-//            constraintSet.connect(ivStar.getId(), ConstraintSet.TOP, starPlayerViewId, ConstraintSet.TOP, 10);
-//
-//            // Apply the new constraints to the layout
-//            constraintSet.applyTo(layout);
-//
-//            // Bring ivStar to the front to ensure it's visible
-//            ivStar.bringToFront();
-//
-//            // Check if ivStar is attached to the expected layout
-//            if (ivStar.getParent() == null) {
-//                Log.d("DEBUG", "ivStar is not attached to any layout.");
-//            } else {
-//                if (ivStar.getParent() instanceof ConstraintLayout) {
-//                    Log.d("DEBUG", "ivStar is successfully added to " + ((ConstraintLayout) ivStar.getParent()).getSceneString());
-//                } else {
-//                    Log.d("DEBUG", "ivStar is attached to a different parent: " + ivStar.getParent().getClass().getSimpleName());
-//                }
-//            }
+            String winRoundPlayer = "";
+
+            if (round != null) {
+                // Get the scores for each player
+                int[] scores = {round.getS1(), round.getS2(), round.getS3(), round.getS4()};
+                String[] players = {"P1", "P2", "P3", "P4"};
+
+                // Find the player who won the last round (score of 0)
+                int maxScore = scores[0];
+                winRoundPlayer = players[0];
+                for (int i = 1; i < scores.length; i++) {
+                    if (scores[i] == 0) {
+                        winRoundPlayer = players[i];
+                        break;
+                    }
+                }
+            }
+
+            // Reset all stars to invisible
+            ivStar.setVisibility(View.INVISIBLE);
+            ivP1Star.setVisibility(View.INVISIBLE);
+            ivP2Star.setVisibility(View.INVISIBLE);
+            ivP3Star.setVisibility(View.INVISIBLE);
+            ivP4Star.setVisibility(View.INVISIBLE);
+
+            ImageView star = getPlayerStarId(winRoundPlayer);
+            star.setVisibility(View.VISIBLE);
+
+            star.setAlpha(0f); // Start invisible
+            star.animate().alpha(1f).setDuration(1000); // Fade-in animation
 
             ivRoundDirection.setImageResource((nextRoundNumber % 2 == 0) ? R.drawable.rotate_left : R.drawable.rotate_right);
 
@@ -279,19 +269,19 @@ public class GameplayActivity extends AppCompatActivity {
         });
     }
 
-    // Helper method to get the view ID based on the player name
-    private int getPlayerInputViewId(String player) {
-        switch (player) {
+    // Helper method to get the Image view based on player String
+    private ImageView getPlayerStarId(String winRoundPlayer) {
+        switch (winRoundPlayer) {
             case "P1":
-                return R.id.clP1Input;
+                return ivP1Star;
             case "P2":
-                return R.id.clP2Input;
+                return ivP2Star;
             case "P3":
-                return R.id.clP3Input;
+                return ivP3Star;
             case "P4":
-                return R.id.clP4Input;
+                return ivP4Star;
             default:
-                return -1;  // Invalid player, you could handle this case more gracefully
+                return ivStar;
         }
     }
 
