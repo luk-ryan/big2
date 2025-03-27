@@ -1,36 +1,33 @@
 package com.example.big2.ui.activity;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.big2.R;
-import com.example.big2.data.entity.Round;
 import com.example.big2.ui.adapter.RoundRecyclerViewAdapter;
 import com.example.big2.ui.viewmodel.GameViewModel;
 import com.example.big2.ui.viewmodel.RoundViewModel;
 
-import java.util.List;
-
 public class GameSummaryActivity extends AppCompatActivity {
 
     private TextView tvTitle;
-    private ConstraintLayout clGameDetails;
+    private ImageView ivBack, ivEditTitle, ivCancelEdit, ivDelete;
+    private EditText etTitle;
     private TextView tvP1Header, tvP2Header, tvP3Header, tvP4Header;
-    private RecyclerView roundRecyclerView;
+    private RecyclerView rvRounds;
     private RoundRecyclerViewAdapter roundRecyclerViewAdapter;
     private TextView tvTotalP1, tvTotalP2, tvTotalP3, tvTotalP4;
-    private ImageView ivBack, ivDelete;
     private GameViewModel gameViewModel;
     private RoundViewModel roundViewModel;
 
@@ -54,9 +51,12 @@ public class GameSummaryActivity extends AppCompatActivity {
 
         // Initialize Views
         tvTitle = findViewById(R.id.tvTitle);
+        ivEditTitle = findViewById(R.id.ivEditTitle);
+        etTitle = findViewById(R.id.etTitle);
+        ivCancelEdit = findViewById(R.id.ivCancelEdit);
+
         ivDelete = findViewById(R.id.ivDelete);
         ivBack = findViewById(R.id.ivBack);
-        clGameDetails = findViewById(R.id.tlGameDetails);
 
         // Map Header TextViews
         tvP1Header = findViewById(R.id.tvP1Header);
@@ -65,10 +65,10 @@ public class GameSummaryActivity extends AppCompatActivity {
         tvP4Header = findViewById(R.id.tvP4Header);
 
         // Round Recycler View Setup
-        roundRecyclerView = findViewById(R.id.rvRounds);
-        roundRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        rvRounds = findViewById(R.id.rvRounds);
+        rvRounds.setLayoutManager(new LinearLayoutManager(this));
         roundRecyclerViewAdapter = new RoundRecyclerViewAdapter();
-        roundRecyclerView.setAdapter(roundRecyclerViewAdapter);
+        rvRounds.setAdapter(roundRecyclerViewAdapter);
 
         // Map Total Score TextViews
         tvTotalP1 = findViewById(R.id.tvTotalP1);
@@ -104,61 +104,51 @@ public class GameSummaryActivity extends AppCompatActivity {
             }
         });
 
-        // Fetch Round Data
-//        roundViewModel.getRoundsByGameId(gameId).observe(this, this::populateTableWithRounds);
+        ivEditTitle.setOnClickListener( v ->  enableEdit(tvTitle.getText().toString()));
+
+        etTitle.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE ||
+                    (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
+                saveEdit(gameId, etTitle.getText().toString().trim());
+                return true;
+            }
+            return false;
+        });
+
+        ivCancelEdit.setOnClickListener( v -> cancelEdit());
 
         // Back button - closes activity and sends user back to main menu
         ivBack.setOnClickListener(v -> finish());
     }
 
-//    private void populateTableWithRounds(List<Round> rounds) {
-//
-//        View totalRow = null;
-//        // Remove all rows, except for header and total row
-//        while (tlGameDetails.getChildCount() > 2) {
-//            tlGameDetails.removeViewAt(1);
-//        }
-//
-//        // Check if there is already a total row and store it
-//        if (tlGameDetails.getChildCount() > 1) {
-//            totalRow = tlGameDetails.getChildAt(tlGameDetails.getChildCount() - 1);
-//            tlGameDetails.removeView(totalRow); // Remove it temporarily
-//        }
-//
-//        for (Round round : rounds) {
-//            TableRow row = new TableRow(this);
-//
-//            TextView roundNumber = new TextView(this);
-//            roundNumber.setText(String.valueOf(round.getRoundNumber()));
-//            roundNumber.setGravity(android.view.Gravity.CENTER);
-//            row.addView(roundNumber);
-//
-//            TextView s1 = new TextView(this);
-//            s1.setText(String.valueOf(round.getS1()));
-//            s1.setGravity(android.view.Gravity.CENTER);
-//            row.addView(s1);
-//
-//            TextView s2 = new TextView(this);
-//            s2.setText(String.valueOf(round.getS2()));
-//            s2.setGravity(android.view.Gravity.CENTER);
-//            row.addView(s2);
-//
-//            TextView s3 = new TextView(this);
-//            s3.setText(String.valueOf(round.getS3()));
-//            s3.setGravity(android.view.Gravity.CENTER);
-//            row.addView(s3);
-//
-//            TextView s4 = new TextView(this);
-//            s4.setText(String.valueOf(round.getS4()));
-//            s4.setGravity(android.view.Gravity.CENTER);
-//            row.addView(s4);
-//
-//            tlGameDetails.addView(row);
-//        }
-//
-//        // Re-add the total row at the bottom if it exists
-//        if (totalRow != null) {
-//            tlGameDetails.addView(totalRow);
-//        }
-//    }
+    private void enableEdit(String title) {
+        etTitle.setText(title); // Pre-fill EditText
+        tvTitle.setVisibility(View.GONE);
+        ivEditTitle.setVisibility(View.INVISIBLE);
+        etTitle.setVisibility(View.VISIBLE);
+        ivCancelEdit.setVisibility(View.VISIBLE);
+        etTitle.requestFocus();
+    }
+
+    private void saveEdit(int gameId, String title) {
+        if (!title.isEmpty()) {
+            tvTitle.setText(title);
+
+            // Update the game title in the database
+            gameViewModel.getGameById(gameId).observe(this, game -> {
+                if (game != null) {
+                    game.setGameName(title);
+                    gameViewModel.update(game);
+                }
+            });
+        }
+        cancelEdit();
+    }
+
+    private void cancelEdit() {
+        etTitle.setVisibility(View.GONE);
+        ivCancelEdit.setVisibility(View.GONE);
+        ivEditTitle.setVisibility(View.VISIBLE);
+        tvTitle.setVisibility(View.VISIBLE);
+    }
 }
