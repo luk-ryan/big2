@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -20,10 +21,10 @@ import java.util.List;
 
 public class GameSummaryActivity extends AppCompatActivity {
 
-    private TextView tvGameDetails;
+    private TextView tvTitle;
     private TextView tvP1Header, tvP2Header, tvP3Header, tvP4Header;
     private TextView tvTotalP1, tvTotalP2, tvTotalP3, tvTotalP4;
-    private Button btnAdd, btnEdit, btnDelete, btnBack;
+    private ImageView ivBack, ivDelete;
     private TableLayout tlGameDetails;
     private GameViewModel gameViewModel;
     private RoundViewModel roundViewModel;
@@ -38,12 +39,10 @@ public class GameSummaryActivity extends AppCompatActivity {
         roundViewModel = new ViewModelProvider(this).get(RoundViewModel.class);
 
         // Initialize Views
-        tvGameDetails = findViewById(R.id.tvGameDetails);
-        tlGameDetails = findViewById(R.id.tlGameDetails); // table layout
-        btnAdd = findViewById(R.id.btnAdd);
-        btnEdit = findViewById(R.id.btnEdit);
-        btnDelete = findViewById(R.id.btnDelete);
-        btnBack = findViewById(R.id.btnBack);
+        tvTitle = findViewById(R.id.tvTitle);
+        ivDelete = findViewById(R.id.ivDelete);
+        ivBack = findViewById(R.id.ivBack);
+        tlGameDetails = findViewById(R.id.tlGameDetails);
 
         // Map Header TextViews
         tvP1Header = findViewById(R.id.tvP1Header);
@@ -64,7 +63,7 @@ public class GameSummaryActivity extends AppCompatActivity {
             // Observe the LiveData returned by getGameById
             gameViewModel.getGameById(gameId).observe(this, game -> {
                 if (game != null) {
-                    tvGameDetails.setText("Game ID: " + game.getGameId() + "\nGame Name: " + game.getGameName());
+                    tvTitle.setText(game.getGameName());
 
                     // Set player names in headers
                     tvP1Header.setText(game.getP1());
@@ -78,25 +77,18 @@ public class GameSummaryActivity extends AppCompatActivity {
                     tvTotalP3.setText(String.valueOf(game.getS3()));
                     tvTotalP4.setText(String.valueOf(game.getS4()));
                 } else {
-                    tvGameDetails.setText("Game not found.");
+                    tvTitle.setText("Game not found.");
                 }
             });
 
             // Fetch Round Data
             roundViewModel.getRoundsByGameId(gameId).observe(this, this::populateTableWithRounds);
         } else {
-            tvGameDetails.setText("Invalid game ID.");
+            tvTitle.setText("Invalid game ID.");
         }
 
-        // Add Round Button
-        btnAdd.setOnClickListener(v -> {
-            Intent intent = new Intent(GameSummaryActivity.this, AddRoundActivity.class);
-            intent.putExtra("gameId", gameId);
-            startActivity(intent);
-        });
-
         // Back button - closes activity and sends user back to main menu
-        btnBack.setOnClickListener(v -> finish());
+        ivBack.setOnClickListener(v -> finish());
     }
 
     private void populateTableWithRounds(List<Round> rounds) {
