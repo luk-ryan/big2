@@ -5,10 +5,13 @@ import android.util.Pair;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 
+import com.example.big2.R;
 import com.example.big2.data.entity.Game;
 import com.example.big2.data.repository.GameRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameViewModel extends AndroidViewModel {
@@ -70,4 +73,34 @@ public class GameViewModel extends AndroidViewModel {
     public LiveData<List<Pair<String, Integer>>> getSortedScoresWithPlayers(int gameId) {
         return gameRepository.getSortedScoresWithPlayers(gameId);
     }
+
+    public LiveData<Double> calculatePlayerTotal(int gameId, String player) {
+        return Transformations.map(gameRepository.getGameById(gameId), game -> {
+            if (game != null) {
+                double playerTotal;
+
+                switch (player) {
+                    case "P1":
+                        playerTotal = (3 * game.getS1() - (game.getS2() + game.getS3() + game.getS4())) * -1;
+                        break;
+                    case "P2":
+                        playerTotal = (3 * game.getS2() - (game.getS1() + game.getS3() + game.getS4())) * -1;
+                        break;
+                    case "P3":
+                        playerTotal = (3 * game.getS3() - (game.getS1() + game.getS2() + game.getS4())) * -1;
+                        break;
+                    case "P4":
+                        playerTotal = (3 * game.getS4() - (game.getS1() + game.getS2() + game.getS3())) * -1;
+                        break;
+                    default:
+                        return -1.0; // Invalid player
+                }
+
+                return playerTotal * game.getCardValue();
+            }
+            return 0.0;
+        });
+    }
+
+
 }
