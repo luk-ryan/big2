@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -104,6 +105,7 @@ public class GameSummaryActivity extends AppCompatActivity {
             }
         });
 
+        // Edit Title Button
         ivEditTitle.setOnClickListener( v ->  enableEdit(tvTitle.getText().toString()));
 
         etTitle.setOnEditorActionListener((v, actionId, event) -> {
@@ -117,8 +119,26 @@ public class GameSummaryActivity extends AppCompatActivity {
 
         ivCancelEdit.setOnClickListener( v -> cancelEdit());
 
-        // Back button - closes activity and sends user back to main menu
+        // Back Button - closes activity and sends user back to Gameplay
         ivBack.setOnClickListener(v -> finish());
+
+        ivDelete.setOnClickListener(v -> {
+            // Create an AlertDialog to confirm deletion
+            new AlertDialog.Builder(this)
+                    .setMessage("Are you sure you want to delete this game?")
+                    .setCancelable(false) // Prevent dialog from being dismissed when tapping outside
+                    .setPositiveButton("Yes", (dialog, id) -> {
+                        // If user confirms, delete the game
+                        gameViewModel.deleteGameById(gameId);
+                        finish();
+                    })
+                    .setNegativeButton("No", (dialog, id) -> {
+                        // If user cancels, dismiss the dialog
+                        dialog.dismiss();
+                    })
+                    .create()
+                    .show();
+        });
     }
 
     private void enableEdit(String title) {

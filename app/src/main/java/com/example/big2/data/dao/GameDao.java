@@ -28,6 +28,8 @@ public interface GameDao {
     // Delete a game
     @Delete
     void delete(Game game);
+    @Query("DELETE FROM games WHERE gameId = :gameId")
+    void deleteByGameId(int gameId);
 
     // Get all games (ordered by ID in descending order)
     @Query("SELECT * FROM games ORDER BY gameId DESC")

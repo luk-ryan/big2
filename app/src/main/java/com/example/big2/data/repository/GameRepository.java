@@ -37,6 +37,11 @@ public class GameRepository {
         AppDatabase.databaseWriteExecutor.execute(() -> gameDao.delete(game));
     }
 
+    // Delete a game by Game Id
+    public void deleteGameById(int gameId) {
+        AppDatabase.databaseWriteExecutor.execute(() -> gameDao.deleteByGameId(gameId));
+    }
+
     // Get all games (ordered by gameId in descending order)
     public LiveData<List<Game>> getAllGames() {
         return gameDao.getAllGames();  // Directly return LiveData from DAO

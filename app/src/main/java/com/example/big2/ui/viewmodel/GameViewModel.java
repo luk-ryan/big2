@@ -43,6 +43,9 @@ public class GameViewModel extends AndroidViewModel {
         gameRepository.delete(game);
     }
 
+    // Delete a game by Game Id
+    public void deleteGameById(int gameId) { gameRepository.deleteGameById(gameId); }
+
     // Get all games (ordered by gameId in descending order)
     public LiveData<List<Game>> getAllGames() {
         return allGames;
