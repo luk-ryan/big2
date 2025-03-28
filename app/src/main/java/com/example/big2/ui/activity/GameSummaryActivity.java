@@ -4,6 +4,8 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.media.Image;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.transition.ChangeBounds;
 import android.transition.Transition;
 import android.transition.TransitionManager;
@@ -37,7 +39,7 @@ public class GameSummaryActivity extends AppCompatActivity {
 
     private TextView tvTitle;
     private ImageView ivBack, ivEditTitle, ivCancelEdit, ivSaveEdit, ivDelete;
-    private EditText etTitle, etP1Header, etP2Header, etP3Header, etP4Header;
+    private EditText etTitle, etP1Header, etP2Header, etP3Header, etP4Header, etCardValue;
     private TextView tvRoundHeader, tvP1Header, tvP2Header, tvP3Header, tvP4Header;
     private RecyclerView rvRounds;
     private RoundRecyclerViewAdapter roundRecyclerViewAdapter;
@@ -99,9 +101,10 @@ public class GameSummaryActivity extends AppCompatActivity {
         tvTotalP2 = findViewById(R.id.tvTotalP2);
         tvTotalP3 = findViewById(R.id.tvTotalP3);
         tvTotalP4 = findViewById(R.id.tvTotalP4);
-        tvCardValue = findViewById(R.id.tvCardValue);
 
-        // Card Value Icon
+        // Card Value
+        tvCardValue = findViewById(R.id.tvCardValue);
+        etCardValue = findViewById(R.id.etCardValue);
         ivCardValueIcon = findViewById(R.id.ivCardValueIcon);
 
         // Player Names
@@ -221,26 +224,43 @@ public class GameSummaryActivity extends AppCompatActivity {
         String p2Header = etP2Header.getText().toString().trim();
         String p3Header = etP3Header.getText().toString().trim();
         String p4Header = etP4Header.getText().toString().trim();
+        String cardValue = etCardValue.getText().toString().trim();
+        String cardValueDisplay = cardValue;
+
+        // Remove the $ symbol for validation and saving
+        if (cardValue.startsWith("$")) {
+            cardValue = cardValue.substring(1);  // Remove the leading $
+        }
 
         // Check if any of the fields are empty
-        if (title.isEmpty() || p1Header.isEmpty() || p2Header.isEmpty() || p3Header.isEmpty() || p4Header.isEmpty()) {
+        if (title.isEmpty() || p1Header.isEmpty() || p2Header.isEmpty() || p3Header.isEmpty() || p4Header.isEmpty() || cardValue.isEmpty()) {
             // Optionally, show a message to the user
             Toast.makeText(this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
             return; // Exit the method if any field is empty
         }
 
-        // Update player headers and title
-        tvTitle.setText(title);
-        tvP1Header.setText(p1Header);
-        tvP2Header.setText(p2Header);
-        tvP3Header.setText(p3Header);
-        tvP4Header.setText(p4Header);
+        // Validate if the card value is a valid decimal number
+        try {
+            double cardValueNumeric = Double.parseDouble(cardValue);
 
-        // Update database with the new values
-        gameViewModel.updateGameHeaders(gameId, title, p1Header, p2Header, p3Header, p4Header);
-        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-        // Toggle edit mode off
-        toggleEditMode(false);
+            // Update player headers and title
+            tvTitle.setText(title);
+            tvP1Header.setText(p1Header);
+            tvP2Header.setText(p2Header);
+            tvP3Header.setText(p3Header);
+            tvP4Header.setText(p4Header);
+            tvCardValue.setText(cardValueDisplay);
+
+            // Update database with the new values (including the REAL card value)
+            gameViewModel.updateGameHeaders(gameId, title, p1Header, p2Header, p3Header, p4Header, cardValueNumeric);
+
+            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+
+            // Toggle edit mode off
+            toggleEditMode(false);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Please enter a valid number for card value", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // Toggles between text and edit mode for headers
@@ -248,21 +268,30 @@ public class GameSummaryActivity extends AppCompatActivity {
         int editVisibility = isEditing ? View.VISIBLE : View.GONE;
         int textVisibility = isEditing ? View.GONE : View.VISIBLE;
 
+        // Title Display
         tvTitle.setVisibility(textVisibility);
         ivEditTitle.setVisibility(textVisibility);
         tvRoundHeader.setVisibility(textVisibility);
+        rvRounds.setVisibility(textVisibility);
+
+        // Header Display
         tvP1Header.setVisibility(textVisibility);
         tvP2Header.setVisibility(textVisibility);
         tvP3Header.setVisibility(textVisibility);
         tvP4Header.setVisibility(textVisibility);
+        tvCardValue.setVisibility(textVisibility);
 
+        // Title Edit
         etTitle.setVisibility(editVisibility);
         ivCancelEdit.setVisibility(editVisibility);
         ivSaveEdit.setVisibility(editVisibility);
+
+        // Header Edit Text
         etP1Header.setVisibility(editVisibility);
         etP2Header.setVisibility(editVisibility);
         etP3Header.setVisibility(editVisibility);
         etP4Header.setVisibility(editVisibility);
+        etCardValue.setVisibility(editVisibility);
 
         if (isEditing) {
             // Set current edit text values and focus title first
@@ -272,6 +301,7 @@ public class GameSummaryActivity extends AppCompatActivity {
             etP2Header.setText(tvP2Header.getText().toString());
             etP3Header.setText(tvP3Header.getText().toString());
             etP4Header.setText(tvP4Header.getText().toString());
+            etCardValue.setText(tvCardValue.getText().toString());
 
             // Show keyboard
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -328,9 +358,59 @@ public class GameSummaryActivity extends AppCompatActivity {
         // For P4 Header EditText
         etP4Header.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
+                // Focus goes to Card Value EditText
+                etCardValue.requestFocus();
+                return true;
+            }
+            return false;
+        });
+
+        // For P4 Header EditText
+        etCardValue.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 // Focus goes back to Title EditText (or save the data if it's the last field)
                 etTitle.requestFocus();
                 return true;
+            }
+            return false;
+        });
+
+        etCardValue.setSelection(etCardValue.getText().length()); // Place cursor at the end
+
+        etCardValue.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+                // No need to do anything before text change
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int after) {
+                // Ensure the dollar sign is at the start of the string
+                if (charSequence.length() > 0 && !charSequence.toString().startsWith("$")) {
+                    etCardValue.setText("$" + charSequence.toString().substring(1));
+                    etCardValue.setSelection(etCardValue.getText().length()); // Ensure cursor is at the end
+                }
+
+                // Automatically add '0' before decimal if no number exists before it
+                String text = charSequence.toString();
+                if (text.startsWith("$") && text.length() > 1 && text.indexOf(".") == 1) {
+                    // If the text starts with '$' and there's a '.' at index 1 (e.g., '$.'), prepend '0'
+                    etCardValue.setText("$0" + text.substring(1));
+                    etCardValue.setSelection(etCardValue.getText().length()); // Ensure the cursor is at the end
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Optionally handle other changes here
+            }
+        });
+
+        // Prevent backspace when the cursor is at the start
+        etCardValue.setOnKeyListener((v, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_DEL && etCardValue.getText().toString().startsWith("$") && etCardValue.getSelectionStart() == 1) {
+                // Prevent backspace when cursor is at index 1 (immediately after $)
+                return true;  // Don't allow the delete action
             }
             return false;
         });
