@@ -81,7 +81,7 @@ public class GameSummaryActivity extends AppCompatActivity {
         // Round Recycler View Setup
         rvRounds = findViewById(R.id.rvRounds);
         rvRounds.setLayoutManager(new LinearLayoutManager(this));
-        roundRecyclerViewAdapter = new RoundRecyclerViewAdapter();
+        roundRecyclerViewAdapter = new RoundRecyclerViewAdapter(roundViewModel);
         rvRounds.setAdapter(roundRecyclerViewAdapter);
 
         // Map Total Score TextViews

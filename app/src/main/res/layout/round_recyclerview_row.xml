@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/trRecyclerViewrow"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp">
@@ -34,4 +35,49 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="0"/>
+
+    <!-- Cancel Button (Initially Hidden) -->
+    <ImageView
+        android:id="@+id/ivCancelEditRound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/close"
+        android:visibility="gone"
+        android:contentDescription="Cancel Edit"/>
+
+    <!-- NumberPickers initially set to gone -->
+    <NumberPicker
+        android:id="@+id/npS1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+    <NumberPicker
+        android:id="@+id/npS2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+    <NumberPicker
+        android:id="@+id/npS3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+    <NumberPicker
+        android:id="@+id/npS4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+    <!-- Save Button (Initially Hidden) -->
+    <ImageView
+        android:id="@+id/ivSaveRound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_done"
+        android:visibility="gone"
+        android:contentDescription="Save Round"/>
+
+
 </TableRow>
