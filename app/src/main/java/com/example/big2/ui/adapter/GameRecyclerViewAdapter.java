@@ -1,16 +1,20 @@
 package com.example.big2.ui.adapter;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.big2.R;
 import com.example.big2.data.entity.Game;
+import com.example.big2.ui.viewmodel.RoundViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +22,14 @@ import java.util.List;
 public class GameRecyclerViewAdapter extends RecyclerView.Adapter<GameRecyclerViewAdapter.GameViewHolder> {
 
     private List<Game> gameList = new ArrayList<>();
+    private final LifecycleOwner lifecycleOwner;
+    private RoundViewModel roundViewModel;
     private int selectedPosition = -1;  // Track the selected position
 
+    public GameRecyclerViewAdapter(LifecycleOwner lifecycleOwner, RoundViewModel roundViewModel) {
+        this.lifecycleOwner = lifecycleOwner;
+        this.roundViewModel = roundViewModel;
+    }
     @NonNull
     @Override
     public GameRecyclerViewAdapter.GameViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -37,6 +47,19 @@ public class GameRecyclerViewAdapter extends RecyclerView.Adapter<GameRecyclerVi
         // for an image, use holder.tvImageName.setImageResource() instead
         holder.tvGameName.setText(game.getGameName());
 
+        Log.d("DEBUG", "" + roundViewModel.getRoundsByGameId(game.getGameId()));
+
+        // Set Game Status Color
+        roundViewModel.getRoundsByGameId(game.getGameId()).observe(lifecycleOwner, rounds -> {
+            if (game.isCompleted()) {
+                holder.ivStatus.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.completed));
+            } else if (rounds == null || rounds.isEmpty()) {
+                holder.ivStatus.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.not_started));
+            } else {
+                holder.ivStatus.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.in_progress));
+            }
+        });
+
         // Highlight selected row
         if (position == selectedPosition) {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.accent));  // Highlight color
@@ -48,8 +71,6 @@ public class GameRecyclerViewAdapter extends RecyclerView.Adapter<GameRecyclerVi
             // Update selected position
             int prevSelectedPosition = selectedPosition;
             selectedPosition = holder.getAdapterPosition();
-
-            Log.d("DEBUG", "Selected Position: " + selectedPosition);
 
             // Notify the adapter to update the UI
             notifyItemChanged(prevSelectedPosition);
@@ -81,10 +102,12 @@ public class GameRecyclerViewAdapter extends RecyclerView.Adapter<GameRecyclerVi
         // grabbing the views from our recyclerview_row.xml layout file
         // Similar to onCreate method
         TextView tvGameName;
+        ImageView ivStatus;
 
         public GameViewHolder(@NonNull View itemView) {
             super(itemView);
             tvGameName = itemView.findViewById(R.id.tvGameName);
+            ivStatus = itemView.findViewById(R.id.ivStatus);
         }
     }
 }

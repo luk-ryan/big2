@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,15 +18,18 @@ import com.example.big2.R;
 import com.example.big2.data.entity.Game;
 import com.example.big2.ui.adapter.GameRecyclerViewAdapter;
 import com.example.big2.ui.viewmodel.GameViewModel;
+import com.example.big2.ui.viewmodel.RoundViewModel;
 
 import java.util.List;
 
 public class SelectGameActivity extends AppCompatActivity {
 
-    private Button btnCreate, btnLoad, btnDelete, btnBack;
-    private RecyclerView recyclerView;
+    private Button btnCreate, btnStart, btnDelete;
+    private ImageView ivBack;
+    private RecyclerView rvGames;
     private GameRecyclerViewAdapter gameRecyclerViewAdapter;
     private GameViewModel gameViewModel;
+    private RoundViewModel roundViewModel;
     private TextView tvNoGames;
 
     @Override
@@ -35,19 +39,20 @@ public class SelectGameActivity extends AppCompatActivity {
 
         // Initialize ViewModel
         gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
+        roundViewModel = new ViewModelProvider(this).get(RoundViewModel.class);
 
         // Initialize Views
         btnCreate = findViewById(R.id.btnCreate);
-        btnLoad = findViewById(R.id.btnLoad);
+        btnStart = findViewById(R.id.btnStart);
         btnDelete = findViewById(R.id.btnDelete);
-        btnBack = findViewById(R.id.btnBack);
-        recyclerView = findViewById(R.id.gamesRecyclerView);
+        ivBack = findViewById(R.id.ivBack);
+        rvGames = findViewById(R.id.rvGames);
         tvNoGames = findViewById(R.id.tvNoGames);
 
         // Initialize RecyclerView with gameRecyclerViewAdapter
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        gameRecyclerViewAdapter = new GameRecyclerViewAdapter();
-        recyclerView.setAdapter(gameRecyclerViewAdapter);
+        rvGames.setLayoutManager(new LinearLayoutManager(this));
+        gameRecyclerViewAdapter = new GameRecyclerViewAdapter(this, roundViewModel);
+        rvGames.setAdapter(gameRecyclerViewAdapter);
 
 
         // Observe LiveData from ViewModel
@@ -56,10 +61,10 @@ public class SelectGameActivity extends AppCompatActivity {
             public void onChanged(List<Game> games) {
                 if (games == null || games.isEmpty()) {
                     tvNoGames.setVisibility(View.VISIBLE); // Show "No Games" message
-                    recyclerView.setVisibility(View.GONE); // Hide RecyclerView
+                    rvGames.setVisibility(View.GONE); // Hide RecyclerView
                 } else {
                     tvNoGames.setVisibility(View.GONE); // Hide "No Games" message
-                    recyclerView.setVisibility(View.VISIBLE); // Show RecyclerView
+                    rvGames.setVisibility(View.VISIBLE); // Show RecyclerView
                     gameRecyclerViewAdapter.setGameList(games);
                 }
             }
@@ -72,13 +77,21 @@ public class SelectGameActivity extends AppCompatActivity {
         });
 
         // Load Game Button
-        btnLoad.setOnClickListener(v -> {
+        btnStart.setOnClickListener(v -> {
+
             Game selectedGame = gameRecyclerViewAdapter.getSelectedGame();
             if (selectedGame != null) {
-                // Load the selected game into the GameSummaryActivity
-                Intent intent = new Intent(SelectGameActivity.this, GameplayActivity.class);
-                intent.putExtra("gameId", selectedGame.getGameId());
-                startActivity(intent);
+                if (selectedGame.isCompleted()) {
+                    // Load the selected game into the GameSummaryActivity
+                    Intent intent = new Intent(SelectGameActivity.this, GameSummaryActivity.class);
+                    intent.putExtra("gameId", selectedGame.getGameId());
+                    startActivity(intent);
+                } else {
+                    // Load the selected game into the GameplayActivity
+                    Intent intent = new Intent(SelectGameActivity.this, GameplayActivity.class);
+                    intent.putExtra("gameId", selectedGame.getGameId());
+                    startActivity(intent);
+                }
             } else {
                 Toast.makeText(SelectGameActivity.this, "Please select a game", Toast.LENGTH_SHORT).show();
             }
@@ -96,7 +109,7 @@ public class SelectGameActivity extends AppCompatActivity {
         });
 
         // Back button - closes activity and sends user back to main menu
-        btnBack.setOnClickListener(v -> finish());
+        ivBack.setOnClickListener(v -> finish());
     }
 
 }
