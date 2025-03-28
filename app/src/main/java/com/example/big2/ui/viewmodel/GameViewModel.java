@@ -13,6 +13,7 @@ import com.example.big2.data.repository.GameRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class GameViewModel extends AndroidViewModel {
 
@@ -39,6 +40,12 @@ public class GameViewModel extends AndroidViewModel {
     // Update an existing game
     public void update(Game game) {
         gameRepository.update(game);
+    }
+
+    public void updateGameTitle(int gameId, String title) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            gameRepository.updateGameTitle(gameId, title);
+        });
     }
 
     // Delete a game

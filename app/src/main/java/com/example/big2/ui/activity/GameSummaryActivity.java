@@ -1,6 +1,7 @@
 package com.example.big2.ui.activity;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.media.Image;
 import android.os.Bundle;
 import android.transition.ChangeBounds;
@@ -10,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -219,19 +221,16 @@ public class GameSummaryActivity extends AppCompatActivity {
         etTitle.setVisibility(View.VISIBLE);
         ivCancelEdit.setVisibility(View.VISIBLE);
         etTitle.requestFocus();
+
+        // Show keyboard
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(etTitle, InputMethodManager.SHOW_IMPLICIT);
     }
 
     private void saveEdit(int gameId, String title) {
         if (!title.isEmpty()) {
             tvTitle.setText(title);
-
-            // Update the game title in the database
-            gameViewModel.getGameById(gameId).observe(this, game -> {
-                if (game != null) {
-                    game.setGameName(title);
-                    gameViewModel.update(game);
-                }
-            });
+            gameViewModel.updateGameTitle(gameId, title);
         }
         cancelEdit();
     }
@@ -241,6 +240,10 @@ public class GameSummaryActivity extends AppCompatActivity {
         ivCancelEdit.setVisibility(View.GONE);
         ivEditTitle.setVisibility(View.VISIBLE);
         tvTitle.setVisibility(View.VISIBLE);
+
+        // Hide Keyboard
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(etTitle.getWindowToken(), 0);
     }
 
     // Animation for Card Value Icon

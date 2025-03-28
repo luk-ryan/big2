@@ -32,6 +32,11 @@ public class GameRepository {
         AppDatabase.databaseWriteExecutor.execute(() -> gameDao.update(game));
     }
 
+    // update game title
+    public void updateGameTitle(int gameId, String title) {
+        gameDao.updateGameTitle(gameId, title);
+    }
+
     // Delete a game
     public void delete(Game game) {
         AppDatabase.databaseWriteExecutor.execute(() -> gameDao.delete(game));

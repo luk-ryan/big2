@@ -50,7 +50,8 @@
 
         <!-- GameSummaryActivity -->
         <activity android:name=".ui.activity.GameSummaryActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
 
         <!-- AddRoundActivity -->
         <activity android:name=".ui.activity.AddRoundActivity"
