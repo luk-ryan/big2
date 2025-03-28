@@ -116,13 +116,19 @@ public class RoundRecyclerViewAdapter extends RecyclerView.Adapter<RoundRecycler
                 handleEdit(holder, round);
                 Log.d("DEBUG", "showPopupMenu: Edit");
             } else if (id == R.id.menu_delete) {
-                Log.d("DEBUG", "showPopupMenu: Delete");
+                handeDelete(holder, round);
             }
             return false;
         });
 
         // Show the menu
         popupMenu.show();
+    }
+
+    private void handeDelete(RoundViewHolder holder, Round round) {
+        roundViewModel.delete(round);
+        // Show Delete Message
+        Toast.makeText(holder.itemView.getContext(), "Round " + round.getRoundNumber() + " Deleted", Toast.LENGTH_SHORT).show();
     }
 
     private void handleEdit(RoundViewHolder holder, Round round) {

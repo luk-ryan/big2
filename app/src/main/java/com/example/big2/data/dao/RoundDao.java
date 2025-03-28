@@ -22,6 +22,10 @@ public interface RoundDao {
     @Update
     void update(Round round);
 
+    // Update all round numbers after one is deleted
+    @Query("UPDATE rounds SET roundNumber = roundNumber - 1 WHERE gameId = :gameId AND roundNumber > :deletedRoundNumber")
+    void updateRoundNumbersAfterDeletion(int gameId, int deletedRoundNumber);
+
     // Delete a round
     @Delete
     void delete(Round round);
