@@ -32,9 +32,19 @@ public class GameRepository {
         AppDatabase.databaseWriteExecutor.execute(() -> gameDao.update(game));
     }
 
+    // update game title
+    public void updateGameTitle(int gameId, String title, String p1, String p2, String p3, String p4, double cardValue) {
+        gameDao.updateGameHeaders(gameId, title, p1, p2, p3, p4, cardValue);
+    }
+
     // Delete a game
     public void delete(Game game) {
         AppDatabase.databaseWriteExecutor.execute(() -> gameDao.delete(game));
+    }
+
+    // Delete a game by Game Id
+    public void deleteGameById(int gameId) {
+        AppDatabase.databaseWriteExecutor.execute(() -> gameDao.deleteByGameId(gameId));
     }
 
     // Get all games (ordered by gameId in descending order)
@@ -78,5 +88,4 @@ public class GameRepository {
             return new ArrayList<>();
         });
     }
-
 }

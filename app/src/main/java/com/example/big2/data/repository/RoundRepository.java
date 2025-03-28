@@ -65,6 +65,7 @@ public class RoundRepository {
     public void delete(Round round) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             roundDao.delete(round);
+            roundDao.updateRoundNumbersAfterDeletion(round.getGameId(), round.getRoundNumber());
             updateGameTotalScores(round.getGameId());
         });
     }
