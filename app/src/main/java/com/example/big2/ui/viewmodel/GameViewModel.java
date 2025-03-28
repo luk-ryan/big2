@@ -7,11 +7,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
-import com.example.big2.R;
 import com.example.big2.data.entity.Game;
 import com.example.big2.data.repository.GameRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -42,10 +40,16 @@ public class GameViewModel extends AndroidViewModel {
         gameRepository.update(game);
     }
 
+    // Update game title, Names and Card Value
     public void updateGameHeaders(int gameId, String title, String p1, String p2, String p3, String p4, double cardValue) {
         Executors.newSingleThreadExecutor().execute(() -> {
             gameRepository.updateGameTitle(gameId, title, p1, p2, p3, p4, cardValue);
         });
+    }
+
+    // Update isCompleted (either finish a game or continue a game)
+    public void updateIsCompleted(int gameId, boolean isCompleted) {
+        gameRepository.updateIsCompleted(gameId, isCompleted);
     }
 
     // Delete a game

@@ -1,15 +1,13 @@
 package com.example.big2.ui.activity;
 
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.transition.ChangeBounds;
 import android.transition.Transition;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,6 +15,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
@@ -33,13 +32,13 @@ import java.util.Map;
 public class GameplayActivity extends AppCompatActivity {
 
     private TextView tvTitle, tvP1, tvP2, tvP3, tvP4, tvS1, tvS2, tvS3, tvS4, tvRoundNumber;
-    private ImageView ivSuitP1, ivSuitP2, ivSuitP3, ivSuitP4;
+    private ImageView ivBack, ivSuitP1, ivSuitP2, ivSuitP3, ivSuitP4;
     private ImageView ivInfo, ivRoundDirection;
     private ImageView ivStar, ivP1Star, ivP2Star, ivP3Star, ivP4Star;
     private TextView tvP1Input, tvP2Input, tvP3Input, tvP4Input;
     private NumberPicker npP1, npP2, npP3, npP4;
     private ImageView ivP1Suit, ivP2Suit, ivP3Suit, ivP4Suit;
-    private Button btnSummary, btnBack, btnNext;
+    private Button btnSummary, btnFinishGame, btnNext;
     private GameViewModel gameViewModel;
     private RoundViewModel roundViewModel;
 
@@ -63,6 +62,8 @@ public class GameplayActivity extends AppCompatActivity {
         tvS3 = findViewById(R.id.tvS3);
         tvS4 = findViewById(R.id.tvS4);
         tvRoundNumber = findViewById(R.id.tvRoundNumber);
+
+        ivBack = findViewById(R.id.ivBack);
 
         // Card Suit Image Views
         ivSuitP1 = findViewById(R.id.ivSuitP1);
@@ -100,7 +101,7 @@ public class GameplayActivity extends AppCompatActivity {
         ivP4Suit = findViewById(R.id.ivP4Suit);
 
         // Button Views
-        btnBack = findViewById(R.id.btnBack);
+        btnFinishGame = findViewById(R.id.btnFinishGame);
         btnSummary = findViewById(R.id.btnSummary);
         btnNext = findViewById(R.id.btnNext);
 
@@ -148,6 +149,45 @@ public class GameplayActivity extends AppCompatActivity {
         setupNumberPicker(npP3);
         setupNumberPicker(npP4);
 
+        // Back button - closes activity and sends user back to main menu
+        ivBack.setOnClickListener(v -> finish());
+
+        // Info Fragment Button - Opens information fragment
+        ivInfo.setOnClickListener(v -> {
+            // Begin FragmentTransaction to show the InfoFragment
+            getSupportFragmentManager().beginTransaction()
+                    .replace(android.R.id.content, new InfoFragment()) // Replace with InfoFragment
+                    .addToBackStack(null) // Allows the back button to close it
+                    .commit();
+        });
+
+        // Finish Game Button -
+        btnFinishGame.setOnClickListener(v -> {
+                // Create a new AlertDialog to confirm finishing the game
+                new AlertDialog.Builder(this)
+                        .setMessage("Are you sure you want to finish the game?")
+                        .setCancelable(false) // Can't cancel by clicking outside
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // User confirmed, finish the game
+                                finishGame(gameId);
+                            }
+                        })
+                        .setNegativeButton("No", null) // User canceled, no action
+                        .show();
+        });
+
+        // Game Summary Button - Navigate to Game Summary Activity
+        btnSummary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameplayActivity.this, GameSummaryActivity.class);
+                intent.putExtra("gameId", gameId);
+                startActivity(intent);
+            }
+        });
+
         // Next Round Button - Adds selected scores to the current round and moves to the next
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,28 +228,6 @@ public class GameplayActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // Info Fragment Button - Opens information fragment
-        ivInfo.setOnClickListener(v -> {
-            // Begin FragmentTransaction to show the InfoFragment
-            getSupportFragmentManager().beginTransaction()
-                    .replace(android.R.id.content, new InfoFragment()) // Replace with InfoFragment
-                    .addToBackStack(null) // Allows the back button to close it
-                    .commit();
-        });
-
-        // Game Summary Button - Navigate to Game Summary Activity
-        btnSummary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GameplayActivity.this, GameSummaryActivity.class);
-                intent.putExtra("gameId", gameId);
-                startActivity(intent);
-            }
-        });
-
-        // Back button - closes activity and sends user back to main menu
-        btnBack.setOnClickListener(v -> finish());
     }
 
     private void updateCurrentRound(int gameId) {
@@ -454,5 +472,13 @@ public class GameplayActivity extends AppCompatActivity {
         } else {
             return value;
         }
+    }
+
+    private void finishGame(int gameId) {
+        gameViewModel.updateIsCompleted(gameId, true);
+        Intent intent = new Intent(GameplayActivity.this, GameSummaryActivity.class);
+        intent.putExtra("gameId", gameId);
+        startActivity(intent);
+        finish();
     }
 }
