@@ -61,11 +61,6 @@ public class RoundRepository {
         });
     }
 
-    // update game title
-    public void updateGameTitle(int gameId, String title) {
-        gameDao.updateGameTitle(gameId, title);
-    }
-
     // Delete a round
     public void delete(Round round) {
         AppDatabase.databaseWriteExecutor.execute(() -> {

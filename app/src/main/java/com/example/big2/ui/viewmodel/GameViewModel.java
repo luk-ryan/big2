@@ -42,9 +42,9 @@ public class GameViewModel extends AndroidViewModel {
         gameRepository.update(game);
     }
 
-    public void updateGameTitle(int gameId, String title) {
+    public void updateGameHeaders(int gameId, String title, String p1, String p2, String p3, String p4) {
         Executors.newSingleThreadExecutor().execute(() -> {
-            gameRepository.updateGameTitle(gameId, title);
+            gameRepository.updateGameTitle(gameId, title, p1, p2, p3, p4);
         });
     }
 

@@ -45,7 +45,7 @@
         android:layout_marginStart="5dp"
         app:layout_constraintStart_toEndOf="@id/tvTitle"
         app:layout_constraintTop_toTopOf="@id/tvTitle"
-        app:layout_constraintBottom_toBottomOf="@id/tvTitle"/>
+        app:layout_constraintBottom_toBottomOf="@id/tvTitle" />
 
     <ImageView
         android:id="@+id/ivCancelEdit"
@@ -55,7 +55,17 @@
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="@+id/etTitle"
         app:layout_constraintBottom_toBottomOf="@+id/etTitle"
-        app:layout_constraintEnd_toStartOf="@+id/etTitle"/>
+        app:layout_constraintEnd_toStartOf="@+id/etTitle" />
+
+    <ImageView
+        android:id="@+id/ivSaveEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_done"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@+id/etTitle"
+        app:layout_constraintBottom_toBottomOf="@+id/etTitle"
+        app:layout_constraintStart_toEndOf="@+id/etTitle" />
 
     <EditText
         android:id="@+id/etTitle"
@@ -65,6 +75,9 @@
         android:textSize="24sp"
         android:maxLength="20"
         android:visibility="gone"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintBottom_toTopOf="@id/clGameDetails"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,6 +105,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
+            <!-- Display Text -->
             <TextView
                 android:id="@+id/tvRoundHeader"
                 android:layout_weight="1"
@@ -126,6 +140,63 @@
                 android:text="Player 4"
                 android:textStyle="bold"
                 android:gravity="center" />
+
+            <!-- Edit Text -->
+            <EditText
+                android:id="@+id/etP1Header"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:gravity="center"
+                android:maxLength="10"
+                android:textSize="14sp"
+                android:background="@drawable/edit_text_border"
+                android:padding="4dp"
+                android:layout_margin="4dp"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <EditText
+                android:id="@+id/etP2Header"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:gravity="center"
+                android:maxLength="10"
+                android:textSize="14sp"
+                android:background="@drawable/edit_text_border"
+                android:padding="4dp"
+                android:layout_margin="4dp"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <EditText
+                android:id="@+id/etP3Header"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:gravity="center"
+                android:maxLength="10"
+                android:textSize="14sp"
+                android:background="@drawable/edit_text_border"
+                android:padding="4dp"
+                android:layout_margin="4dp"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <EditText
+                android:id="@+id/etP4Header"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:gravity="center"
+                android:maxLength="10"
+                android:textSize="14sp"
+                android:background="@drawable/edit_text_border"
+                android:padding="4dp"
+                android:layout_margin="4dp"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:ellipsize="end" />
         </TableRow>
 
         <!-- RecyclerView for Rounds -->

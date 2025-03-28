@@ -36,9 +36,9 @@ import java.util.Map;
 public class GameSummaryActivity extends AppCompatActivity {
 
     private TextView tvTitle;
-    private ImageView ivBack, ivEditTitle, ivCancelEdit, ivDelete;
-    private EditText etTitle;
-    private TextView tvP1Header, tvP2Header, tvP3Header, tvP4Header;
+    private ImageView ivBack, ivEditTitle, ivCancelEdit, ivSaveEdit, ivDelete;
+    private EditText etTitle, etP1Header, etP2Header, etP3Header, etP4Header;
+    private TextView tvRoundHeader, tvP1Header, tvP2Header, tvP3Header, tvP4Header;
     private RecyclerView rvRounds;
     private RoundRecyclerViewAdapter roundRecyclerViewAdapter;
     private TextView tvCardValue, tvTotalP1, tvTotalP2, tvTotalP3, tvTotalP4;
@@ -70,15 +70,23 @@ public class GameSummaryActivity extends AppCompatActivity {
         ivEditTitle = findViewById(R.id.ivEditTitle);
         etTitle = findViewById(R.id.etTitle);
         ivCancelEdit = findViewById(R.id.ivCancelEdit);
+        ivSaveEdit = findViewById(R.id.ivSaveEdit);
 
         ivDelete = findViewById(R.id.ivDelete);
         ivBack = findViewById(R.id.ivBack);
 
-        // Map Header TextViews
+        // Header Text Views
+        tvRoundHeader = findViewById(R.id.tvRoundHeader);
         tvP1Header = findViewById(R.id.tvP1Header);
         tvP2Header = findViewById(R.id.tvP2Header);
         tvP3Header = findViewById(R.id.tvP3Header);
         tvP4Header = findViewById(R.id.tvP4Header);
+
+        // Header Edit Text Views
+        etP1Header = findViewById(R.id.etP1Header);
+        etP2Header = findViewById(R.id.etP2Header);
+        etP3Header = findViewById(R.id.etP3Header);
+        etP4Header = findViewById(R.id.etP4Header);
 
         // Round Recycler View Setup
         rvRounds = findViewById(R.id.rvRounds);
@@ -169,19 +177,11 @@ public class GameSummaryActivity extends AppCompatActivity {
         animateCardValueIcon(ivCardValueIcon);
         updatePlayerRankVisuals(gameId);
 
-        // Edit Title Button
-        ivEditTitle.setOnClickListener( v ->  enableEdit(tvTitle.getText().toString()));
-
-        etTitle.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE ||
-                    (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
-                saveEdit(gameId, etTitle.getText().toString().trim());
-                return true;
-            }
-            return false;
-        });
-
-        ivCancelEdit.setOnClickListener( v -> cancelEdit());
+        // Edit Mode
+        ivEditTitle.setOnClickListener( v ->  toggleEditMode(true));
+        ivSaveEdit.setOnClickListener(v ->  saveEdit(gameId));
+        ivCancelEdit.setOnClickListener( v -> toggleEditMode(false));
+        setEditorActionListeners();
 
         // Back Button - closes activity and sends user back to Gameplay
         ivBack.setOnClickListener(v -> finish());
@@ -214,36 +214,126 @@ public class GameSummaryActivity extends AppCompatActivity {
         }
     }
 
-    private void enableEdit(String title) {
-        etTitle.setText(title); // Pre-fill EditText
-        tvTitle.setVisibility(View.GONE);
-        ivEditTitle.setVisibility(View.INVISIBLE);
-        etTitle.setVisibility(View.VISIBLE);
-        ivCancelEdit.setVisibility(View.VISIBLE);
-        etTitle.requestFocus();
+    private void saveEdit(int gameId) {
+        // Get the values from the EditText fields
+        String title = etTitle.getText().toString().trim();
+        String p1Header = etP1Header.getText().toString().trim();
+        String p2Header = etP2Header.getText().toString().trim();
+        String p3Header = etP3Header.getText().toString().trim();
+        String p4Header = etP4Header.getText().toString().trim();
 
-        // Show keyboard
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(etTitle, InputMethodManager.SHOW_IMPLICIT);
-    }
-
-    private void saveEdit(int gameId, String title) {
-        if (!title.isEmpty()) {
-            tvTitle.setText(title);
-            gameViewModel.updateGameTitle(gameId, title);
+        // Check if any of the fields are empty
+        if (title.isEmpty() || p1Header.isEmpty() || p2Header.isEmpty() || p3Header.isEmpty() || p4Header.isEmpty()) {
+            // Optionally, show a message to the user
+            Toast.makeText(this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
+            return; // Exit the method if any field is empty
         }
-        cancelEdit();
+
+        // Update player headers and title
+        tvTitle.setText(title);
+        tvP1Header.setText(p1Header);
+        tvP2Header.setText(p2Header);
+        tvP3Header.setText(p3Header);
+        tvP4Header.setText(p4Header);
+
+        // Update database with the new values
+        gameViewModel.updateGameHeaders(gameId, title, p1Header, p2Header, p3Header, p4Header);
+        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+        // Toggle edit mode off
+        toggleEditMode(false);
     }
 
-    private void cancelEdit() {
-        etTitle.setVisibility(View.GONE);
-        ivCancelEdit.setVisibility(View.GONE);
-        ivEditTitle.setVisibility(View.VISIBLE);
-        tvTitle.setVisibility(View.VISIBLE);
+    // Toggles between text and edit mode for headers
+    private void toggleEditMode(boolean isEditing) {
+        int editVisibility = isEditing ? View.VISIBLE : View.GONE;
+        int textVisibility = isEditing ? View.GONE : View.VISIBLE;
 
-        // Hide Keyboard
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(etTitle.getWindowToken(), 0);
+        tvTitle.setVisibility(textVisibility);
+        ivEditTitle.setVisibility(textVisibility);
+        tvRoundHeader.setVisibility(textVisibility);
+        tvP1Header.setVisibility(textVisibility);
+        tvP2Header.setVisibility(textVisibility);
+        tvP3Header.setVisibility(textVisibility);
+        tvP4Header.setVisibility(textVisibility);
+
+        etTitle.setVisibility(editVisibility);
+        ivCancelEdit.setVisibility(editVisibility);
+        ivSaveEdit.setVisibility(editVisibility);
+        etP1Header.setVisibility(editVisibility);
+        etP2Header.setVisibility(editVisibility);
+        etP3Header.setVisibility(editVisibility);
+        etP4Header.setVisibility(editVisibility);
+
+        if (isEditing) {
+            // Set current edit text values and focus title first
+            etTitle.setText(tvTitle.getText().toString());
+            etTitle.requestFocus();
+            etP1Header.setText(tvP1Header.getText().toString());
+            etP2Header.setText(tvP2Header.getText().toString());
+            etP3Header.setText(tvP3Header.getText().toString());
+            etP4Header.setText(tvP4Header.getText().toString());
+
+            // Show keyboard
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(etTitle, InputMethodManager.SHOW_IMPLICIT);
+        } else {
+            // Hide Keyboard
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(etTitle.getWindowToken(), 0);
+        }
+    }
+
+    // Shift to next input field when pressing done
+    private void setEditorActionListeners() {
+        // For Title EditText
+        etTitle.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                // Focus goes to P1 header EditText
+                etP1Header.requestFocus();
+                return true;
+            }
+            return false;
+        });
+
+        // For P1 Header EditText
+        etP1Header.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                // Focus goes to P2 header EditText
+                etP2Header.requestFocus();
+                return true;
+            }
+            return false;
+        });
+
+        // For P2 Header EditText
+        etP2Header.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                // Focus goes to P3 header EditText
+                etP3Header.requestFocus();
+                return true;
+            }
+            return false;
+        });
+
+        // For P3 Header EditText
+        etP3Header.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                // Focus goes to P4 header EditText
+                etP4Header.requestFocus();
+                return true;
+            }
+            return false;
+        });
+
+        // For P4 Header EditText
+        etP4Header.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                // Focus goes back to Title EditText (or save the data if it's the last field)
+                etTitle.requestFocus();
+                return true;
+            }
+            return false;
+        });
     }
 
     // Animation for Card Value Icon
@@ -336,22 +426,6 @@ public class GameSummaryActivity extends AppCompatActivity {
                 constraintSet.applyTo(layout);
             }
         });
-    }
-
-    // Helper method to get the view ID based on the player name
-    private int getPlayerViewId(String player) {
-        switch (player) {
-            case "P1":
-                return R.id.clP1;
-            case "P2":
-                return R.id.clP2;
-            case "P3":
-                return R.id.clP3;
-            case "P4":
-                return R.id.clP4;
-            default:
-                return -1;  // Invalid player, you could handle this case more gracefully
-        }
     }
 
     // Helper method to assign suits based on rank (lowest to highest)

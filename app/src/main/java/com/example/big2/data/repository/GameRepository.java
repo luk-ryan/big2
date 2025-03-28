@@ -33,8 +33,8 @@ public class GameRepository {
     }
 
     // update game title
-    public void updateGameTitle(int gameId, String title) {
-        gameDao.updateGameTitle(gameId, title);
+    public void updateGameTitle(int gameId, String title, String p1, String p2, String p3, String p4) {
+        gameDao.updateGameHeaders(gameId, title, p1, p2, p3, p4);
     }
 
     // Delete a game
