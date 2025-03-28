@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.big2.R;
 import com.example.big2.data.entity.Game;
 import com.example.big2.ui.adapter.GameRecyclerViewAdapter;
+import com.example.big2.ui.fragment.CreateGameFragment;
 import com.example.big2.ui.viewmodel.GameViewModel;
 import com.example.big2.ui.viewmodel.RoundViewModel;
 
@@ -72,8 +73,10 @@ public class SelectGameActivity extends AppCompatActivity {
 
         // Create Game button
         btnCreate.setOnClickListener(v -> {
-            Intent intent = new Intent(SelectGameActivity.this, CreateGameActivity.class);
-            startActivityForResult(intent, 1);
+            // In your Activity (e.g., MainActivity or wherever you want to show the dialog)
+            CreateGameFragment createGameFragment = new CreateGameFragment();
+            createGameFragment.show(getSupportFragmentManager(), "CreateGameFragment");
+
         });
 
         // Load Game Button
