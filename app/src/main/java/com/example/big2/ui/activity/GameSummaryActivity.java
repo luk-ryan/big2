@@ -365,7 +365,7 @@ public class GameSummaryActivity extends AppCompatActivity {
             return false;
         });
 
-        // For P4 Header EditText
+        // For Card Value EditText
         etCardValue.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 // Focus goes back to Title EditText (or save the data if it's the last field)
