@@ -26,8 +26,8 @@ import java.util.List;
 
 public class SelectGameActivity extends AppCompatActivity {
 
-    private Button btnCreate, btnStart, btnDelete;
-    private ImageView ivBack;
+    private Button btnStart;
+    private ImageView ivBack, ivDelete, ivCreate;
     private RecyclerView rvGames;
     private GameRecyclerViewAdapter gameRecyclerViewAdapter;
     private GameViewModel gameViewModel;
@@ -44,9 +44,9 @@ public class SelectGameActivity extends AppCompatActivity {
         roundViewModel = new ViewModelProvider(this).get(RoundViewModel.class);
 
         // Initialize Views
-        btnCreate = findViewById(R.id.btnCreate);
+        ivCreate = findViewById(R.id.ivCreate);
         btnStart = findViewById(R.id.btnStart);
-        btnDelete = findViewById(R.id.btnDelete);
+        ivDelete = findViewById(R.id.ivDelete);
         ivBack = findViewById(R.id.ivBack);
         rvGames = findViewById(R.id.rvGames);
         tvNoGames = findViewById(R.id.tvNoGames);
@@ -73,7 +73,7 @@ public class SelectGameActivity extends AppCompatActivity {
         });
 
         // Create Game button
-        btnCreate.setOnClickListener(v -> {
+        ivCreate.setOnClickListener(v -> {
             // In your Activity (e.g., MainActivity or wherever you want to show the dialog)
             CreateGameFragment createGameFragment = new CreateGameFragment();
             createGameFragment.show(getSupportFragmentManager(), "CreateGameFragment");
@@ -102,7 +102,7 @@ public class SelectGameActivity extends AppCompatActivity {
         });
 
         // Delete Game Button
-        btnDelete.setOnClickListener(v -> {
+        ivDelete.setOnClickListener(v -> {
             Game selectedGame = gameRecyclerViewAdapter.getSelectedGame();
             if (selectedGame != null) {
                 new AlertDialog.Builder(SelectGameActivity.this)
