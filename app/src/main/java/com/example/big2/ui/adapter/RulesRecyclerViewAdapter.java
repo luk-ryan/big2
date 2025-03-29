@@ -1,5 +1,10 @@
 package com.example.big2.ui.adapter;
 
+/* Adapter for rules recycler view. Includes:
+*  > onclick listeners/event handling when clicking on rule card */
+
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.big2.ui.activity.MainActivity;
 import com.example.big2.ui.model.RulesCard;
 import java.util.List;
 import com.example.big2.R;
@@ -14,8 +21,10 @@ import com.example.big2.R;
 public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecyclerViewAdapter.RuleViewHolder> {
 
     private List<RulesCard> ruleList;
+    private Context context;
 
-    public RulesRecyclerViewAdapter(List<RulesCard> ruleList) {
+    public RulesRecyclerViewAdapter(Context context, List<RulesCard> ruleList) {
+        this.context = context;
         this.ruleList = ruleList;
     }
 
@@ -32,6 +41,27 @@ public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecycler
         holder.imageView.setImageResource(item.getImageId());
         holder.titleView.setText(item.getTitle());
         holder.descView.setText(item.getDescription());
+
+        // Handle click events (load xml based on which card was pressed in the rulesList)
+        holder.itemView.setOnClickListener(v -> {
+            switch (position) {
+                case 0:
+                    context.startActivity(new Intent(context, MainActivity.class));
+                    break;
+                case 1:
+                    context.startActivity(new Intent(context, MainActivity.class));
+                    break;
+                case 2:
+                    context.startActivity(new Intent(context, MainActivity.class));
+                    break;
+                case 3:
+                    context.startActivity(new Intent(context, MainActivity.class));
+                    break;
+                case 4:
+                    context.startActivity(new Intent(context, MainActivity.class));
+                    break;
+            }
+        });
     }
 
     @Override

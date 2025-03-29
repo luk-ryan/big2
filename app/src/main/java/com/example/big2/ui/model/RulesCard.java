@@ -1,6 +1,6 @@
 package com.example.big2.ui.model;
 
-/* Rule card object found in rule page */
+/* Rule card object class. Found in rules.xml */
 
 public class RulesCard {
     private int imageId;
