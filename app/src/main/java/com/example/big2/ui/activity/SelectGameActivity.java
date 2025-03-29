@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -79,7 +80,7 @@ public class SelectGameActivity extends AppCompatActivity {
 
         });
 
-        // Load Game Button
+        // Start Game Button
         btnStart.setOnClickListener(v -> {
 
             Game selectedGame = gameRecyclerViewAdapter.getSelectedGame();
@@ -104,8 +105,19 @@ public class SelectGameActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(v -> {
             Game selectedGame = gameRecyclerViewAdapter.getSelectedGame();
             if (selectedGame != null) {
-                gameViewModel.delete(selectedGame);
-                Toast.makeText(SelectGameActivity.this, "Game deleted", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(SelectGameActivity.this)
+                        .setTitle("Delete Game")
+                        .setMessage("Are you sure you want to delete this game?")
+                        .setPositiveButton("Delete", (dialog, which) -> {
+                            // User confirmed deletion
+                            gameViewModel.delete(selectedGame);
+                            Toast.makeText(SelectGameActivity.this, "Game deleted", Toast.LENGTH_SHORT).show();
+                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> {
+                            // User canceled, do nothing
+                            dialog.dismiss();
+                        })
+                        .show();
             } else {
                 Toast.makeText(SelectGameActivity.this, "Please select a game", Toast.LENGTH_SHORT).show();
             }

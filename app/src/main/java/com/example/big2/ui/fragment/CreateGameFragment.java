@@ -1,5 +1,6 @@
 package com.example.big2.ui.fragment;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -26,7 +28,7 @@ import com.example.big2.ui.viewmodel.GameViewModel;
 
 public class CreateGameFragment extends DialogFragment {
     private EditText etGameName, etP1, etP2, etP3, etP4, etCardValue;
-    private ImageView ivBack;
+    private ImageView ivBack, ivCardValueIcon;
     private Button btnSave;
     private GameViewModel gameViewModel;
 
@@ -58,6 +60,7 @@ public class CreateGameFragment extends DialogFragment {
         etP3 = view.findViewById(R.id.etP3);
         etP4 = view.findViewById(R.id.etP4);
         etCardValue = view.findViewById(R.id.etCardValue);
+        ivCardValueIcon = view.findViewById(R.id.ivCardValueIcon);
         btnSave = view.findViewById(R.id.btnSave);
         ivBack = view.findViewById(R.id.ivBack);
 
@@ -70,6 +73,7 @@ public class CreateGameFragment extends DialogFragment {
             }
         });
 
+        animateCardValueIcon(ivCardValueIcon);
         setEditorActionListeners();
 
         // Save Button
@@ -108,6 +112,15 @@ public class CreateGameFragment extends DialogFragment {
         // Notify success and dismiss dialog
         Toast.makeText(getContext(), "Game added!", Toast.LENGTH_SHORT).show();
         dismiss();
+    }
+
+    // Animation for Card Value Icon
+    public void animateCardValueIcon(ImageView ivCardValueIcon) {
+        ObjectAnimator rotate = ObjectAnimator.ofFloat(ivCardValueIcon, "rotationY", 0f, 180f, 360f);
+        rotate.setDuration(3000);
+        rotate.setRepeatCount(ObjectAnimator.INFINITE);
+        rotate.setInterpolator(new LinearInterpolator());
+        rotate.start();
     }
 
     // Editor Behaviours
