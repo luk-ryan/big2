@@ -2,13 +2,14 @@ package com.example.big2.ui.activity;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.ChangeBounds;
 import android.transition.Transition;
 import android.transition.TransitionManager;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -160,6 +161,27 @@ public class GameSummaryActivity extends AppCompatActivity {
                 roundRecyclerViewAdapter.setRoundsList(rounds);
             }
         });
+
+        rvRounds.post(() -> {
+            // Get the screen height using DisplayMetrics
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int screenHeight = displayMetrics.heightPixels;  // Get the screen height in pixels
+
+            // Set max height as 60% of the screen height
+            int maxHeight = (int) (screenHeight * 0.45);
+
+            // Apply max height to RecyclerView's constraint
+            ConstraintLayout parentLayout = (ConstraintLayout) rvRounds.getParent();
+            if (parentLayout != null) {
+                ConstraintSet constraintSet = new ConstraintSet();
+                constraintSet.clone(parentLayout);
+                constraintSet.constrainMaxHeight(rvRounds.getId(), maxHeight); // Dynamically set max height
+                constraintSet.applyTo(parentLayout);
+            }
+        });
+
+
 
         gameViewModel.calculatePlayerTotal(gameId, "P1").observe(this, score -> {
             tvS1.setText(formatScore(score));
