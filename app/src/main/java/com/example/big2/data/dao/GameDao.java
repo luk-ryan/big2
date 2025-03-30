@@ -28,6 +28,10 @@ public interface GameDao {
     @Query("UPDATE games SET gameName = :title, p1 = :p1, p2 = :p2, p3 = :p3, p4 = :p4, cardValue = :cardValue WHERE gameId = :gameId")
     void updateGameHeaders(int gameId, String title, String p1, String p2, String p3, String p4, double cardValue);
 
+    // Update isCompleted field only by gameId
+    @Query("UPDATE games SET isCompleted = :isCompleted WHERE gameId = :gameId")
+    void updateIsCompleted(int gameId, boolean isCompleted);
+
     // Delete a game
     @Delete
     void delete(Game game);

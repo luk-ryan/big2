@@ -17,5 +17,9 @@
     <!-- Other Colors -->
     <color name="divider">#BDBDBD</color>
 
+    <!-- Game Status Colors-->
+    <color name="completed">#F19E39</color>
+    <color name="in_progress">#75FB4C</color>
+    <color name="not_started">#999999</color>
 
 </resources>

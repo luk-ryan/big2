@@ -32,9 +32,14 @@ public class GameRepository {
         AppDatabase.databaseWriteExecutor.execute(() -> gameDao.update(game));
     }
 
-    // update game title
+    // Update game title, Names and Card Value
     public void updateGameTitle(int gameId, String title, String p1, String p2, String p3, String p4, double cardValue) {
         gameDao.updateGameHeaders(gameId, title, p1, p2, p3, p4, cardValue);
+    }
+
+    // Update isCompleted
+    public void updateIsCompleted(int gameId, boolean isCompleted) {
+        AppDatabase.databaseWriteExecutor.execute(() -> gameDao.updateIsCompleted(gameId, isCompleted));
     }
 
     // Delete a game
