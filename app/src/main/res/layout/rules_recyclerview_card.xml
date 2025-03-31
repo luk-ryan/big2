@@ -54,5 +54,36 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ruleTitle" />
 
+        <!-- Top-left card label -->
+        <TextView
+            android:id="@+id/cardCornerTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A\n♠"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"/>
+
+        <!-- Bottom-right card label (rotated upside-down) -->
+        <TextView
+            android:id="@+id/cardCornerBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A\n♠"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:rotation="180"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

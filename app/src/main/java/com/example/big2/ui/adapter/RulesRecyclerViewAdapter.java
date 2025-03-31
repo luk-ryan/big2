@@ -48,6 +48,10 @@ public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecycler
         holder.titleView.setText(item.getTitle());
         holder.descView.setText(item.getDescription());
 
+        String displayValue = item.getRank() + "\n" + item.getSuitSymbol();
+        holder.topCorner.setText(displayValue);
+        holder.bottomCorner.setText(displayValue);
+
         // Handle on-click events (load xml based on which card was pressed in the rulesList)
         holder.itemView.setOnClickListener(v -> {
             switch (position) {
@@ -75,17 +79,20 @@ public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecycler
         return ruleList.size();
     }
 
-    //holds references so that onBindViewHolder can update more efficicently
+    //holds references for xml IDs for onBindViewHolder
     static class RuleViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView titleView;
         TextView descView;
+        TextView topCorner, bottomCorner;
 
         public RuleViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.ruleImage);
             titleView = itemView.findViewById(R.id.ruleTitle);
             descView = itemView.findViewById(R.id.ruleDescription);
+            topCorner = itemView.findViewById(R.id.cardCornerTop);
+            bottomCorner = itemView.findViewById(R.id.cardCornerBottom);
         }
     }
 }
