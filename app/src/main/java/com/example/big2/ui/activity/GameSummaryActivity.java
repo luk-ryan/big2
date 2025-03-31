@@ -1,7 +1,10 @@
 package com.example.big2.ui.activity;
 
+import com.example.big2.ui.utils.DialogUtils;
+
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +18,7 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,6 +51,7 @@ public class GameSummaryActivity extends AppCompatActivity {
     private TextView tvCardValue, tvTotalP1, tvTotalP2, tvTotalP3, tvTotalP4;
     private TextView tvP1, tvP2, tvP3, tvP4, tvS1, tvS2, tvS3, tvS4;
     private ImageView ivCardValueIcon, ivSuitP1, ivSuitP2, ivSuitP3, ivSuitP4;
+    private Button btnFinishGame, btnRestartGame, btnContinueGame;
     private GameViewModel gameViewModel;
     private RoundViewModel roundViewModel;
 
@@ -125,6 +130,11 @@ public class GameSummaryActivity extends AppCompatActivity {
         ivSuitP2 = findViewById(R.id.ivSuitP2);
         ivSuitP3 = findViewById(R.id.ivSuitP3);
         ivSuitP4 = findViewById(R.id.ivSuitP4);
+
+        // Buttons
+        btnFinishGame = findViewById(R.id.btnFinishGame);
+        btnRestartGame = findViewById(R.id.btnRestartGame);
+        btnContinueGame = findViewById(R.id.btnContinueGame);
 
         // Observe the LiveData returned by getGameById
         gameViewModel.getGameById(gameId).observe(this, game -> {
@@ -211,23 +221,10 @@ public class GameSummaryActivity extends AppCompatActivity {
         // Back Button - closes activity and sends user back to Gameplay
         ivBack.setOnClickListener(v -> finish());
 
-        ivDelete.setOnClickListener(v -> {
-            // Create an AlertDialog to confirm deletion
-            new AlertDialog.Builder(this)
-                    .setMessage("Are you sure you want to delete this game?")
-                    .setCancelable(false) // Prevent dialog from being dismissed when tapping outside
-                    .setPositiveButton("Yes", (dialog, id) -> {
-                        // If user confirms, delete the game
-                        gameViewModel.deleteGameById(gameId);
-                        finish();
-                    })
-                    .setNegativeButton("No", (dialog, id) -> {
-                        // If user cancels, dismiss the dialog
-                        dialog.dismiss();
-                    })
-                    .create()
-                    .show();
-        });
+        ivDelete.setOnClickListener(v -> DialogUtils.showConfirmationDialog(this, "Delete Game", "Are you sure you want to delete this game?", () -> deleteGame(gameId)));
+        btnFinishGame.setOnClickListener(v -> DialogUtils.showConfirmationDialog(this, "Finish Game", "Are you sure you want to finish this game?", () -> finishGame(gameId)));
+        btnRestartGame.setOnClickListener(v -> DialogUtils.showConfirmationDialog(this, "Restart Game", "Are you sure you want to restart this game?", () -> restartGame(gameId)));
+        btnContinueGame.setOnClickListener(v -> DialogUtils.showConfirmationDialog(this, "Continue Game", "Are you sure you want to continue this game?", () -> continueGame(gameId)));
     }
 
     // Helper method to format the score
@@ -544,5 +541,41 @@ public class GameSummaryActivity extends AppCompatActivity {
             default:
                 return R.drawable.card_suit_diamond;
         }
+    }
+
+    private void finishGame(int gameId) {
+        gameViewModel.updateIsCompleted(gameId, true);
+        Toast.makeText(this, "Game Finished", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private void restartGame(int gameId) {
+        gameViewModel.updateIsCompleted(gameId, false);
+        roundViewModel.deleteRoundsByGameId(gameId);
+
+        // Start GameplayActivity or bring it to the front if it's already running
+        Intent intent = new Intent(this, GameplayActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.putExtra("gameId", gameId);
+        startActivity(intent);
+
+        Toast.makeText(this, "Game Restarted", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private void continueGame(int gameId) {
+        gameViewModel.updateIsCompleted(gameId, false);
+
+        Intent intent = new Intent(this, GameplayActivity.class);
+        intent.putExtra("gameId", gameId);
+        startActivity(intent);
+
+        Toast.makeText(this, "Game Continued", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+    private void deleteGame(int gameId) {
+        gameViewModel.deleteGameById(gameId);
+        Toast.makeText(this, "Game Deleted", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

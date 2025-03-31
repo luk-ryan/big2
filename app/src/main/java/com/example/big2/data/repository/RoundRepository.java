@@ -70,6 +70,14 @@ public class RoundRepository {
         });
     }
 
+    // Delete all rounds for a specific gameId
+    public void deleteRoundsByGameId(int gameId) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            roundDao.deleteRoundsByGameId(gameId);
+            updateGameTotalScores(gameId);
+        });
+    }
+
     // Get all rounds for a specific game, ordered by round number
     public LiveData<List<Round>> getRoundsByGameId(int gameId) {
         return roundDao.getRoundsByGameId(gameId);  // Directly return LiveData from DAO

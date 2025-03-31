@@ -45,6 +45,11 @@ public class RoundViewModel extends AndroidViewModel {
         roundRepository.delete(round);
     }
 
+    // Delete all rounds for a specific gameId
+    public void deleteRoundsByGameId(int gameId) {
+        roundRepository.deleteRoundsByGameId(gameId);
+    }
+
     // Get all rounds for a specific game, ordered by round number
     public LiveData<List<Round>> getRoundsByGameId(int gameId) {
         roundsByGameId = roundRepository.getRoundsByGameId(gameId);

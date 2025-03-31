@@ -30,6 +30,10 @@ public interface RoundDao {
     @Delete
     void delete(Round round);
 
+    // Delete all rounds for a specific gameId
+    @Query("DELETE FROM rounds WHERE gameId = :gameId")
+    void deleteRoundsByGameId(int gameId);
+
     // Get all rounds for a specific game, ordered by round number
     @Query("SELECT * FROM rounds WHERE gameId = :gameId ORDER BY roundNumber ASC")
     LiveData<List<Round>> getRoundsByGameId(int gameId);

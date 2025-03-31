@@ -109,33 +109,35 @@ public class GameplayActivity extends AppCompatActivity {
         int gameId = getIntent().getIntExtra("gameId", -1);
 
         if (gameId == -1) {
-            // Show an error message and close the activity if gameId is invalid
-            Toast.makeText(this, "Error: Invalid Game ID", Toast.LENGTH_SHORT).show();
             finish(); // Closes the activity
         }
 
         // Observe game details and update UI
         gameViewModel.getGameById(gameId).observe(this, game -> {
             if (game != null) {
-                tvTitle.setText(game.getGameName());
+                if (game.isCompleted()) {
+                    finish(); // Closes GameplayActivity immediately
+                } else {
+                    tvTitle.setText(game.getGameName());
 
-                tvP1.setText(game.getP1());
-                tvP2.setText(game.getP2());
-                tvP3.setText(game.getP3());
-                tvP4.setText(game.getP4());
+                    tvP1.setText(game.getP1());
+                    tvP2.setText(game.getP2());
+                    tvP3.setText(game.getP3());
+                    tvP4.setText(game.getP4());
 
-                tvS1.setText(String.valueOf(game.getS1()));
-                tvS2.setText(String.valueOf(game.getS2()));
-                tvS3.setText(String.valueOf(game.getS3()));
-                tvS4.setText(String.valueOf(game.getS4()));
+                    tvS1.setText(String.valueOf(game.getS1()));
+                    tvS2.setText(String.valueOf(game.getS2()));
+                    tvS3.setText(String.valueOf(game.getS3()));
+                    tvS4.setText(String.valueOf(game.getS4()));
 
-                tvP1Input.setText(game.getP1());
-                tvP2Input.setText(game.getP2());
-                tvP3Input.setText(game.getP3());
-                tvP4Input.setText(game.getP4());
-
+                    tvP1Input.setText(game.getP1());
+                    tvP2Input.setText(game.getP2());
+                    tvP3Input.setText(game.getP3());
+                    tvP4Input.setText(game.getP4());
+                }
             } else {
                 tvTitle.setText("Game not found.");
+                finish();
             }
         });
 
