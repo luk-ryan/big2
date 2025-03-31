@@ -21,8 +21,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Big2"
         tools:targetApi="31" >
-
-        <!-- Force Light Mode Globally -->
+        <activity
+            android:name=".ui.activity.rules.ScoringActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.rules.WinningActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.rules.ValidPlaysActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.rules.SetupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.rules.ObjectiveActivity"
+            android:exported="false" /> <!-- Force Light Mode Globally -->
         <meta-data
             android:name="androidx.appcompat.app.ThemeProvider"
             android:value="@style/Theme.Big2" />

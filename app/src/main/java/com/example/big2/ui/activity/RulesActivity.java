@@ -1,16 +1,19 @@
 package com.example.big2.ui.activity;
 
 /* Main rule page activity functionality:
-*  > Rules (tutorial) card list initialization
+*  -------------------------------------
+*  > Rule cards list initialization
 *  > Onclick event handlers
 *  > Save scroll position on activity
-*  > Scroll bar //TODO
-*   */
+*  > Scroll bar
+*  */
 
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
@@ -35,55 +38,56 @@ public class RulesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.rules);
 
         // Initialize Views
-        btnBack = findViewById(R.id.btnBack);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.rules);
+        rulesRecyclerView = findViewById(R.id.rulesRecyclerView);
+        scrollProgress = findViewById(R.id.scrollProgress);
 
         // Back button - closes activity and sends user back to main menu
+        btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
-
-
-        rulesRecyclerView = findViewById(R.id.rulesRecyclerView);
-        //scrollProgress = findViewById(R.id.scrollProgress);
 
         // List of visible cards for the rules (add more here...)
         List<RulesCard> rules = new ArrayList<>();
-        rules.add(new RulesCard(R.drawable.card_suit_spade, "The Objective of The Game", "Collect cards and win."));
-        rules.add(new RulesCard(R.drawable.card_suit_diamond, "Game Setup", "Each player gets 5 cards."));
-        rules.add(new RulesCard(R.drawable.card_suit_club, "How to Play", "Each player gets 5 cards."));
-        rules.add(new RulesCard(R.drawable.card_suit_heart, "Winning a Round", "Each player gets 5 cards."));
-        rules.add(new RulesCard(R.drawable.card_suit_spade, "Scoring System", "Each player gets 5 cards."));
 
+        String descr_objective = "Learn the goal and rules of Big 2.";
+        String descr_setup = "Learn how to start a game of Big 2.";
+        String descr_plays = "Outlines the types of card combinations that can be played. ";
+        String descr_win = "Details how a round ends and how penalty points are given. ";
+        String descr_score = "Outlines how points are calculated after each round, and optional rules when playing with money.";
 
+        rules.add(new RulesCard(R.drawable.card_suit_spade, "The Objective of The Game", descr_objective));
+        rules.add(new RulesCard(R.drawable.card_suit_diamond, "Game Setup", descr_setup));
+        rules.add(new RulesCard(R.drawable.card_suit_club, "Valid Plays", descr_plays));
+        rules.add(new RulesCard(R.drawable.card_suit_heart, "Winning a Round", descr_win));
+        rules.add(new RulesCard(R.drawable.card_suit_spade, "Scoring System", descr_score));
+
+        // Initialize RecyclerView Adapters
         RulesRecyclerViewAdapter adapter = new RulesRecyclerViewAdapter(this, rules);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
-        // Get screen height
+        // Add padding for rule cards to center them
         int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-        // Get RecyclerView height
         int recyclerHeight = rulesRecyclerView.getHeight();
         int backHeight = btnBack.getHeight();
-        // Calculate top padding to center the RecyclerView vertically
         int topPadding = (screenHeight - recyclerHeight) / 4;
 
         rulesRecyclerView.setLayoutManager(layoutManager);
         rulesRecyclerView.setAdapter(adapter);
         rulesRecyclerView.setPadding(100, topPadding-backHeight*2, 100, 0); //TODO make this variable, not fixed
 
-
-        // Add snap behavior
+        // Add card-snap-to behavior
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(rulesRecyclerView);
 
-        // 🔁 Restore last position
+        // 🔁 Restore last position when exiting rules page
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         int lastPosition = prefs.getInt(LAST_POSITION_KEY, 0);
         rulesRecyclerView.scrollToPosition(lastPosition);
 
-        /*
-        // Handle scroll progress
+        // Handle scroll bar progress
         rulesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -94,7 +98,7 @@ public class RulesActivity extends AppCompatActivity {
                 int progress = (int) ((offset / (float)(range - extent)) * 100);
                 scrollProgress.setProgress(progress);
             }
-        }); */
+        });
     }
 
     /* Save scroll position on activity when user leaves the rules directory page.
