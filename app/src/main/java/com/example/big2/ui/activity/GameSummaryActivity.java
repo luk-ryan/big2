@@ -160,6 +160,15 @@ public class GameSummaryActivity extends AppCompatActivity {
                 tvP3.setText(game.getP3());
                 tvP4.setText(game.getP4());
 
+                if (game.isCompleted()) {
+                    btnContinueGame.setVisibility(View.VISIBLE);
+                    btnFinishGame.setVisibility(View.GONE);
+                    switchRestartButtonConstraint(btnContinueGame);
+                } else {
+                    btnContinueGame.setVisibility(View.GONE);
+                    btnFinishGame.setVisibility(View.VISIBLE);
+                    switchRestartButtonConstraint(btnFinishGame);
+                }
             } else {
                 tvTitle.setText("Game not found.");
             }
@@ -541,6 +550,17 @@ public class GameSummaryActivity extends AppCompatActivity {
             default:
                 return R.drawable.card_suit_diamond;
         }
+    }
+
+    private void switchRestartButtonConstraint(Button referenceButton) {
+        ConstraintLayout layout = findViewById(R.id.clButtons);
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(layout);
+
+        constraintSet.clear(R.id.btnRestartGame, ConstraintSet.START);
+        constraintSet.connect(R.id.btnRestartGame, ConstraintSet.START, referenceButton.getId(), ConstraintSet.END);
+
+        constraintSet.applyTo(layout);
     }
 
     private void finishGame(int gameId) {
