@@ -20,4 +20,9 @@
     <!-- Error messages -->
     <string name="error_fragment_message">An error occurred</string>
     <string name="dismiss_error">Dismiss</string>
+
+    <!-- rules_xxxx.xml bolded sentences -->
+    <string name="obj_round_text"><b>Every Round:</b> Be the first player to play all your cards.</string>
+    <string name="obj_overall_text"><b>Overall:</b> Have the <b>lowest cumulative score</b> at the end of the game.</string>
+    <string name = "obj_ranking_text">• Suits (ascending): <b>♦ &lt; ♣ &lt; ♥ &lt; ♠&#10;</b>\n• Ranks (ascending): <b>3 &lt; 4 &lt; 5 &lt; ... &lt; K &lt; A &lt; 2 </b>(2 is highest)</string>
 </resources>

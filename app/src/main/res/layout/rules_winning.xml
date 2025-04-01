@@ -3,16 +3,71 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="#FAFAFA">
 
-    <!-- Scrollable content -->
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/headerSection"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#0E1B24"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/card_diamond"
+                android:contentDescription="Left card"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="━━━ BIG 2 ━━━"
+                android:textSize="26sp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:fontFamily="serif"
+                android:letterSpacing="0.1"
+                android:layout_marginHorizontal="8dp" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/card_spade"
+                android:contentDescription="Right card"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HOW TO WIN A ROUND"
+            android:textSize="14sp"
+            android:textColor="#DDDDDD"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:letterSpacing="0.15" />
+    </LinearLayout>
+
+    <!-- Scrollable Content -->
     <ScrollView
         android:id="@+id/winningScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="16dp"
         android:clipToPadding="false"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerSection"
         app:layout_constraintBottom_toTopOf="@id/btnBack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -22,52 +77,109 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Title -->
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Last Card Rule -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Winning"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="#212121"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
 
-            <!-- Rules -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="• When a player has one card left, they must call “last card”, and the person before them must play the highest card in their hand when it is singles on their turn."
-                android:textSize="16sp"
-                android:textColor="#444444"
-                android:layout_marginBottom="12dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="• The game ends when one player plays all their cards."
-                android:textSize="16sp"
-                android:textColor="#444444"
-                android:layout_marginBottom="12dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Calling Last Card"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#333333"
+                        android:layout_marginBottom="8dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="• Remaining players tally penalty points based on the number of cards left in their hands:"
-                android:textSize="16sp"
-                android:textColor="#444444"
-                android:layout_marginBottom="8dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="When a player has one card left, they must call “last card”. The person before them must play their highest card if singles are being played."
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:lineSpacingExtra="4dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Game Ending Rule -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="  ○ If players have 11 or 12 cards left, points will be double for this game (i.e. +22 or +24 points respectively).\n  ○ If left with 13 cards, points will be tripled for this game (i.e. +39 points)."
-                android:textSize="16sp"
-                android:textColor="#444444" />
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ending the Game"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#333333"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="The game ends when one player plays all of their cards."
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:lineSpacingExtra="4dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Penalty Points Rule -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Penalty Points"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#333333"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Remaining players tally penalty points based on how many cards they have left:\n\n• 11–12 cards: double points (e.g., +22 or +24).\n• 13 cards: triple points (e.g., +39)."
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:lineSpacingExtra="4dp"
+                        android:paddingBottom="24dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </ScrollView>
 
-    <!-- Left Arrow -->
+    <!-- Navigation Buttons -->
     <ImageButton
         android:id="@+id/btnPrev"
         android:layout_width="48dp"
@@ -79,9 +191,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="23dp" />
+        android:layout_marginBottom="20dp" />
 
-    <!-- Right Arrow -->
     <ImageButton
         android:id="@+id/btnNext"
         android:layout_width="48dp"
@@ -93,9 +204,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="23dp" />
+        android:layout_marginBottom="20dp" />
 
-    <!-- Back Button -->
     <Button
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
@@ -107,4 +217,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="20dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
