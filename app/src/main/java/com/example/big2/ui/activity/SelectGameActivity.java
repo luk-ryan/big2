@@ -3,13 +3,17 @@ package com.example.big2.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,17 +26,21 @@ import com.example.big2.ui.fragment.CreateGameFragment;
 import com.example.big2.ui.viewmodel.GameViewModel;
 import com.example.big2.ui.viewmodel.RoundViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SelectGameActivity extends AppCompatActivity {
 
     private Button btnStart;
     private ImageView ivBack, ivDelete, ivCreate;
+    Spinner spinnerFilter;
     private RecyclerView rvGames;
     private GameRecyclerViewAdapter gameRecyclerViewAdapter;
     private GameViewModel gameViewModel;
     private RoundViewModel roundViewModel;
     private TextView tvNoGames;
+    private List<Game> allGames = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +58,12 @@ public class SelectGameActivity extends AppCompatActivity {
         ivBack = findViewById(R.id.ivBack);
         rvGames = findViewById(R.id.rvGames);
         tvNoGames = findViewById(R.id.tvNoGames);
+        spinnerFilter = findViewById(R.id.spinnerFilter);
 
         // Initialize RecyclerView with gameRecyclerViewAdapter
         rvGames.setLayoutManager(new LinearLayoutManager(this));
         gameRecyclerViewAdapter = new GameRecyclerViewAdapter(this, roundViewModel);
         rvGames.setAdapter(gameRecyclerViewAdapter);
-
 
         // Observe LiveData from ViewModel
         gameViewModel.getAllGames().observe(this, new Observer<List<Game>>() {
@@ -68,7 +76,29 @@ public class SelectGameActivity extends AppCompatActivity {
                     tvNoGames.setVisibility(View.GONE); // Hide "No Games" message
                     rvGames.setVisibility(View.VISIBLE); // Show RecyclerView
                     gameRecyclerViewAdapter.setGameList(games);
+                    allGames = new ArrayList<>(games); // Store all games
+                    applyStatusFiltering(); // Apply filter logic
                 }
+            }
+        });
+
+        // Set up the Spinner (Dropdown)
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.game_status_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerFilter.setAdapter(adapter);
+        spinnerFilter.setSelection(0); // Default to "All"
+
+        // Handle Filter Selection
+        spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                applyStatusFiltering();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
             }
         });
 
@@ -77,7 +107,6 @@ public class SelectGameActivity extends AppCompatActivity {
             // In your Activity (e.g., MainActivity or wherever you want to show the dialog)
             CreateGameFragment createGameFragment = new CreateGameFragment();
             createGameFragment.show(getSupportFragmentManager(), "CreateGameFragment");
-
         });
 
         // Start Game Button
@@ -125,6 +154,42 @@ public class SelectGameActivity extends AppCompatActivity {
 
         // Back button - closes activity and sends user back to main menu
         ivBack.setOnClickListener(v -> finish());
+    }
+
+    // Filtering method based on game status logic
+    private void applyStatusFiltering() {
+        String selectedStatus = spinnerFilter.getSelectedItem().toString();
+        List<Game> filteredGames = new ArrayList<>();
+        LifecycleOwner lifecycleOwner = this;
+
+        for (Game game : allGames) {
+            roundViewModel.getRoundsByGameId(game.getGameId()).observe(lifecycleOwner, rounds -> {
+                String gameStatus;
+
+                if (game.isCompleted()) {
+                    gameStatus = "Completed";
+                } else if (rounds == null || rounds.isEmpty()) {
+                    gameStatus = "Not Started";
+                } else {
+                    gameStatus = "In Progress";
+                }
+
+                // Filter based on the selected status
+                if (selectedStatus.equals("All") || selectedStatus.equals(gameStatus)) {
+                    filteredGames.add(game);
+                }
+
+                // Update RecyclerView after filtering
+                if (filteredGames.isEmpty()) {
+                    tvNoGames.setVisibility(View.VISIBLE);
+                    rvGames.setVisibility(View.GONE);
+                } else {
+                    tvNoGames.setVisibility(View.GONE);
+                    rvGames.setVisibility(View.VISIBLE);
+                    gameRecyclerViewAdapter.setGameList(filteredGames);
+                }
+            });
+        }
     }
 
 }
