@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <!-- Scrollable content -->
+    <ScrollView
+        android:id="@+id/validPlaysScroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnBack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Valid Plays"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#212121"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Valid Plays Overview -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Players may play:"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="• Single Card: Any one card.\n• Pair: Two cards of the same rank.\n• Triple: Three cards of the same rank.\n• Five-Card Combinations:"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Five-Card Types -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  - Straight: 5 cards in sequence (e.g., 3-4-5-6-7).\n    • A-2-3-4-5 works (2 is the highest).\n    • K-A-2-3-4 is not valid.\n    • Compare highest rank to determine winner."
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  - Flush: 5 cards of the same suit.\n    • Compare the highest card to determine the stronger flush."
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  - Full House: 3 of one rank + 2 of another.\n    • Compare the triple's rank to determine which is higher."
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  - Four of a Kind + 1: Four cards of same rank + 1 side card.\n    • Compare the rank of the quad."
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  - Straight Flush: 5 cards in sequence, same suit.\n    • A-2-3-4-5 is valid (2 is the highest).\n    • K-A-2-3-4 is not valid.\n    • Compare highest rank."
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Playing a Turn -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Playing a Turn"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="• Players must play a higher-ranked combo of the same type.\n• For combinations:\n  - Compare rank first (e.g., pair of 10s beats pair of 9s).\n  - If ranks are tied, compare suits.\n• For five-card combos:\n  - Straight &lt; Flush &lt; Full House &lt; Four of a Kind &lt; Straight Flush.\n• A player may pass if unable or unwilling to play."
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Ending a Round -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ending a Round"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="• When all players pass, the last one to play starts the next round with any valid combination."
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Back Button -->
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
