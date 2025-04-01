@@ -24,17 +24,22 @@ import com.example.big2.ui.adapter.RulesRecyclerViewAdapter;
 import com.example.big2.ui.model.RulesCard;
 import java.util.ArrayList;
 import java.util.List;
+
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 public class RulesActivity extends AppCompatActivity {
 
     private Button btnBack;
     private RecyclerView rulesRecyclerView;
-    private ProgressBar scrollProgress;
+    private LinearLayout dotsLayout;
+    private ImageView[] dots;
 
     // 🔐 Keys for saving scroll state/position
     public static final String PREFS_NAME = "RulesPrefs";
     public static final String LAST_POSITION_KEY = "LastScrollPosition";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,7 @@ public class RulesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rules);
         rulesRecyclerView = findViewById(R.id.rulesRecyclerView);
-        scrollProgress = findViewById(R.id.scrollProgress);
+        //scrollProgress = findViewById(R.id.scrollProgress);
 
         // Back button - closes activity and sends user back to main menu
         btnBack = findViewById(R.id.btnBack);
@@ -76,7 +81,7 @@ public class RulesActivity extends AppCompatActivity {
 
         rulesRecyclerView.setLayoutManager(layoutManager);
         rulesRecyclerView.setAdapter(adapter);
-        rulesRecyclerView.setPadding(100, topPadding-backHeight*2, 100, 0); //TODO make this variable, not fixed
+        rulesRecyclerView.setPadding(100, topPadding-backHeight*2, 100, 0);
 
         // Add card-snap-to behavior
         SnapHelper snapHelper = new LinearSnapHelper();
@@ -87,16 +92,22 @@ public class RulesActivity extends AppCompatActivity {
         int lastPosition = prefs.getInt(LAST_POSITION_KEY, 0);
         rulesRecyclerView.scrollToPosition(lastPosition);
 
-        // Handle scroll bar progress
+        // Initialize scroll dots progress (based on last position/page state)
+        dotsLayout = findViewById(R.id.dotsLayout);
+        addDotsIndicator(lastPosition, rules.size());
+
+        // Handle dots scroll bar progress
         rulesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                int offset = recyclerView.computeHorizontalScrollOffset();
-                int extent = recyclerView.computeHorizontalScrollExtent();
-                int range = recyclerView.computeHorizontalScrollRange();
-
-                int progress = (int) ((offset / (float)(range - extent)) * 100);
-                scrollProgress.setProgress(progress);
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    int position = layoutManager.findFirstCompletelyVisibleItemPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        addDotsIndicator(position, rules.size());
+                    }
+                }
             }
         });
     }
@@ -118,5 +129,26 @@ public class RulesActivity extends AppCompatActivity {
         prefs.edit().putInt(LAST_POSITION_KEY, position).apply();
     }
 
+    // Initialize the dot progress bar
+    private void addDotsIndicator(int position, int count) {
+        dotsLayout.removeAllViews();
+        dots = new ImageView[count];
+
+        for (int i = 0; i < count; i++) {
+            dots[i] = new ImageView(this);
+            dots[i].setImageResource(R.drawable.dot_inactive); // Create dot image
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(8, 0, 8, 0);
+            dots[i].setLayoutParams(params);
+            dotsLayout.addView(dots[i]);
+        }
+
+        if (dots.length > 0) {
+            dots[position].setImageResource(R.drawable.dot_active); // Create dot image
+        }
+    }
 
 }
