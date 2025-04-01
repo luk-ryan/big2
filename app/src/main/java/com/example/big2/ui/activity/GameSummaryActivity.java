@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -181,26 +182,30 @@ public class GameSummaryActivity extends AppCompatActivity {
             }
         });
 
-        rvRounds.post(() -> {
-            // Get the screen height using DisplayMetrics
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            int screenHeight = displayMetrics.heightPixels;  // Get the screen height in pixels
+        rvRounds.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                rvRounds.getViewTreeObserver().removeOnPreDrawListener(this); // Remove listener after execution
 
-            // Set max height as 60% of the screen height
-            int maxHeight = (int) (screenHeight * 0.45);
+                // Get the screen height using DisplayMetrics
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-            // Apply max height to RecyclerView's constraint
-            ConstraintLayout parentLayout = (ConstraintLayout) rvRounds.getParent();
-            if (parentLayout != null) {
-                ConstraintSet constraintSet = new ConstraintSet();
-                constraintSet.clone(parentLayout);
-                constraintSet.constrainMaxHeight(rvRounds.getId(), maxHeight); // Dynamically set max height
-                constraintSet.applyTo(parentLayout);
+                int screenHeight = displayMetrics.heightPixels;
+                int maxHeight = (int) (screenHeight * 0.45);
+
+                // Apply max height to RecyclerView's constraint
+                ConstraintLayout parentLayout = (ConstraintLayout) rvRounds.getParent();
+                if (parentLayout != null) {
+                    ConstraintSet constraintSet = new ConstraintSet();
+                    constraintSet.clone(parentLayout);
+                    constraintSet.constrainMaxHeight(rvRounds.getId(), maxHeight);
+                    constraintSet.applyTo(parentLayout);
+                }
+
+                return true;
             }
         });
-
-
 
         gameViewModel.calculatePlayerTotal(gameId, "P1").observe(this, score -> {
             tvS1.setText(formatScore(score));

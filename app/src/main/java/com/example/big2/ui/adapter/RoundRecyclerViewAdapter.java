@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -28,6 +29,7 @@ public class RoundRecyclerViewAdapter extends RecyclerView.Adapter<RoundRecycler
 
     private List<Round> rounds = new ArrayList<>();
     private int selectedPosition = -1;  // Track the selected position
+    private int editingPosition = -1; // Track the currently edited position
     RoundViewModel roundViewModel;
 
     public RoundRecyclerViewAdapter(RoundViewModel roundViewModel) {
@@ -62,12 +64,18 @@ public class RoundRecyclerViewAdapter extends RecyclerView.Adapter<RoundRecycler
         // Toggle selection
         holder.itemView.setOnClickListener(v -> {
             int prevSelectedPosition = selectedPosition;
+
+            // If editing a different row, cancel it
+            if (editingPosition != -1 && editingPosition != holder.getAdapterPosition()) {
+                notifyItemChanged(editingPosition);  // Restore previous editing row
+                editingPosition = -1;
+            }
+
             selectedPosition = holder.getAdapterPosition();
 
-            // Update the UI for both the previous and current selected positions
+            // Update UI for both the previous and current selected positions
             notifyItemChanged(prevSelectedPosition);
             notifyItemChanged(selectedPosition);
-
         });
 
         // Show Popup Menu on long press, only if the round is selected
@@ -132,13 +140,14 @@ public class RoundRecyclerViewAdapter extends RecyclerView.Adapter<RoundRecycler
     }
 
     private void handleEdit(RoundViewHolder holder, Round round) {
-        replaceWithNumberPickers(holder);
 
-        // Update the Round object when editing is done (you can add a Save button or save on changing values)
-        holder.npS1.setOnValueChangedListener((picker, oldVal, newVal) -> round.setS1(convertToScore(newVal)));
-        holder.npS2.setOnValueChangedListener((picker, oldVal, newVal) -> round.setS2(convertToScore(newVal)));
-        holder.npS3.setOnValueChangedListener((picker, oldVal, newVal) -> round.setS3(convertToScore(newVal)));
-        holder.npS4.setOnValueChangedListener((picker, oldVal, newVal) -> round.setS4(convertToScore(newVal)));
+        // If another row is already being edited, cancel it
+        if (editingPosition != -1 && editingPosition != holder.getAdapterPosition()) {
+            notifyItemChanged(editingPosition);
+        }
+
+        editingPosition = holder.getAdapterPosition();
+        replaceWithNumberPickers(holder);
 
         // Save button
         holder.ivSaveRound.setOnClickListener(v -> {
@@ -151,9 +160,16 @@ public class RoundRecyclerViewAdapter extends RecyclerView.Adapter<RoundRecycler
             if (holder.npS4.getValue() == 0) zeroCount++;
 
             if (zeroCount == 1) {
+
+                round.setS1(convertToScore(holder.npS1.getValue()));
+                round.setS2(convertToScore(holder.npS2.getValue()));
+                round.setS3(convertToScore(holder.npS3.getValue()));
+                round.setS4(convertToScore(holder.npS4.getValue()));
+
                 // Only proceed if exactly one player has a score of zero
                 roundViewModel.update(round);
-                replaceWithTextViews(holder);
+                replaceWithTextViews(holder, round);
+                editingPosition = -1;
             } else if (zeroCount > 1) {
                 // Show message that too many players have zero scores
                 Toast.makeText(holder.itemView.getContext(), "Only one person can be the winner of a round", Toast.LENGTH_SHORT).show();
@@ -161,6 +177,12 @@ public class RoundRecyclerViewAdapter extends RecyclerView.Adapter<RoundRecycler
                 // Show message that no one has zero score
                 Toast.makeText(holder.itemView.getContext(), "One person must be the winner of a round", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        // Cancel button
+        holder.ivCancelEditRound.setOnClickListener(v -> {
+            replaceWithTextViews(holder, round);
+            editingPosition = -1;
         });
     }
 
@@ -187,7 +209,7 @@ public class RoundRecyclerViewAdapter extends RecyclerView.Adapter<RoundRecycler
         holder.ivCancelEditRound.setVisibility(View.VISIBLE);
     }
 
-    private void replaceWithTextViews(RoundViewHolder holder) {
+    private void replaceWithTextViews(RoundViewHolder holder, Round round) {
         // Hide the NumberPickers
         holder.npS1.setVisibility(View.GONE);
         holder.npS2.setVisibility(View.GONE);
@@ -201,13 +223,15 @@ public class RoundRecyclerViewAdapter extends RecyclerView.Adapter<RoundRecycler
         holder.tvS4.setVisibility(View.VISIBLE);
 
         // Update TextViews with the current values of the NumberPickers
-        holder.tvS1.setText(String.valueOf(convertToScore(holder.npS1.getValue())));
-        holder.tvS2.setText(String.valueOf(convertToScore(holder.npS1.getValue())));
-        holder.tvS3.setText(String.valueOf(convertToScore(holder.npS1.getValue())));
-        holder.tvS4.setText(String.valueOf(convertToScore(holder.npS1.getValue())));
+        holder.tvS1.setText(String.valueOf(round.getS1()));
+        holder.tvS2.setText(String.valueOf(round.getS2()));
+        holder.tvS3.setText(String.valueOf(round.getS3()));
+        holder.tvS4.setText(String.valueOf(round.getS4()));
 
         holder.ivSaveRound.setVisibility(View.GONE);
         holder.ivCancelEditRound.setVisibility(View.GONE);
+
+        editingPosition = -1;
     }
 
     // Helper method to calculate score based on the value
