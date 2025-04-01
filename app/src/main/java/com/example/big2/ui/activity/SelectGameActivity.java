@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -16,16 +18,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.big2.R;
 import com.example.big2.data.entity.Game;
 import com.example.big2.ui.adapter.GameRecyclerViewAdapter;
+import com.example.big2.ui.fragment.CreateGameFragment;
 import com.example.big2.ui.viewmodel.GameViewModel;
+import com.example.big2.ui.viewmodel.RoundViewModel;
 
 import java.util.List;
 
 public class SelectGameActivity extends AppCompatActivity {
 
-    private Button btnCreate, btnLoad, btnDelete, btnBack;
-    private RecyclerView recyclerView;
+    private Button btnStart;
+    private ImageView ivBack, ivDelete, ivCreate;
+    private RecyclerView rvGames;
     private GameRecyclerViewAdapter gameRecyclerViewAdapter;
     private GameViewModel gameViewModel;
+    private RoundViewModel roundViewModel;
     private TextView tvNoGames;
 
     @Override
@@ -35,19 +41,20 @@ public class SelectGameActivity extends AppCompatActivity {
 
         // Initialize ViewModel
         gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
+        roundViewModel = new ViewModelProvider(this).get(RoundViewModel.class);
 
         // Initialize Views
-        btnCreate = findViewById(R.id.btnCreate);
-        btnLoad = findViewById(R.id.btnLoad);
-        btnDelete = findViewById(R.id.btnDelete);
-        btnBack = findViewById(R.id.btnBack);
-        recyclerView = findViewById(R.id.gamesRecyclerView);
+        ivCreate = findViewById(R.id.ivCreate);
+        btnStart = findViewById(R.id.btnStart);
+        ivDelete = findViewById(R.id.ivDelete);
+        ivBack = findViewById(R.id.ivBack);
+        rvGames = findViewById(R.id.rvGames);
         tvNoGames = findViewById(R.id.tvNoGames);
 
         // Initialize RecyclerView with gameRecyclerViewAdapter
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        gameRecyclerViewAdapter = new GameRecyclerViewAdapter();
-        recyclerView.setAdapter(gameRecyclerViewAdapter);
+        rvGames.setLayoutManager(new LinearLayoutManager(this));
+        gameRecyclerViewAdapter = new GameRecyclerViewAdapter(this, roundViewModel);
+        rvGames.setAdapter(gameRecyclerViewAdapter);
 
 
         // Observe LiveData from ViewModel
@@ -56,47 +63,68 @@ public class SelectGameActivity extends AppCompatActivity {
             public void onChanged(List<Game> games) {
                 if (games == null || games.isEmpty()) {
                     tvNoGames.setVisibility(View.VISIBLE); // Show "No Games" message
-                    recyclerView.setVisibility(View.GONE); // Hide RecyclerView
+                    rvGames.setVisibility(View.GONE); // Hide RecyclerView
                 } else {
                     tvNoGames.setVisibility(View.GONE); // Hide "No Games" message
-                    recyclerView.setVisibility(View.VISIBLE); // Show RecyclerView
+                    rvGames.setVisibility(View.VISIBLE); // Show RecyclerView
                     gameRecyclerViewAdapter.setGameList(games);
                 }
             }
         });
 
         // Create Game button
-        btnCreate.setOnClickListener(v -> {
-            Intent intent = new Intent(SelectGameActivity.this, CreateGameActivity.class);
-            startActivityForResult(intent, 1);
+        ivCreate.setOnClickListener(v -> {
+            // In your Activity (e.g., MainActivity or wherever you want to show the dialog)
+            CreateGameFragment createGameFragment = new CreateGameFragment();
+            createGameFragment.show(getSupportFragmentManager(), "CreateGameFragment");
+
         });
 
-        // Load Game Button
-        btnLoad.setOnClickListener(v -> {
+        // Start Game Button
+        btnStart.setOnClickListener(v -> {
+
             Game selectedGame = gameRecyclerViewAdapter.getSelectedGame();
             if (selectedGame != null) {
-                // Load the selected game into the GameSummaryActivity
-                Intent intent = new Intent(SelectGameActivity.this, GameplayActivity.class);
-                intent.putExtra("gameId", selectedGame.getGameId());
-                startActivity(intent);
+                if (selectedGame.isCompleted()) {
+                    // Load the selected game into the GameSummaryActivity
+                    Intent intent = new Intent(SelectGameActivity.this, GameSummaryActivity.class);
+                    intent.putExtra("gameId", selectedGame.getGameId());
+                    startActivity(intent);
+                } else {
+                    // Load the selected game into the GameplayActivity
+                    Intent intent = new Intent(SelectGameActivity.this, GameplayActivity.class);
+                    intent.putExtra("gameId", selectedGame.getGameId());
+                    startActivity(intent);
+                }
             } else {
                 Toast.makeText(SelectGameActivity.this, "Please select a game", Toast.LENGTH_SHORT).show();
             }
         });
 
         // Delete Game Button
-        btnDelete.setOnClickListener(v -> {
+        ivDelete.setOnClickListener(v -> {
             Game selectedGame = gameRecyclerViewAdapter.getSelectedGame();
             if (selectedGame != null) {
-                gameViewModel.delete(selectedGame);
-                Toast.makeText(SelectGameActivity.this, "Game deleted", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(SelectGameActivity.this)
+                        .setTitle("Delete Game")
+                        .setMessage("Are you sure you want to delete this game?")
+                        .setPositiveButton("Delete", (dialog, which) -> {
+                            // User confirmed deletion
+                            gameViewModel.delete(selectedGame);
+                            Toast.makeText(SelectGameActivity.this, "Game deleted", Toast.LENGTH_SHORT).show();
+                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> {
+                            // User canceled, do nothing
+                            dialog.dismiss();
+                        })
+                        .show();
             } else {
                 Toast.makeText(SelectGameActivity.this, "Please select a game", Toast.LENGTH_SHORT).show();
             }
         });
 
         // Back button - closes activity and sends user back to main menu
-        btnBack.setOnClickListener(v -> finish());
+        ivBack.setOnClickListener(v -> finish());
     }
 
 }
