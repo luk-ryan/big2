@@ -36,6 +36,12 @@
         <activity android:name=".ui.activity.RulesActivity"
             android:exported="true" />
 
+        <activity android:name=".ui.activity.rules.ObjectiveActivity" android:exported="false" />
+        <activity android:name=".ui.activity.rules.ScoringActivity" android:exported="false" />
+        <activity android:name=".ui.activity.rules.SetupActivity" android:exported="false" />
+        <activity android:name=".ui.activity.rules.ValidPlaysActivity" android:exported="false" />
+        <activity android:name=".ui.activity.rules.WinningActivity" android:exported="false" />
+
         <!-- SelectGameActivity -->
         <activity android:name=".ui.activity.SelectGameActivity"
             android:exported="true" />
