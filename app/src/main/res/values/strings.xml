@@ -17,6 +17,13 @@
     <string name="buy_2">AT $9.99</string>
     <string name="movie">Movie</string>
 
+    <string-array name="game_status_array">
+        <item>All</item>
+        <item>Not Started</item>
+        <item>In Progress</item>
+        <item>Completed</item>
+    </string-array>
+
     <!-- Error messages -->
     <string name="error_fragment_message">An error occurred</string>
     <string name="dismiss_error">Dismiss</string>
