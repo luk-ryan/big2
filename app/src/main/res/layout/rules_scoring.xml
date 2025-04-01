@@ -94,6 +94,34 @@
     </LinearLayout>
   </ScrollView>
 
+  <!-- Left Arrow -->
+  <ImageButton
+      android:id="@+id/btnPrev"
+      android:layout_width="48dp"
+      android:layout_height="48dp"
+      android:background="?attr/selectableItemBackgroundBorderless"
+      android:contentDescription="Previous"
+      android:src="@android:drawable/ic_media_previous"
+      app:tint="#6200EE"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      android:layout_marginStart="16dp"
+      android:layout_marginBottom="23dp" />
+
+  <!-- Right Arrow -->
+  <ImageButton
+      android:id="@+id/btnNext"
+      android:layout_width="48dp"
+      android:layout_height="48dp"
+      android:background="?attr/selectableItemBackgroundBorderless"
+      android:contentDescription="Next"
+      android:src="@android:drawable/ic_media_next"
+      app:tint="#6200EE"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      android:layout_marginEnd="16dp"
+      android:layout_marginBottom="23dp" />
+
   <!-- Back Button -->
   <Button
       android:id="@+id/btnBack"
@@ -101,8 +129,9 @@
       android:layout_height="wrap_content"
       android:text="Back"
       android:textColor="#FFFFFF"
+      android:backgroundTint="#6200EE"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      android:layout_marginBottom="16dp" />
+      android:layout_marginBottom="20dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
