@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.big2.R;
 import com.example.big2.data.entity.Game;
 import com.example.big2.ui.adapter.GameRecyclerViewAdapter;
+import com.example.big2.ui.adapter.GameStatusAdapter;
 import com.example.big2.ui.fragment.CreateGameFragment;
 import com.example.big2.ui.viewmodel.GameViewModel;
 import com.example.big2.ui.viewmodel.RoundViewModel;
@@ -82,10 +83,11 @@ public class SelectGameActivity extends AppCompatActivity {
             }
         });
 
-        // Set up the Spinner (Dropdown)
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.game_status_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Define game status options
+        String[] gameStatuses = {"All", "Not Started", "In Progress", "Completed"};
+
+        // Use custom adapter for spinner
+        GameStatusAdapter adapter = new GameStatusAdapter(this, gameStatuses);
         spinnerFilter.setAdapter(adapter);
         spinnerFilter.setSelection(0); // Default to "All"
 
