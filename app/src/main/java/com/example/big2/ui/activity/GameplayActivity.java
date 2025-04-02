@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +25,7 @@ import com.example.big2.R;
 import com.example.big2.ui.fragment.InfoFragment;
 import com.example.big2.ui.viewmodel.GameViewModel;
 import com.example.big2.ui.viewmodel.RoundViewModel;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -233,11 +233,15 @@ public class GameplayActivity extends AppCompatActivity {
                     updatePlayerRankVisuals(gameId);
 
                 } else if (zeroCount > 1) {
-                    // Show a toast or a message that Too many people are set to zero
-                    Toast.makeText(GameplayActivity.this, "Only one person can be the winner of a round (Set one Value to 0)", Toast.LENGTH_SHORT).show();
+                    // Show a message that Too many people are set to zero
+                    Snackbar.make(findViewById(android.R.id.content),
+                            "Only one person can be the winner of a round (Set one value to 0)",
+                            Snackbar.LENGTH_SHORT).show();
                 } else {
-                    // Show a toast or a message that no one's number is set to zero
-                    Toast.makeText(GameplayActivity.this, "One person must be the winner of a round to move on (Set one value to 0)", Toast.LENGTH_SHORT).show();
+                    // Show a message that no one's number is set to zero
+                    Snackbar.make(findViewById(android.R.id.content),
+                            "One person must be the winner of a round to move on (Set one value to 0)",
+                            Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
