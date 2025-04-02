@@ -33,7 +33,7 @@ public class GameplayActivity extends AppCompatActivity {
 
     private TextView tvTitle, tvP1, tvP2, tvP3, tvP4, tvS1, tvS2, tvS3, tvS4, tvRoundNumber;
     private ImageView ivBack, ivSuitP1, ivSuitP2, ivSuitP3, ivSuitP4;
-    private ImageView ivInfo, ivRoundDirection;
+    private ImageView ivInfo, ivRules, ivRoundDirection;
     private ImageView ivStar, ivP1Star, ivP2Star, ivP3Star, ivP4Star;
     private TextView tvP1Input, tvP2Input, tvP3Input, tvP4Input;
     private NumberPicker npP1, npP2, npP3, npP4;
@@ -73,6 +73,7 @@ public class GameplayActivity extends AppCompatActivity {
 
         // Info Fragment Button
         ivInfo = findViewById(R.id.ivInfo);
+        ivRules = findViewById(R.id.ivRules);
 
         // Round Control Image Views
         ivRoundDirection = findViewById(R.id.ivRoundDirection);
@@ -161,6 +162,15 @@ public class GameplayActivity extends AppCompatActivity {
                     .replace(android.R.id.content, new InfoFragment()) // Replace with InfoFragment
                     .addToBackStack(null) // Allows the back button to close it
                     .commit();
+        });
+
+        // Rules Button - Navigate to Rules Activity
+        ivRules.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameplayActivity.this, RulesActivity.class);
+                startActivity(intent);
+            }
         });
 
         // Finish Game Button -
