@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.lifecycle.ViewModelProvider;
@@ -282,8 +283,15 @@ public class GameplayActivity extends AppCompatActivity {
 
             star.setAlpha(0f); // Start invisible
             star.animate().alpha(1f).setDuration(1000); // Fade-in animation
+            TooltipCompat.setTooltipText(star, "First to Play this Round");
 
-            ivRoundDirection.setImageResource((nextRoundNumber % 2 == 0) ? R.drawable.rotate_left : R.drawable.rotate_right);
+            if (nextRoundNumber % 2 == 0) {
+                ivRoundDirection.setImageResource(R.drawable.rotate_left);
+                TooltipCompat.setTooltipText(ivRoundDirection, "Play is Counter Clockwise");
+            } else {
+                ivRoundDirection.setImageResource(R.drawable.rotate_right);
+                TooltipCompat.setTooltipText(ivRoundDirection, "Play is Clockwise");
+            }
 
             // Animate the round number for a clear transition
             ivRoundDirection.setAlpha(0f); // Start invisible
