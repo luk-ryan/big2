@@ -140,7 +140,7 @@ public class SelectGameActivity extends AppCompatActivity {
                 DialogUtils.showConfirmationDialog(
                         SelectGameActivity.this,
                         "Delete Game",
-                        "Are you sure you want to delete this game?",
+                        "Are you sure you want to delete the selected game?",
                         () -> {
                             gameViewModel.delete(selectedGame);
                             allGames.remove(selectedGame);
@@ -190,6 +190,28 @@ public class SelectGameActivity extends AppCompatActivity {
                     tvNoGames.setVisibility(View.GONE);
                     rvGames.setVisibility(View.VISIBLE);
                     gameRecyclerViewAdapter.setGameList(filteredGames);
+                }
+            });
+        }
+    }
+
+    public void applySelectionChange() {
+        Game selectedGame = gameRecyclerViewAdapter.getSelectedGame();
+
+        if (selectedGame == null) {
+            btnStart.setText("Start");
+            btnStart.setEnabled(false);
+        } else {
+            btnStart.setEnabled(true);
+
+            // Observe rounds dynamically
+            roundViewModel.getRoundsByGameId(selectedGame.getGameId()).observe(this, rounds -> {
+                if (selectedGame.isCompleted()) {
+                    btnStart.setText("Game Summary");
+                } else if (rounds == null || rounds.isEmpty()) {
+                    btnStart.setText("Start");
+                } else {
+                    btnStart.setText("Continue");
                 }
             });
         }

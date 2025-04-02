@@ -14,6 +14,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.big2.R;
 import com.example.big2.data.entity.Game;
+import com.example.big2.ui.activity.SelectGameActivity;
 import com.example.big2.ui.viewmodel.RoundViewModel;
 
 import java.util.ArrayList;
@@ -75,6 +76,11 @@ public class GameRecyclerViewAdapter extends RecyclerView.Adapter<GameRecyclerVi
             // Notify the adapter to update the UI
             notifyItemChanged(prevSelectedPosition);
             notifyItemChanged(selectedPosition);
+
+            // Notify the activity that selection changed
+            if (v.getContext() instanceof SelectGameActivity) {
+                ((SelectGameActivity) v.getContext()).applySelectionChange();
+            }
         });
     }
 
@@ -100,7 +106,7 @@ public class GameRecyclerViewAdapter extends RecyclerView.Adapter<GameRecyclerVi
 
     public void setSelectedPosition(int position) {
         this.selectedPosition = position;
-        notifyDataSetChanged(); // Refresh RecyclerView to update selection
+        notifyDataSetChanged();
     }
 
     public static class GameViewHolder extends RecyclerView.ViewHolder {
