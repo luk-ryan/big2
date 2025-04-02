@@ -41,31 +41,33 @@
         android:id="@+id/ivEditTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/edit"
-        android:layout_marginStart="5dp"
-        app:layout_constraintStart_toEndOf="@id/tvTitle"
-        app:layout_constraintTop_toTopOf="@id/tvTitle"
-        app:layout_constraintBottom_toBottomOf="@id/tvTitle" />
+        android:src="@drawable/ic_edit"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/ivDelete"
+        app:layout_constraintTop_toTopOf="@id/ivDelete"
+        app:layout_constraintBottom_toBottomOf="@id/ivDelete" />
 
     <ImageView
         android:id="@+id/ivCancelEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/close"
+        android:layout_marginEnd="5dp"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="@+id/etTitle"
-        app:layout_constraintBottom_toBottomOf="@+id/etTitle"
-        app:layout_constraintEnd_toStartOf="@+id/etTitle" />
+        app:layout_constraintTop_toTopOf="@+id/ivSaveEdit"
+        app:layout_constraintBottom_toBottomOf="@+id/ivSaveEdit"
+        app:layout_constraintEnd_toStartOf="@+id/ivSaveEdit" />
 
     <ImageView
         android:id="@+id/ivSaveEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_done"
+        android:layout_marginEnd="5dp"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="@+id/etTitle"
-        app:layout_constraintBottom_toBottomOf="@+id/etTitle"
-        app:layout_constraintStart_toEndOf="@+id/etTitle" />
+        app:layout_constraintEnd_toStartOf="@+id/ivDelete"
+        app:layout_constraintTop_toTopOf="@id/ivDelete"
+        app:layout_constraintBottom_toBottomOf="@id/ivDelete" />
 
     <EditText
         android:id="@+id/etTitle"
