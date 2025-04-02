@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.lifecycle.ViewModelProvider;
@@ -33,7 +34,7 @@ public class GameplayActivity extends AppCompatActivity {
 
     private TextView tvTitle, tvP1, tvP2, tvP3, tvP4, tvS1, tvS2, tvS3, tvS4, tvRoundNumber;
     private ImageView ivBack, ivSuitP1, ivSuitP2, ivSuitP3, ivSuitP4;
-    private ImageView ivInfo, ivRoundDirection;
+    private ImageView ivInfo, ivRules, ivRoundDirection;
     private ImageView ivStar, ivP1Star, ivP2Star, ivP3Star, ivP4Star;
     private TextView tvP1Input, tvP2Input, tvP3Input, tvP4Input;
     private NumberPicker npP1, npP2, npP3, npP4;
@@ -73,6 +74,7 @@ public class GameplayActivity extends AppCompatActivity {
 
         // Info Fragment Button
         ivInfo = findViewById(R.id.ivInfo);
+        ivRules = findViewById(R.id.ivRules);
 
         // Round Control Image Views
         ivRoundDirection = findViewById(R.id.ivRoundDirection);
@@ -163,6 +165,15 @@ public class GameplayActivity extends AppCompatActivity {
                     .commit();
         });
 
+        // Rules Button - Navigate to Rules Activity
+        ivRules.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameplayActivity.this, RulesActivity.class);
+                startActivity(intent);
+            }
+        });
+
         // Finish Game Button -
         btnFinishGame.setOnClickListener(v -> {
                 // Create a new AlertDialog to confirm finishing the game
@@ -223,10 +234,10 @@ public class GameplayActivity extends AppCompatActivity {
 
                 } else if (zeroCount > 1) {
                     // Show a toast or a message that Too many people are set to zero
-                    Toast.makeText(GameplayActivity.this, "Only one person can be the winner of a round", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GameplayActivity.this, "Only one person can be the winner of a round (Set one Value to 0)", Toast.LENGTH_SHORT).show();
                 } else {
                     // Show a toast or a message that no one's number is set to zero
-                    Toast.makeText(GameplayActivity.this, "One person must be the winner of a round to move on", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GameplayActivity.this, "One person must be the winner of a round to move on (Set one value to 0)", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -272,8 +283,15 @@ public class GameplayActivity extends AppCompatActivity {
 
             star.setAlpha(0f); // Start invisible
             star.animate().alpha(1f).setDuration(1000); // Fade-in animation
+            TooltipCompat.setTooltipText(star, "First to Play this Round");
 
-            ivRoundDirection.setImageResource((nextRoundNumber % 2 == 0) ? R.drawable.rotate_left : R.drawable.rotate_right);
+            if (nextRoundNumber % 2 == 0) {
+                ivRoundDirection.setImageResource(R.drawable.rotate_left);
+                TooltipCompat.setTooltipText(ivRoundDirection, "Play is Counter Clockwise");
+            } else {
+                ivRoundDirection.setImageResource(R.drawable.rotate_right);
+                TooltipCompat.setTooltipText(ivRoundDirection, "Play is Clockwise");
+            }
 
             // Animate the round number for a clear transition
             ivRoundDirection.setAlpha(0f); // Start invisible
