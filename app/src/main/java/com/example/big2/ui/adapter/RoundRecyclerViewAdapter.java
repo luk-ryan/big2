@@ -30,6 +30,7 @@ public class RoundRecyclerViewAdapter extends RecyclerView.Adapter<RoundRecycler
     private List<Round> rounds = new ArrayList<>();
     private int selectedPosition = -1;  // Track the selected position
     private int editingPosition = -1; // Track the currently edited position
+    private boolean isInteractable;
     RoundViewModel roundViewModel;
 
     public RoundRecyclerViewAdapter(RoundViewModel roundViewModel) {
@@ -46,6 +47,14 @@ public class RoundRecyclerViewAdapter extends RecyclerView.Adapter<RoundRecycler
 
     @Override
     public void onBindViewHolder(@NonNull RoundViewHolder holder, int position) {
+        if (isInteractable) {
+            holder.itemView.setClickable(true);
+            holder.itemView.setEnabled(true);
+        } else {
+            holder.itemView.setClickable(false);
+            holder.itemView.setEnabled(false);
+        }
+
         // Assign values to the views
         Round round = rounds.get(position);
 
@@ -103,6 +112,10 @@ public class RoundRecyclerViewAdapter extends RecyclerView.Adapter<RoundRecycler
     public int getItemCount() {
         // the recycler view just wanted to know the number of items you want displayed
         return rounds == null ? 0 : rounds.size();
+    }
+
+    public void setIsInteractable(boolean interactable) {
+        isInteractable = interactable;
     }
 
     // Set round list data

@@ -42,7 +42,7 @@ import java.util.Map;
 public class GameSummaryActivity extends AppCompatActivity {
 
     private TextView tvTitle;
-    private ImageView ivBack, ivEditTitle, ivCancelEdit, ivSaveEdit, ivDelete;
+    private ImageView ivBack, ivEdit, ivCancelEdit, ivSaveEdit, ivDelete;
     private EditText etTitle, etP1Header, etP2Header, etP3Header, etP4Header, etCardValue;
     private TextView tvRoundHeader, tvP1Header, tvP2Header, tvP3Header, tvP4Header;
     private RecyclerView rvRounds;
@@ -74,7 +74,7 @@ public class GameSummaryActivity extends AppCompatActivity {
 
         // Initialize Views
         tvTitle = findViewById(R.id.tvTitle);
-        ivEditTitle = findViewById(R.id.ivEditTitle);
+        ivEdit = findViewById(R.id.ivEdit);
         etTitle = findViewById(R.id.etTitle);
         ivCancelEdit = findViewById(R.id.ivCancelEdit);
         ivSaveEdit = findViewById(R.id.ivSaveEdit);
@@ -160,10 +160,16 @@ public class GameSummaryActivity extends AppCompatActivity {
                 tvP4.setText(game.getP4());
 
                 if (game.isCompleted()) {
+                    ivEdit.setVisibility(View.GONE);
+                    roundRecyclerViewAdapter.setIsInteractable(false);
+
                     btnContinueGame.setVisibility(View.VISIBLE);
                     btnFinishGame.setVisibility(View.GONE);
                     switchRestartButtonConstraint(btnContinueGame);
                 } else {
+                    ivEdit.setVisibility(View.VISIBLE);
+                    roundRecyclerViewAdapter.setIsInteractable(true);
+
                     btnContinueGame.setVisibility(View.GONE);
                     btnFinishGame.setVisibility(View.VISIBLE);
                     switchRestartButtonConstraint(btnFinishGame);
@@ -225,7 +231,7 @@ public class GameSummaryActivity extends AppCompatActivity {
         updatePlayerRankVisuals(gameId);
 
         // Edit Mode
-        ivEditTitle.setOnClickListener( v ->  toggleEditMode(true));
+        ivEdit.setOnClickListener(v ->  toggleEditMode(true));
         ivSaveEdit.setOnClickListener(v ->  saveEdit(gameId));
         ivCancelEdit.setOnClickListener( v -> toggleEditMode(false));
         setEditorActionListeners();
@@ -306,7 +312,7 @@ public class GameSummaryActivity extends AppCompatActivity {
 
         // Title Display
         tvTitle.setVisibility(textVisibility);
-        ivEditTitle.setVisibility(textVisibility);
+        ivEdit.setVisibility(textVisibility);
         tvRoundHeader.setVisibility(textVisibility);
         rvRounds.setVisibility(textVisibility);
 
@@ -481,16 +487,16 @@ public class GameSummaryActivity extends AppCompatActivity {
 
                 // Create a Transition object (ChangeBounds) and set the duration
                 Transition changeBounds = new ChangeBounds();
-                changeBounds.setDuration(1000); // Set the duration to 1000 milliseconds (1 second) or any other value you prefer
+                changeBounds.setDuration(1000); // Set the duration to 1000 milliseconds (1 second)
 
                 // Begin the transition animation
-                TransitionManager.beginDelayedTransition(layout, changeBounds);  // Add this line for animation
+                TransitionManager.beginDelayedTransition(layout, changeBounds);
 
                 // Loop through sortedScores in ascending order (lowest to highest)
                 for (int i = 0; i < sortedScores.size(); i++) {
                     String player = sortedScores.get(i).first;
                     int score = sortedScores.get(i).second;
-                    int playerViewId = playerToViewId.get(player); // Get the corresponding player layout ID
+                    int playerViewId = playerToViewId.get(player);
 
                     // Reset the horizontal position constraint before applying the new layout
                     constraintSet.clear(playerViewId, ConstraintSet.START);
