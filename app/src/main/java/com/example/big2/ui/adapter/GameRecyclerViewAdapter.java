@@ -98,6 +98,11 @@ public class GameRecyclerViewAdapter extends RecyclerView.Adapter<GameRecyclerVi
         return null;
     }
 
+    public void setSelectedPosition(int position) {
+        this.selectedPosition = position;
+        notifyDataSetChanged(); // Refresh RecyclerView to update selection
+    }
+
     public static class GameViewHolder extends RecyclerView.ViewHolder {
         // grabbing the views from our recyclerview_row.xml layout file
         // Similar to onCreate method

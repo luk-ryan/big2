@@ -24,6 +24,7 @@ import com.example.big2.data.entity.Game;
 import com.example.big2.ui.adapter.GameRecyclerViewAdapter;
 import com.example.big2.ui.adapter.GameStatusAdapter;
 import com.example.big2.ui.fragment.CreateGameFragment;
+import com.example.big2.ui.utils.DialogUtils;
 import com.example.big2.ui.viewmodel.GameViewModel;
 import com.example.big2.ui.viewmodel.RoundViewModel;
 
@@ -136,23 +137,23 @@ public class SelectGameActivity extends AppCompatActivity {
         ivDelete.setOnClickListener(v -> {
             Game selectedGame = gameRecyclerViewAdapter.getSelectedGame();
             if (selectedGame != null) {
-                new AlertDialog.Builder(SelectGameActivity.this)
-                        .setTitle("Delete Game")
-                        .setMessage("Are you sure you want to delete this game?")
-                        .setPositiveButton("Delete", (dialog, which) -> {
-                            // User confirmed deletion
+                DialogUtils.showConfirmationDialog(
+                        SelectGameActivity.this,
+                        "Delete Game",
+                        "Are you sure you want to delete this game?",
+                        () -> {
                             gameViewModel.delete(selectedGame);
+                            allGames.remove(selectedGame);
+                            gameRecyclerViewAdapter.setSelectedPosition(-1);
+                            applyStatusFiltering();
                             Toast.makeText(SelectGameActivity.this, "Game deleted", Toast.LENGTH_SHORT).show();
-                        })
-                        .setNegativeButton("Cancel", (dialog, which) -> {
-                            // User canceled, do nothing
-                            dialog.dismiss();
-                        })
-                        .show();
+                        }
+                );
             } else {
                 Toast.makeText(SelectGameActivity.this, "Please select a game", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         // Back button - closes activity and sends user back to main menu
         ivBack.setOnClickListener(v -> finish());
