@@ -64,9 +64,9 @@ public class RulesActivity extends AppCompatActivity {
         String descr_score = "Outlines how points are calculated after each round, and optional rules when playing with money.";
 
         rules.add(new RulesCard(R.drawable.card_suit_spade, "The Objective of The Game", descr_objective, "A", "♠"));
-        rules.add(new RulesCard(R.drawable.card_suit_diamond, "Game Setup", descr_setup, "2", "♥"));
+        rules.add(new RulesCard(R.drawable.card_suit_heart, "Game Setup", descr_setup, "2", "♥"));
         rules.add(new RulesCard(R.drawable.card_suit_club, "Valid Plays", descr_plays, "3", "♣"));
-        rules.add(new RulesCard(R.drawable.card_suit_heart, "Winning a Round", descr_win, "4", "♦"));
+        rules.add(new RulesCard(R.drawable.card_suit_diamond, "Winning a Round", descr_win, "4", "♦"));
         rules.add(new RulesCard(R.drawable.card_suit_spade, "Scoring System", descr_score, "5", "♠"));
 
         // Initialize RecyclerView Adapters

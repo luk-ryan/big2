@@ -97,7 +97,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1. Dealing Cards"
+                        android:text="Dealing Cards"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="#333333"
@@ -106,14 +106,23 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="• Deal the entire deck equally to all players\n• Each player will get 13 cards"
+                        android:text="• Deal the entire deck equally to all players."
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:lineSpacingExtra="4dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/setup_13card_text"
                         android:textSize="16sp"
                         android:textColor="#555555"
                         android:lineSpacingExtra="4dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Starting the Game Card -->
+            <!-- Turn Order Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -130,7 +139,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2. Starting the Game"
+                        android:text="Player Turn Order"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="#333333"
@@ -139,12 +148,41 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="• Game 1, the player with the 3 of Diamonds goes first and must include it in their first play.\n• Every game afterwards, the player who won the last game goes first and can play anything they want.\n• Play proceeds clockwise on game 1, and will alternate after every game."
+                        android:text="@string/setup_game1_text"
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:lineSpacingExtra="4dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/setup_afterwards_text"
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:lineSpacingExtra="4dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/setup_direct_text"
                         android:textSize="16sp"
                         android:textColor="#555555"
                         android:lineSpacingExtra="4dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:layout_width="220dp"
+                android:layout_height="280dp"
+                android:src="@drawable/rules_setup_img"
+                android:contentDescription="3 of Diamonds card tutorial img"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:scaleType="fitCenter" />
+
         </LinearLayout>
     </ScrollView>
 
