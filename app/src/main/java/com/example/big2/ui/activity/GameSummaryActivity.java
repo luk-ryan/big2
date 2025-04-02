@@ -12,7 +12,6 @@ import android.transition.ChangeBounds;
 import android.transition.Transition;
 import android.transition.TransitionManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -25,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
@@ -44,7 +42,7 @@ import java.util.Map;
 public class GameSummaryActivity extends AppCompatActivity {
 
     private TextView tvTitle;
-    private ImageView ivBack, ivEditTitle, ivCancelEdit, ivSaveEdit, ivDelete;
+    private ImageView ivBack, ivEdit, ivCancelEdit, ivSaveEdit, ivDelete;
     private EditText etTitle, etP1Header, etP2Header, etP3Header, etP4Header, etCardValue;
     private TextView tvRoundHeader, tvP1Header, tvP2Header, tvP3Header, tvP4Header;
     private RecyclerView rvRounds;
@@ -52,7 +50,7 @@ public class GameSummaryActivity extends AppCompatActivity {
     private TextView tvCardValue, tvTotalP1, tvTotalP2, tvTotalP3, tvTotalP4;
     private TextView tvP1, tvP2, tvP3, tvP4, tvS1, tvS2, tvS3, tvS4;
     private ImageView ivCardValueIcon, ivSuitP1, ivSuitP2, ivSuitP3, ivSuitP4;
-    private Button btnFinishGame, btnRestartGame, btnContinueGame;
+    private Button btnFinishGame, btnResetGame, btnContinueGame;
     private GameViewModel gameViewModel;
     private RoundViewModel roundViewModel;
 
@@ -76,7 +74,7 @@ public class GameSummaryActivity extends AppCompatActivity {
 
         // Initialize Views
         tvTitle = findViewById(R.id.tvTitle);
-        ivEditTitle = findViewById(R.id.ivEditTitle);
+        ivEdit = findViewById(R.id.ivEdit);
         etTitle = findViewById(R.id.etTitle);
         ivCancelEdit = findViewById(R.id.ivCancelEdit);
         ivSaveEdit = findViewById(R.id.ivSaveEdit);
@@ -134,7 +132,7 @@ public class GameSummaryActivity extends AppCompatActivity {
 
         // Buttons
         btnFinishGame = findViewById(R.id.btnFinishGame);
-        btnRestartGame = findViewById(R.id.btnRestartGame);
+        btnResetGame = findViewById(R.id.btnResetGame);
         btnContinueGame = findViewById(R.id.btnContinueGame);
 
         // Observe the LiveData returned by getGameById
@@ -162,10 +160,16 @@ public class GameSummaryActivity extends AppCompatActivity {
                 tvP4.setText(game.getP4());
 
                 if (game.isCompleted()) {
+                    ivEdit.setVisibility(View.GONE);
+                    roundRecyclerViewAdapter.setIsInteractable(false);
+
                     btnContinueGame.setVisibility(View.VISIBLE);
                     btnFinishGame.setVisibility(View.GONE);
                     switchRestartButtonConstraint(btnContinueGame);
                 } else {
+                    ivEdit.setVisibility(View.VISIBLE);
+                    roundRecyclerViewAdapter.setIsInteractable(true);
+
                     btnContinueGame.setVisibility(View.GONE);
                     btnFinishGame.setVisibility(View.VISIBLE);
                     switchRestartButtonConstraint(btnFinishGame);
@@ -227,7 +231,7 @@ public class GameSummaryActivity extends AppCompatActivity {
         updatePlayerRankVisuals(gameId);
 
         // Edit Mode
-        ivEditTitle.setOnClickListener( v ->  toggleEditMode(true));
+        ivEdit.setOnClickListener(v ->  toggleEditMode(true));
         ivSaveEdit.setOnClickListener(v ->  saveEdit(gameId));
         ivCancelEdit.setOnClickListener( v -> toggleEditMode(false));
         setEditorActionListeners();
@@ -235,10 +239,15 @@ public class GameSummaryActivity extends AppCompatActivity {
         // Back Button - closes activity and sends user back to Gameplay
         ivBack.setOnClickListener(v -> finish());
 
-        ivDelete.setOnClickListener(v -> DialogUtils.showConfirmationDialog(this, "Delete Game", "Are you sure you want to delete this game?", () -> deleteGame(gameId)));
-        btnFinishGame.setOnClickListener(v -> DialogUtils.showConfirmationDialog(this, "Finish Game", "Are you sure you want to finish this game?", () -> finishGame(gameId)));
-        btnRestartGame.setOnClickListener(v -> DialogUtils.showConfirmationDialog(this, "Restart Game", "Are you sure you want to restart this game?", () -> restartGame(gameId)));
-        btnContinueGame.setOnClickListener(v -> DialogUtils.showConfirmationDialog(this, "Continue Game", "Are you sure you want to continue this game?", () -> continueGame(gameId)));
+        String msgDelete = "Are you sure you want to delete this game? Game cannot be retrieved later.";
+        String msgFinish = "Are you sure you want to finish this game? Game will be marked as Completed.";
+        String msgReset = "Are you sure you want to restart this game? Game will start at Round 1 again and all scores will be reset.";
+        String msgContinue = "Are you sure you want to continue this game? Game will start again from the last round that was played.";
+
+        ivDelete.setOnClickListener(v -> DialogUtils.showConfirmationDialog(this, "Delete Game", msgDelete, () -> deleteGame(gameId)));
+        btnFinishGame.setOnClickListener(v -> DialogUtils.showConfirmationDialog(this, "Finish Game", msgFinish, () -> finishGame(gameId)));
+        btnResetGame.setOnClickListener(v -> DialogUtils.showConfirmationDialog(this, "Reset Game", msgReset, () -> restartGame(gameId)));
+        btnContinueGame.setOnClickListener(v -> DialogUtils.showConfirmationDialog(this, "Continue Game", msgContinue, () -> continueGame(gameId)));
     }
 
     // Helper method to format the score
@@ -303,7 +312,7 @@ public class GameSummaryActivity extends AppCompatActivity {
 
         // Title Display
         tvTitle.setVisibility(textVisibility);
-        ivEditTitle.setVisibility(textVisibility);
+        ivEdit.setVisibility(textVisibility);
         tvRoundHeader.setVisibility(textVisibility);
         rvRounds.setVisibility(textVisibility);
 
@@ -478,16 +487,16 @@ public class GameSummaryActivity extends AppCompatActivity {
 
                 // Create a Transition object (ChangeBounds) and set the duration
                 Transition changeBounds = new ChangeBounds();
-                changeBounds.setDuration(1000); // Set the duration to 1000 milliseconds (1 second) or any other value you prefer
+                changeBounds.setDuration(1000); // Set the duration to 1000 milliseconds (1 second)
 
                 // Begin the transition animation
-                TransitionManager.beginDelayedTransition(layout, changeBounds);  // Add this line for animation
+                TransitionManager.beginDelayedTransition(layout, changeBounds);
 
                 // Loop through sortedScores in ascending order (lowest to highest)
                 for (int i = 0; i < sortedScores.size(); i++) {
                     String player = sortedScores.get(i).first;
                     int score = sortedScores.get(i).second;
-                    int playerViewId = playerToViewId.get(player); // Get the corresponding player layout ID
+                    int playerViewId = playerToViewId.get(player);
 
                     // Reset the horizontal position constraint before applying the new layout
                     constraintSet.clear(playerViewId, ConstraintSet.START);
@@ -562,8 +571,8 @@ public class GameSummaryActivity extends AppCompatActivity {
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(layout);
 
-        constraintSet.clear(R.id.btnRestartGame, ConstraintSet.START);
-        constraintSet.connect(R.id.btnRestartGame, ConstraintSet.START, referenceButton.getId(), ConstraintSet.END);
+        constraintSet.clear(R.id.btnResetGame, ConstraintSet.START);
+        constraintSet.connect(R.id.btnResetGame, ConstraintSet.START, referenceButton.getId(), ConstraintSet.END);
 
         constraintSet.applyTo(layout);
     }
