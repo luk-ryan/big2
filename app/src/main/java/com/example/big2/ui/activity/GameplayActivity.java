@@ -233,10 +233,10 @@ public class GameplayActivity extends AppCompatActivity {
 
                 } else if (zeroCount > 1) {
                     // Show a toast or a message that Too many people are set to zero
-                    Toast.makeText(GameplayActivity.this, "Only one person can be the winner of a round", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GameplayActivity.this, "Only one person can be the winner of a round (Set one Value to 0)", Toast.LENGTH_SHORT).show();
                 } else {
                     // Show a toast or a message that no one's number is set to zero
-                    Toast.makeText(GameplayActivity.this, "One person must be the winner of a round to move on", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GameplayActivity.this, "One person must be the winner of a round to move on (Set one value to 0)", Toast.LENGTH_SHORT).show();
                 }
             }
         });
