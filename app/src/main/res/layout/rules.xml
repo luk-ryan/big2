@@ -12,20 +12,19 @@
         android:clipToPadding="false"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@id/scrollProgress"
+        app:layout_constraintBottom_toTopOf="@id/dotsLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Scroll Progress Indicator -->
-    <ProgressBar
-        android:id="@+id/scrollProgress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
+    <!-- Dot Scroll Progress Bar -->
+    <LinearLayout
+        android:id="@+id/dotsLayout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginBottom="16dp"
-        android:max="100"
-        android:progress="0"
+        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
