@@ -61,31 +61,42 @@ public class RoundRecyclerViewAdapter extends RecyclerView.Adapter<RoundRecycler
         } else {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.light_primary));  // Default color
         }
+
         // Toggle selection
         holder.itemView.setOnClickListener(v -> {
             int prevSelectedPosition = selectedPosition;
 
-            // If editing a different row, cancel it
-            if (editingPosition != -1 && editingPosition != holder.getAdapterPosition()) {
-                notifyItemChanged(editingPosition);  // Restore previous editing row
-                editingPosition = -1;
-            }
+            // If clicking the already selected row, deselect it
+            if (selectedPosition == holder.getAdapterPosition()) {
+                selectedPosition = -1;
+            } else {
+                // If editing a different row, cancel it
+                if (editingPosition != -1 && editingPosition != holder.getAdapterPosition()) {
+                    notifyItemChanged(editingPosition);  // Restore previous editing row
+                    editingPosition = -1;
+                }
 
-            selectedPosition = holder.getAdapterPosition();
+                selectedPosition = holder.getAdapterPosition();
+            }
 
             // Update UI for both the previous and current selected positions
             notifyItemChanged(prevSelectedPosition);
             notifyItemChanged(selectedPosition);
+
+            // Show Popup Menu only if the row is selected
+            if (selectedPosition == holder.getAdapterPosition()) {
+                showPopupMenu(v, round, holder);
+            }
         });
 
-        // Show Popup Menu on long press, only if the round is selected
-        holder.itemView.setOnLongClickListener(v -> {
-            if (position == selectedPosition) {  // Check if the row is selected
-                showPopupMenu(v, round, holder);  // Show the popup menu on long press
-                return true;  // Return true to indicate that the long press was handled
-            }
-            return false;  // Return false if the row is not selected
-        });
+//        // Show Popup Menu on long press, only if the round is selected
+//        holder.itemView.setOnLongClickListener(v -> {
+//            if (position == selectedPosition) {  // Check if the row is selected
+//                showPopupMenu(v, round, holder);  // Show the popup menu on long press
+//                return true;  // Return true to indicate that the long press was handled
+//            }
+//            return false;  // Return false if the row is not selected
+//        });
     }
 
     @Override
