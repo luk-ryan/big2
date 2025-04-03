@@ -28,7 +28,7 @@
     <string name="error_fragment_message">An error occurred</string>
     <string name="dismiss_error">Dismiss</string>
 
-    <!-- rules_xxxx.xml bolded sentences -->
+    <!-- rules_xxxx.xml bolded sentences (necessary for specific  words to be bolded) -->
     <string name="obj_round_text"><b>Every Round:</b> Be the first player to play all your cards.</string>
     <string name="obj_overall_text"><b>Overall:</b> Have the <b>lowest cumulative score</b> at the end of the game.</string>
     <string name ="obj_ranking_text">• Suits (ascending): <b>♦ &lt; ♣ &lt; ♥ &lt; ♠&#10;</b>\n• Ranks (ascending): <b>3 &lt; 4 &lt; 5 &lt; ... &lt; K &lt; A &lt; 2 </b>(2 is highest)</string>
@@ -36,5 +36,17 @@
     <string name="setup_13card_text">• Each player will get <b>13</b> cards.</string>
     <string name="setup_game1_text">• <b>Game 1</b>: The player with the <b>3 of Diamonds</b> goes first and must include it in their first play.</string>
     <string name="setup_afterwards_text">• <b>Afterwards</b>: The player who won the last game goes first and can play anything they want.</string>
-    <string name="setup_direct_text">• <b>Direction</b>: Play proceeds clockwise on game 1 and alternates after every game.</string>
+    <string name="setup_direct_text">• <b>Direction</b>: Play proceeds <b>clockwise</b> on game 1 and alternates after every game.</string>
+
+    <string name="turn_combinRanks_text">• Combinations: <b>Single Card &lt; Pair &lt; Triple</b></string>
+    <string name="turn_5cardRanks_text">• Five-card combos:\n<b>Combinations &lt; Straight &lt; Flush &lt; Full House &lt; Four of a Kind + 1 extra &lt; Straight Flush &lt; Royal Flush</b></string>
+
+    <string name="win_lastCard_text">When a player has one card left, they must call <b>“last card”</b>. During this state, the person before them <b>must play their highest playable card</b> if singles are being played."</string>
+    <string name="win_1to10cards_text"><b>• 1–10 cards:</b> standard points (e.g., +1 or +2).</string>
+    <string name="win_11to12cards_text"><b>• 11–12 cards:</b> double points (e.g., +22 or +24).</string>
+    <string name="win_13cards_text"><b>• 13 cards:</b> triple points (e.g., +39).</string>
+
+    <string name="score_tracking_text">• Each player\'s <b>penalty points</b> are tracked cumulatively across rounds.</string>
+    <string name="score_lowestScore_text">• The player with the <b>lowest cumulative score</b> at the end wins.</string>
+
 </resources>

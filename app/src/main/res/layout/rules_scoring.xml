@@ -52,7 +52,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SCORING SYSTEM"
+        android:text="THE SCORING SYSTEM"
         android:textSize="14sp"
         android:textColor="#DDDDDD"
         android:gravity="center"
@@ -76,39 +76,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-      <!-- Tallying Points Card -->
-      <androidx.cardview.widget.CardView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginBottom="12dp"
-          app:cardCornerRadius="12dp"
-          app:cardElevation="4dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="Tallying Points"
-              android:textSize="20sp"
-              android:textStyle="bold"
-              android:textColor="#333333"
-              android:layout_marginBottom="8dp" />
-
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="• Players earn penalty points based on the number of cards left in their hands:\n\n  ○ 1–10 cards: 1 point per card (e.g., 5 cards = 5 points).\n  ○ 11 or 12 cards: Double penalty (+22 or +24 points).\n  ○ 13 cards: Triple penalty (+39 points)."
-              android:textSize="16sp"
-              android:textColor="#555555"
-              android:lineSpacingExtra="4dp" />
-        </LinearLayout>
-      </androidx.cardview.widget.CardView>
 
       <!-- Tracking Scores Card -->
       <androidx.cardview.widget.CardView
@@ -136,10 +103,29 @@
           <TextView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="• Each player's penalty points are tracked cumulatively across rounds.\n• The game continues for a pre-determined number of rounds.\n• The player with the lowest cumulative score at the end wins."
+              android:text="@string/score_tracking_text"
               android:textSize="16sp"
               android:textColor="#555555"
-              android:lineSpacingExtra="4dp" />
+              android:lineSpacingExtra="4dp"
+              android:paddingBottom="4dp" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="• The game continues for a user-determined number of rounds."
+              android:textSize="16sp"
+              android:textColor="#555555"
+              android:lineSpacingExtra="4dp"
+              android:paddingBottom="4dp" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/score_lowestScore_text"
+              android:textSize="16sp"
+              android:textColor="#555555"
+              android:lineSpacingExtra="4dp"
+              android:paddingBottom="4dp" />
         </LinearLayout>
       </androidx.cardview.widget.CardView>
 
@@ -168,19 +154,84 @@
           <TextView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="• Per-Round Payout:\n  ○ At the end of each round, losing players pay the winner an amount based on their penalty points.\n  ○ Example: $1 per penalty point (e.g., 8 points = $8).\n  ○ Can be done with chips. Without chips, this method is inconvenient."
+              android:text="Per-Round Payout:"
               android:textSize="16sp"
               android:textColor="#555555"
-              android:layout_marginBottom="12dp"
-              android:lineSpacingExtra="4dp" />
+              android:textStyle="bold"
+              android:lineSpacingExtra="4dp"
+              android:paddingTop="4dp"
+              android:paddingBottom="4dp" />
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="• At the end of each round, losing players pay the winner an amount based on their penalty points."
+              android:textSize="16sp"
+              android:textColor="#555555"
+              android:lineSpacingExtra="4dp"
+              android:paddingBottom="4dp" />
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="— Example: $1 per penalty point (e.g., 8 points = $8)."
+              android:textSize="16sp"
+              android:textColor="#555555"
+              android:textStyle="italic"
+              android:lineSpacingExtra="4dp"
+              android:paddingTop="8dp"
+              android:paddingBottom="12dp"  />
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="• The app will handle calculations and track payments for players per round."
+              android:textSize="16sp"
+              android:textColor="#555555"
+              android:lineSpacingExtra="4dp"
+              android:paddingBottom="12dp" />
 
           <TextView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="• End-Game Payout:\n  ○ Each player’s final score determines payouts between players.\n  ○ Example: Player A has 20 points, Player B has 40. Player B pays A the difference ($20).\n  ○ Do this for all combinations of player-pairs.\n  ○ Chips not required, but calculations can be complicated."
+              android:text="End-Game Payout:"
               android:textSize="16sp"
               android:textColor="#555555"
-              android:lineSpacingExtra="4dp" />
+              android:textStyle="bold"
+              android:lineSpacingExtra="4dp"
+              android:paddingTop="8dp"
+              android:paddingBottom="4dp" />
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="• Each player’s final score determines payouts between players."
+              android:textSize="16sp"
+              android:textColor="#555555"
+              android:lineSpacingExtra="4dp"
+              android:paddingBottom="4dp" />
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="— Example: Player A has 20 points, Player B has 40. Player B pays A the difference ($20)."
+              android:textSize="16sp"
+              android:textColor="#555555"
+              android:textStyle="italic"
+              android:lineSpacingExtra="4dp"
+              android:paddingTop="8dp"
+              android:paddingBottom="12dp" />
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="• Do this for all combinations of player-pairs."
+              android:textSize="16sp"
+              android:textColor="#555555"
+              android:lineSpacingExtra="4dp"
+              android:paddingBottom="4dp" />
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="• Chips not required, but calculations can be complicated."
+              android:textSize="16sp"
+              android:textColor="#555555"
+              android:lineSpacingExtra="4dp"
+              android:paddingBottom="4dp" />
         </LinearLayout>
       </androidx.cardview.widget.CardView>
 

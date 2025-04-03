@@ -80,13 +80,14 @@
             android:showDividers="middle"
             android:dividerPadding="8dp">
 
-            <!-- Valid Plays Card -->
+            <!-- Card Rankings Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#fff9f9">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -95,28 +96,67 @@
                     android:padding="16dp">
 
                     <TextView
+                        android:id="@+id/titleCardRankings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Valid Plays"
-                        android:textSize="22sp"
+                        android:text="Card Rankings"
+                        android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="#333333"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginBottom="8dp"
+                        android:lineSpacingExtra="4dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Players may play:"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="• Single Card: Any one card.\n• Pair: Two cards of the same rank.\n• Triple: Three cards of the same rank.\n• Five-Card Combinations:\n  - Straight: 5 cards in sequence (e.g., 3-4-5-6-7).\n    • A-2-3-4-5 works (2 is the highest).\n    • K-A-2-3-4 is not valid.\n    • Compare highest rank to determine winner.\n  - Flush: 5 cards of the same suit.\n    • Compare the highest card to determine the stronger flush.\n  - Full House: 3 of one rank + 2 of another.\n    • Compare the triple's rank to determine which is higher.\n  - Four of a Kind + 1: Four cards of same rank + 1 side card.\n    • Compare the rank of the quad.\n  - Straight Flush: 5 cards in sequence, same suit.\n    • A-2-3-4-5 is valid (2 is the highest).\n    • K-A-2-3-4 is not valid.\n    • Compare highest rank."
+                        android:text="@string/obj_ranking_text"
                         android:textSize="16sp"
-                        android:textColor="#555555"
+                        android:textColor="#444444"
+                        android:lineSpacingExtra="4dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Type Hierarchy Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#fff9f9">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/titleTypeRankings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Type Hierarchy"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#333333"
+                        android:layout_marginBottom="8dp"
+                        android:lineSpacingExtra="4dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/turn_combinRanks_text"
+                        android:textSize="16sp"
+                        android:textColor="#444444"
+                        android:lineSpacingExtra="4dp"
+                        android:layout_marginBottom="4dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/turn_5cardRanks_text"
+                        android:textSize="16sp"
+                        android:textColor="#444444"
                         android:lineSpacingExtra="4dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -147,14 +187,51 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="• Players must play a higher-ranked combo of the same type.\n• For combinations:\n  - Compare rank first (e.g., pair of 10s beats pair of 9s).\n  - If ranks are tied, compare suits.\n• For five-card combos:\n  - Straight &lt; Flush &lt; Full House &lt; Four of a Kind &lt; Straight Flush.\n• A player may pass if unable or unwilling to play."
+                        android:text="1) Players must play a higher-ranked combo of the same type."
                         android:textSize="16sp"
                         android:textColor="#555555"
+                        android:lineSpacingExtra="4dp"
+                        android:layout_marginBottom="4dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2) Players must play the same number of cards as the current hand on the card pile."
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:lineSpacingExtra="4dp"
+                        android:layout_marginBottom="4dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3) The cards played will replace the current hand on the card pile."
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:layout_marginBottom="16dp"
+                        android:lineSpacingExtra="4dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="— Compare rank first (e.g. pair of 10s beats pair of 9s)."
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:textStyle="italic"
+                        android:lineSpacingExtra="4dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="— If ranks are tied, compare suites rankings."
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:textStyle="italic"
                         android:lineSpacingExtra="4dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Ending a Round Card -->
+            <!-- Ending a Turn Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -170,7 +247,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ending a Round"
+                        android:text="Ending a Turn"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="#333333"
@@ -179,16 +256,30 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="• When all players pass, the last one to play starts the next round with any valid combination."
+                        android:text="• A player's turn ends after they place down their choice of cards onto the card pile."
                         android:textSize="16sp"
                         android:textColor="#555555"
                         android:lineSpacingExtra="4dp"
                         android:layout_marginBottom="10dp" />
 
-                    <!-- Bottom spacer for padding -->
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="• Any player may pass if unable or unwilling to play cards."
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:lineSpacingExtra="4dp"
+                        android:layout_marginBottom="10dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="• If all players pass, the last one to play starts the next round with any valid combination."
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:lineSpacingExtra="4dp"
+                        android:layout_marginBottom="4dp" />
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
