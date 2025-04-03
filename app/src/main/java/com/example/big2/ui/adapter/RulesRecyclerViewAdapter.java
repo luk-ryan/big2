@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.big2.ui.activity.rules.HandsActivity;
 import com.example.big2.ui.activity.rules.ObjectiveActivity;
 import com.example.big2.ui.activity.rules.ScoringActivity;
 import com.example.big2.ui.activity.rules.SetupActivity;
@@ -65,9 +66,12 @@ public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecycler
                     context.startActivity(new Intent(context, ValidPlaysActivity.class));
                     break;
                 case 3:
-                    context.startActivity(new Intent(context, WinningActivity.class));
+                    context.startActivity(new Intent(context, HandsActivity.class));
                     break;
                 case 4:
+                    context.startActivity(new Intent(context, WinningActivity.class));
+                    break;
+                case 5:
                     context.startActivity(new Intent(context, ScoringActivity.class));
                     break;
             }

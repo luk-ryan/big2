@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="#FAFAFA">
 
-    <!-- Header -->
     <LinearLayout
         android:id="@+id/headerSection"
         android:layout_width="0dp"
@@ -17,11 +16,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- Top row with card images and title -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center_vertical|center_horizontal">
 
             <ImageView
                 android:layout_width="48dp"
@@ -39,7 +39,8 @@
                 android:textStyle="bold"
                 android:fontFamily="serif"
                 android:letterSpacing="0.1"
-                android:layout_marginHorizontal="8dp" />
+                android:layout_marginHorizontal="8dp"
+                android:lineSpacingExtra="4dp" />
 
             <ImageView
                 android:layout_width="48dp"
@@ -49,28 +50,29 @@
                 android:layout_marginStart="8dp" />
         </LinearLayout>
 
+        <!-- Subtitle -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="LEARN VALID PLAYS"
+            android:text="HAND TYPES THAT YOU CAN PLAY"
             android:textSize="14sp"
             android:textColor="#DDDDDD"
             android:gravity="center"
             android:layout_marginTop="8dp"
-            android:letterSpacing="0.15" />
+            android:letterSpacing="0.15"
+            android:lineSpacingExtra="4dp" />
     </LinearLayout>
 
-    <!-- Scrollable Content Area -->
+    <!-- Main Content -->
     <ScrollView
-        android:id="@+id/validPlaysScroll"
+        android:id="@+id/handsScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="16dp"
-        android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@id/headerSection"
         app:layout_constraintBottom_toTopOf="@id/btnBack"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,14 +82,24 @@
             android:showDividers="middle"
             android:dividerPadding="8dp">
 
-            <!-- Card Rankings Card -->
+            <!-- Tutorial Img -->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitStart"
+                android:src="@drawable/rules_hands_img" />
+
+            <!-- 'Straight' Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="#fff9f9">
+                android:layout_marginTop="10dp"
+                app:cardElevation="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -96,11 +108,10 @@
                     android:padding="16dp">
 
                     <TextView
-                        android:id="@+id/titleCardRankings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Card Rankings"
-                        android:textSize="20sp"
+                        android:text="'Straight'"
+                        android:textSize="22sp"
                         android:textStyle="bold"
                         android:textColor="#333333"
                         android:layout_marginBottom="8dp"
@@ -109,63 +120,42 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/obj_ranking_text"
+                        android:text="@string/hands_straight_text"
                         android:textSize="16sp"
-                        android:textColor="#444444"
+                        android:textColor="#555555"
+                        android:lineSpacingExtra="4dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="• A-2-3-4-5 works (2 is the highest rank here), however something like K-A-2-3-4 does not."
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:textStyle="italic"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="6dp"
+                        android:lineSpacingExtra="4dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="• Compare the highest rank (number) between two straights to determine which is higher."
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:textStyle="italic"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="6dp"
                         android:lineSpacingExtra="4dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Type Hierarchy Card -->
+            <!-- 'Flush' Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="#fff9f9">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/titleTypeRankings"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Type Hierarchy"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="#333333"
-                        android:layout_marginBottom="8dp"
-                        android:lineSpacingExtra="4dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/turn_combinRanks_text"
-                        android:textSize="16sp"
-                        android:textColor="#444444"
-                        android:lineSpacingExtra="4dp"
-                        android:layout_marginBottom="4dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/turn_5cardRanks_text"
-                        android:textSize="16sp"
-                        android:textColor="#444444"
-                        android:lineSpacingExtra="4dp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Playing a Turn Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -178,63 +168,41 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Playing a Turn"
-                        android:textSize="20sp"
+                        android:text="'Flush'"
+                        android:textSize="22sp"
                         android:textStyle="bold"
                         android:textColor="#333333"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1) Players must play a higher-ranked combo of the same type."
-                        android:textSize="16sp"
-                        android:textColor="#555555"
-                        android:lineSpacingExtra="4dp"
-                        android:layout_marginBottom="4dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2) Players must play the same number of cards as the current hand on the card pile."
-                        android:textSize="16sp"
-                        android:textColor="#555555"
-                        android:lineSpacingExtra="4dp"
-                        android:layout_marginBottom="4dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="3) The cards played will replace the current hand on the card pile."
-                        android:textSize="16sp"
-                        android:textColor="#555555"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="8dp"
                         android:lineSpacingExtra="4dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="— Compare rank first (e.g. pair of 10s beats pair of 9s)."
+                        android:text="@string/hands_flush_text"
                         android:textSize="16sp"
                         android:textColor="#555555"
-                        android:textStyle="italic"
                         android:lineSpacingExtra="4dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="— If ranks are tied, compare suites rankings."
+                        android:text="• Compare the highest rank between two flushes to determine which is higher."
                         android:textSize="16sp"
                         android:textColor="#555555"
                         android:textStyle="italic"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="6dp"
                         android:lineSpacingExtra="4dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Ending a Turn Card -->
+            <!-- 'Full House' Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -247,39 +215,136 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ending a Turn"
-                        android:textSize="20sp"
+                        android:text="'Full House'"
+                        android:textSize="22sp"
                         android:textStyle="bold"
                         android:textColor="#333333"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginBottom="8dp"
+                        android:lineSpacingExtra="4dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="• A player's turn ends after they place down their choice of cards onto the card pile."
+                        android:text="@string/hands_fullhouse_text"
                         android:textSize="16sp"
                         android:textColor="#555555"
-                        android:lineSpacingExtra="4dp"
-                        android:layout_marginBottom="10dp" />
+                        android:lineSpacingExtra="4dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="• Any player may pass if unable or unwilling to play cards."
+                        android:text="• Compare the rank of the triple between two full houses to determine which is higher."
                         android:textSize="16sp"
                         android:textColor="#555555"
-                        android:lineSpacingExtra="4dp"
-                        android:layout_marginBottom="10dp" />
+                        android:textStyle="italic"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="6dp"
+                        android:lineSpacingExtra="4dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 'Four of a kind + 1 extra' Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="• If all players pass, the last one to play starts the next round with any valid combination."
+                        android:text="'Four of a Kind +1 Extra'"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="#333333"
+                        android:layout_marginBottom="8dp"
+                        android:lineSpacingExtra="4dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hands_fourkind_text"
                         android:textSize="16sp"
                         android:textColor="#555555"
-                        android:lineSpacingExtra="4dp"
-                        android:layout_marginBottom="4dp" />
+                        android:lineSpacingExtra="4dp" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="• Compare the rank of the quad between two Four of a kinds to determine which is higher."
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:textStyle="italic"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="6dp"
+                        android:lineSpacingExtra="4dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 'Straight Flush & Royal' Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="'Straight &amp; Royal' Flush"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="#333333"
+                        android:layout_marginBottom="8dp"
+                        android:lineSpacingExtra="4dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hands_strRoy_text"
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:lineSpacingExtra="4dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="• Compare the highest rank between two straight flushes to determine which is higher."
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:textStyle="italic"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="6dp"
+                        android:lineSpacingExtra="4dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="• A-2-3-4-5 works (2 is the highest rank here), however something like K-A-2-3-4 does not."
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:textStyle="italic"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="6dp"
+                        android:lineSpacingExtra="4dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
@@ -318,9 +383,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:backgroundTint="#6200EE"
+        android:elevation="2dp"
         android:text="Back"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

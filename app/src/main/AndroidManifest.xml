@@ -12,52 +12,55 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Big2"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.activity.rules.HandsActivity"
+            android:exported="false" />
         <!-- Force Light Mode Globally -->
         <meta-data
             android:name="androidx.appcompat.app.ThemeProvider"
-            android:value="@style/Theme.Big2"/>
-
+            android:value="@style/Theme.Big2" />
         <meta-data
             android:name="android:forceDarkAllowed"
-            android:value="false" />
-
-        <!-- Main Activity -->
+            android:value="false" /> <!-- Main Activity -->
         <activity
             android:name=".ui.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- RulesActivity -->
-        <activity android:name=".ui.activity.RulesActivity"
+        </activity> <!-- RulesActivity -->
+        <activity
+            android:name=".ui.activity.RulesActivity"
             android:exported="true" />
-
-        <activity android:name=".ui.activity.rules.ObjectiveActivity" android:exported="false" />
-        <activity android:name=".ui.activity.rules.ScoringActivity" android:exported="false" />
-        <activity android:name=".ui.activity.rules.SetupActivity" android:exported="false" />
-        <activity android:name=".ui.activity.rules.ValidPlaysActivity" android:exported="false" />
-        <activity android:name=".ui.activity.rules.WinningActivity" android:exported="false" />
-
-        <!-- SelectGameActivity -->
-        <activity android:name=".ui.activity.SelectGameActivity"
+        <activity
+            android:name=".ui.activity.rules.ObjectiveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.rules.ScoringActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.rules.SetupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.rules.ValidPlaysActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.rules.WinningActivity"
+            android:exported="false" /> <!-- SelectGameActivity -->
+        <activity
+            android:name=".ui.activity.SelectGameActivity"
+            android:exported="true" /> <!-- GameplayActivity -->
+        <activity
+            android:name=".ui.activity.GameplayActivity"
+            android:exported="true" /> <!-- GameSummaryActivity -->
+        <activity
+            android:name=".ui.activity.GameSummaryActivity"
+            android:exported="true" /> <!-- AddRoundActivity -->
+        <activity
+            android:name=".ui.activity.AddRoundActivity"
             android:exported="true" />
-
-        <!-- GameplayActivity -->
-        <activity android:name=".ui.activity.GameplayActivity"
-            android:exported="true" />
-
-        <!-- GameSummaryActivity -->
-        <activity android:name=".ui.activity.GameSummaryActivity"
-            android:exported="true" />
-
-        <!-- AddRoundActivity -->
-        <activity android:name=".ui.activity.AddRoundActivity"
-            android:exported="true"/>
-
     </application>
 
 </manifest>
