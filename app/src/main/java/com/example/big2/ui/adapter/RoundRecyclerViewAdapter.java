@@ -64,12 +64,12 @@ public class RoundRecyclerViewAdapter extends RecyclerView.Adapter<RoundRecycler
         holder.tvS3.setText(String.valueOf(round.getS3()));
         holder.tvS4.setText(String.valueOf(round.getS4()));
 
-        // Highlight selected row
-        if (position == selectedPosition) {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.divider));  // Highlight color
-        } else {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.light_primary));  // Default color
-        }
+//        // Highlight selected row (FOR LONG PRESS IMPLEMENTATION)
+//        if (position == selectedPosition) {
+//            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.divider));  // Highlight color
+//        } else {
+//            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.light_primary));  // Default color
+//        }
 
         // Toggle selection
         holder.itemView.setOnClickListener(v -> {
@@ -88,9 +88,26 @@ public class RoundRecyclerViewAdapter extends RecyclerView.Adapter<RoundRecycler
                 selectedPosition = holder.getAdapterPosition();
             }
 
-            // Update UI for both the previous and current selected positions
-            notifyItemChanged(prevSelectedPosition);
-            notifyItemChanged(selectedPosition);
+//            // Update UI for both the previous and current selected positions (FOR LONG PRESS IMPLEMENTATION)
+//            notifyItemChanged(prevSelectedPosition);
+//            notifyItemChanged(selectedPosition);
+
+            // Manually reset the background of the previously selected item
+            if (prevSelectedPosition != -1 && prevSelectedPosition != selectedPosition) {
+                RecyclerView.ViewHolder prevHolder =
+                        ((RecyclerView) holder.itemView.getParent()).findViewHolderForAdapterPosition(prevSelectedPosition);
+                if (prevHolder != null) {
+                    prevHolder.itemView.setBackgroundColor(
+                            ContextCompat.getColor(holder.itemView.getContext(), R.color.light_primary)
+                    );
+                }
+            }
+
+            // Directly update background color for the newly selected row (Single Click Implementation)
+            holder.itemView.setBackgroundColor(
+                    ContextCompat.getColor(holder.itemView.getContext(),
+                            selectedPosition == holder.getAdapterPosition() ? R.color.divider : R.color.light_primary)
+            );
 
             // Show Popup Menu only if the row is selected
             if (selectedPosition == holder.getAdapterPosition()) {
@@ -192,6 +209,7 @@ public class RoundRecyclerViewAdapter extends RecyclerView.Adapter<RoundRecycler
 
                 // Only proceed if exactly one player has a score of zero
                 roundViewModel.update(round);
+                Toast.makeText(holder.itemView.getContext(), "Round " + round.getRoundNumber() + " Saved", Toast.LENGTH_SHORT).show();
                 replaceWithTextViews(holder, round);
                 editingPosition = -1;
             } else if (zeroCount > 1) {
