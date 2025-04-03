@@ -25,6 +25,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -37,13 +38,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <!-- Spinner for Filtering -->
     <Spinner
         android:id="@+id/spinnerFilter"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginTop="8dp"
-        android:padding="8dp"
+        android:layout_marginBottom="16dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="1dp"
+        android:background="@drawable/btn_select_game"
+        android:popupBackground="@drawable/spinner_dropdown_background"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:spinnerMode="dropdown"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

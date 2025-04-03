@@ -1,0 +1,40 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--  SHADOW LAYER -->
+    <item android:top="4dp" android:left="2dp" android:right="2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#B34700"/> <!-- Deep brownish orange -->
+            <corners android:radius="50dp"/>
+        </shape>
+    </item>
+
+    <!--  BUTTON TOP LAYER -->
+    <item>
+        <selector>
+
+            <!-- Pressed State -->
+            <item android:state_pressed="true">
+                <shape android:shape="rectangle">
+                    <gradient
+                        android:startColor="#F57C00"
+                        android:endColor="#EF6C00"
+                        android:angle="270" />
+                    <corners android:radius="50dp"/>
+                </shape>
+            </item>
+
+            <!-- Normal State -->
+            <item>
+                <shape android:shape="rectangle">
+                    <gradient
+                        android:startColor="#FFA726"
+                        android:endColor="#FB8C00"
+                        android:angle="270" />
+                    <corners android:radius="50dp"/>
+                </shape>
+            </item>
+
+        </selector>
+    </item>
+
+</layer-list>

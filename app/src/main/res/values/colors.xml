@@ -2,17 +2,19 @@
 <resources>
 
     <!-- Primary Colors -->
-    <color name="dark_primary">#455A64</color>
-    <color name="light_primary">#CFD8DC</color>
-    <color name="primary">#607D8B</color>
+    <color name="dark_primary">#EC5228</color> <!-- for dark mode -->
+    <color name="light_primary">#004E34</color> <!-- background -->
+    <color name="primary">#EF9651</color>
+
+
 
     <!-- Accent Color -->
-    <color name="accent">#9E9E9E</color>
+    <color name="accent">#33FFE082</color>
 
     <!-- Text Colors -->
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#757575</color>
-    <color name="text_icons">#FFFFFF</color>
+    <color name="text_icons">#FFE082</color>
 
     <!-- Other Colors -->
     <color name="divider">#BDBDBD</color>
@@ -24,7 +26,7 @@
     <color name="default_background">#3d3d3d</color>
 
     <!-- Game Status Colors-->
-    <color name="completed">#F19E39</color>
+    <color name="completed">#A62C2C</color>
     <color name="in_progress">#75FB4C</color>
     <color name="not_started">#999999</color>
 

@@ -259,7 +259,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="#6200EE"
         android:elevation="2dp"
         android:text="Back"
         android:textColor="#FFFFFF"
