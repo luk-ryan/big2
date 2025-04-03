@@ -13,15 +13,15 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.big2.R;
 
-public class ValidPlaysActivity extends AppCompatActivity {
+public class HandsActivity extends AppCompatActivity {
 
-    private static final Class<?> nextPage = HandsActivity.class;
-    private static final Class<?> prevPage = SetupActivity.class;
+    private static final Class<?> nextPage = WinningActivity.class;
+    private static final Class<?> prevPage = ValidPlaysActivity.class;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rules_valid_plays);
+        setContentView(R.layout.rules_hands);
 
         // Back button
         Button btnBack = findViewById(R.id.btnBack);
@@ -32,7 +32,7 @@ public class ValidPlaysActivity extends AppCompatActivity {
         ImageButton btnPrev = findViewById(R.id.btnPrev);
 
         btnNext.setOnClickListener(v -> {
-            Intent intent = new Intent(ValidPlaysActivity.this, nextPage);
+            Intent intent = new Intent(HandsActivity.this, nextPage);
 
             // this removes the current page from back stack, so that back button leads to rule.xml
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -43,7 +43,7 @@ public class ValidPlaysActivity extends AppCompatActivity {
         });
 
         btnPrev.setOnClickListener(v -> {
-            Intent intent = new Intent(ValidPlaysActivity.this, prevPage);
+            Intent intent = new Intent(HandsActivity.this, prevPage);
 
             // this removes the current page from back stack, so that back button leads to rule.xml
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
