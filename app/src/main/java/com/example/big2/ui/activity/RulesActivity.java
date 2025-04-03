@@ -146,9 +146,10 @@ public class RulesActivity extends AppCompatActivity {
             dotsLayout.addView(dots[i]);
         }
 
-        if (dots.length > 0) {
-            dots[position].setImageResource(R.drawable.dot_active); // Create dot image
+        if (dots.length > 0 && position < dots.length) {
+            dots[position].setImageResource(R.drawable.dot_active);
         }
+
     }
 
 }
