@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-
     <!-- Shape layer on top -->
     <item>
         <shape>
             <solid android:color="@color/divider" />
             <stroke
                 android:color="@color/dark_primary"
-                android:width="2dp" />
+                android:width="3dp" />
             <corners android:radius="4dp" />
         </shape>
     </item>

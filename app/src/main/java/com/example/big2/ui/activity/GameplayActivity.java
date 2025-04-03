@@ -472,7 +472,7 @@ public class GameplayActivity extends AppCompatActivity {
 
     // Helper method to Fade in each card Image View
     private void fadeIn(ImageView imageView) {
-        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(imageView, "alpha", 0f, 0.15f);
+        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(imageView, "alpha", 0f, 0.8f);
         fadeIn.setDuration(1000);  // Duration of the fade-in animation
         fadeIn.setInterpolator(new AccelerateDecelerateInterpolator());
         fadeIn.start();
@@ -483,6 +483,7 @@ public class GameplayActivity extends AppCompatActivity {
         numberPicker.setMinValue(0);
         numberPicker.setMaxValue(13);
         numberPicker.setWrapSelectorWheel(false);
+
     }
 
     // Helper method to calculate score based on the value

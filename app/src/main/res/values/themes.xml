@@ -21,6 +21,10 @@
         <!-- Background & Surface -->
         <item name="android:colorBackground">@color/light_primary</item>
 
+        <!-- Alert color -->
+        <item name="alertDialogTheme">@style/CustomAlertDialog</item>
+
+
         <!-- Text Colors -->
         <item name="android:textColor">@color/primary_text</item>
         <item name="android:textColorPrimary">@color/primary_text</item>

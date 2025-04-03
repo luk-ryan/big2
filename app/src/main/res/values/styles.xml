@@ -17,4 +17,17 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="CustomAlertDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="backgroundTint">#004d40</item> <!-- background color -->
+        <item name="android:textColorPrimary">#FFA726</item>
+        <item name="android:textColorSecondary">#FFE082</item><!-- Text color -->
+        <item name="android:buttonBarPositiveButtonStyle">@style/AlertDialogButton</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/AlertDialogButton</item>
+    </style>
+
+    <style name="AlertDialogButton" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">#FFA726</item> <!-- Buton rengi -->
+    </style>
+
+
 </resources>
