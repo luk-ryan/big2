@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.lifecycle.ViewModelProvider;
@@ -178,6 +179,8 @@ public class GameSummaryActivity extends AppCompatActivity {
                 tvTitle.setText("Game not found.");
             }
         });
+        TooltipCompat.setTooltipText(tvCardValue, "Monetary Value ($) per point");
+        TooltipCompat.setTooltipText(ivCardValueIcon, "Monetary Value ($) per point");
 
         // Observe rounds and update RecyclerView
         roundViewModel.getRoundsByGameId(gameId).observe(this, rounds -> {

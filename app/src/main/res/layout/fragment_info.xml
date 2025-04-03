@@ -6,33 +6,37 @@
     android:layout_height="match_parent"
     android:background="#80000000"
     android:clickable="true"
-    android:focusable="true" >
+    android:focusable="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="50dp"
-        android:background="#004E34">
+    <!-- Wrapper for Image and Close Button -->
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
-        <!-- Tutorial Img -->
+        <!-- Tutorial Image -->
         <ImageView
-            android:id="@+id/tvInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="fitStart"
-            android:src="@drawable/rules_hands_img" />
-
-        <Button
-            android:id="@+id/btnClose"
+            android:id="@+id/ivRuleHands"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Close"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvInfo" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/rules_hands_img"
+            android:layout_margin="50dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Close Button (Anchored to Top-Right of Image) -->
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/close"
+            android:background="?attr/selectableItemBackground"
+            android:padding="8dp"
+            android:elevation="4dp"
+            android:contentDescription="Close"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="top|end"
+            android:layout_margin="8dp" />
+    </FrameLayout>
+
 </FrameLayout>
-
