@@ -12,18 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="50dp"
-        android:background="@color/divider">
+        android:background="#004E34">
 
-        <TextView
+        <!-- Tutorial Img -->
+        <ImageView
             android:id="@+id/tvInfo"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Display Hand Hierarchy"
-            android:textSize="28sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btnClose"/>
+            android:adjustViewBounds="true"
+            android:scaleType="fitStart"
+            android:src="@drawable/rules_hands_img" />
 
         <Button
             android:id="@+id/btnClose"
