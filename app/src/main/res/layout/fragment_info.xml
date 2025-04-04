@@ -36,7 +36,8 @@
             android:clickable="true"
             android:focusable="true"
             android:layout_gravity="top|end"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            app:tint="@color/text_icons" />
     </FrameLayout>
 
 </FrameLayout>

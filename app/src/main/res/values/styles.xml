@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="PrimeButton" parent="Widget.Material3.Button">
+        <item name="android:background">@drawable/btn_orange</item>
+        <item name="backgroundTint">@null</item> <!-- Disable Material3 default tint -->
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="SelectGameButton" parent="Widget.Material3.Button">
+        <item name="android:background">@drawable/btn_select_game</item> <!-- This drawable you create -->
+        <item name="backgroundTint">@null</item>
+        <item name="android:textColor">#FF9A00</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="CustomAlertDialog" parent="Theme.Material3.DayNight.Dialog.Alert">
+        <item name="android:background">#004d40</item> <!-- background color -->
+        <item name="android:textColorPrimary">#FFA726</item>
+        <item name="android:textColorSecondary">#FFE082</item><!-- Text color -->
+        <item name="android:buttonBarPositiveButtonStyle">@style/AlertDialogButton</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/AlertDialogButton</item>
+    </style>
+
+    <style name="AlertDialogButton" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/dark_primary</item> <!-- Buton rengi -->
+    </style>
+
+
+</resources>

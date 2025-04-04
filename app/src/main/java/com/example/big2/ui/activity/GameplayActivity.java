@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.big2.R;
 import com.example.big2.ui.fragment.InfoFragment;
+import com.example.big2.ui.utils.DialogUtils;
 import com.example.big2.ui.viewmodel.GameViewModel;
 import com.example.big2.ui.viewmodel.RoundViewModel;
 import com.google.android.material.snackbar.Snackbar;
@@ -176,19 +177,10 @@ public class GameplayActivity extends AppCompatActivity {
 
         // Finish Game Button -
         btnFinishGame.setOnClickListener(v -> {
-                // Create a new AlertDialog to confirm finishing the game
-                new AlertDialog.Builder(this)
-                        .setMessage("Are you sure you want to finish the game?")
-                        .setCancelable(false) // Can't cancel by clicking outside
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // User confirmed, finish the game
-                                finishGame(gameId);
-                            }
-                        })
-                        .setNegativeButton("No", null) // User canceled, no action
-                        .show();
+            // Create a new AlertDialog to confirm finishing the game
+
+            String msgFinish = "Are you sure you want to finish this game? Game will be marked as Completed.";
+            DialogUtils.showConfirmationDialog(this, "Finish Game", msgFinish, () -> finishGame(gameId));
         });
 
         // Game Summary Button - Navigate to Game Summary Activity
@@ -472,7 +464,7 @@ public class GameplayActivity extends AppCompatActivity {
 
     // Helper method to Fade in each card Image View
     private void fadeIn(ImageView imageView) {
-        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(imageView, "alpha", 0f, 0.15f);
+        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(imageView, "alpha", 0f, 0.8f);
         fadeIn.setDuration(1000);  // Duration of the fade-in animation
         fadeIn.setInterpolator(new AccelerateDecelerateInterpolator());
         fadeIn.start();
@@ -483,6 +475,7 @@ public class GameplayActivity extends AppCompatActivity {
         numberPicker.setMinValue(0);
         numberPicker.setMaxValue(13);
         numberPicker.setWrapSelectorWheel(false);
+
     }
 
     // Helper method to calculate score based on the value

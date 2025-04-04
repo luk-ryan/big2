@@ -5,27 +5,31 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.MainActivity">
+    tools:context=".ui.activity.MainActivity"
+    >
 
-    <TextView
-        android:id="@+id/title"
+
+    <ImageView
+        android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Big 2 Title Screen"
-        android:textSize="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/big2logo"
+        android:scaleX="0.9"
+        android:scaleY="0.9"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.339" />
+        app:layout_constraintBottom_toTopOf="@+id/btnPlayGame"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnPlayGame"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginBottom="24dp"
         android:text="@string/play_game"
+        android:background="@drawable/btn_orange"
+        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
@@ -33,12 +37,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.715" />
 
-    <Button
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRules"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginBottom="20dp"
         android:text="@string/rules"
+        android:background="@drawable/btn_orange"
+        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -46,11 +53,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.829" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnExit"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:text="@string/exit"
+        android:background="@drawable/btn_orange"
+        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -179,8 +179,10 @@ public class GameSummaryActivity extends AppCompatActivity {
                 tvTitle.setText("Game not found.");
             }
         });
+
         TooltipCompat.setTooltipText(tvCardValue, "Monetary Value ($) per point");
         TooltipCompat.setTooltipText(ivCardValueIcon, "Monetary Value ($) per point");
+        TooltipCompat.setTooltipText(etCardValue, "Monetary Value ($) per point");
 
         // Observe rounds and update RecyclerView
         roundViewModel.getRoundsByGameId(gameId).observe(this, rounds -> {

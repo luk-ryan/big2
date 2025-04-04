@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.TooltipCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -75,6 +76,9 @@ public class CreateGameFragment extends DialogFragment {
 
         animateCardValueIcon(ivCardValueIcon);
         setEditorActionListeners();
+
+        TooltipCompat.setTooltipText(etCardValue, "Monetary Value ($) per point");
+        TooltipCompat.setTooltipText(ivCardValueIcon, "Monetary Value ($) per point");
 
         // Save Button
         btnSave.setOnClickListener(v -> saveGame());
