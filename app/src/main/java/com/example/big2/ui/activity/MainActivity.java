@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Create a ScaleAnimation to zoom in and then back
         ScaleAnimation zoomInOut = new ScaleAnimation(
-                1f, 1.3f, // Start and end values for the X axis scaling
-                1f, 1.3f, // Start and end values for the Y axis scaling
+                1f, 1.2f, // Start and end values for the X axis scaling
+                1f, 1.2f, // Start and end values for the Y axis scaling
                 Animation.RELATIVE_TO_SELF, 0.5f, // Pivot X (center)
                 Animation.RELATIVE_TO_SELF, 0.5f  // Pivot Y (center)
         );
