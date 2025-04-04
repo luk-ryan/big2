@@ -16,7 +16,7 @@ import com.example.big2.R;
 public class WinningActivity extends AppCompatActivity {
 
     private static final Class<?> nextPage = ScoringActivity.class;
-    private static final Class<?> prevPage = ValidPlaysActivity.class;
+    private static final Class<?> prevPage = HandsActivity.class;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -171,58 +171,15 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Card Rankings Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/titleCardRankings"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Card Rankings"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="#333333"
-                        android:layout_marginBottom="8dp"
-                        android:lineSpacingExtra="4dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/obj_ranking_text"
-                        android:textSize="16sp"
-                        android:textColor="#444444"
-                        android:lineSpacingExtra="4dp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
             <!-- Tutorial Imag -->
             <ImageView
-                android:layout_width="170dp"
-                android:layout_height="230dp"
+                android:layout_width="200dp"
+                android:layout_height="260dp"
                 android:src="@drawable/rules_obj_img"
                 android:contentDescription="4 players tutorial img"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:scaleType="fitCenter" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="4 Players"
                 android:layout_gravity="center_horizontal"
-                android:textSize="24sp"
-                android:textColor="#444444" />
+                android:scaleType="fitCenter" />
 
         </LinearLayout>
     </ScrollView>

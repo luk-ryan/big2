@@ -59,15 +59,17 @@ public class RulesActivity extends AppCompatActivity {
 
         String descr_objective = "Learn the goal and rules of Big 2.";
         String descr_setup = "Learn how to start a game of Big 2.";
-        String descr_plays = "Outlines the types of card combinations that can be played. ";
+        String descr_plays = "Details the actions a player can do during their turn. ";
+        String descr_hands = "Outlines the types of card combinations that can be played. ";
         String descr_win = "Details how a round ends and how penalty points are given. ";
         String descr_score = "Outlines how points are calculated after each round, and optional rules when playing with money.";
 
-        rules.add(new RulesCard(R.drawable.card_suit_spade, "The Objective of The Game", descr_objective, "A", "♠"));
-        rules.add(new RulesCard(R.drawable.card_suit_heart, "Game Setup", descr_setup, "2", "♥"));
-        rules.add(new RulesCard(R.drawable.card_suit_club, "Valid Plays", descr_plays, "3", "♣"));
-        rules.add(new RulesCard(R.drawable.card_suit_diamond, "Winning a Round", descr_win, "4", "♦"));
-        rules.add(new RulesCard(R.drawable.card_suit_spade, "Scoring System", descr_score, "5", "♠"));
+        rules.add(new RulesCard(R.drawable.rules_obj_img, "The Objective of The Game", descr_objective, "A", "♠"));
+        rules.add(new RulesCard(R.drawable.rules_setup_icon, "Game Setup", descr_setup, "2", "♥"));
+        rules.add(new RulesCard(R.drawable.card_suit_club, "Round Actions", descr_plays, "3", "♣"));
+        rules.add(new RulesCard(R.drawable.rules_hands_icon, "Valid Hands", descr_hands, "4", "♦"));
+        rules.add(new RulesCard(R.drawable.rules_win_img, "Winning a Round", descr_win, "5", "♠"));
+        rules.add(new RulesCard(R.drawable.rules_score_icon, "Scoring System", descr_score, "6", "♥"));
 
         // Initialize RecyclerView Adapters
         RulesRecyclerViewAdapter adapter = new RulesRecyclerViewAdapter(this, rules);
@@ -147,9 +149,9 @@ public class RulesActivity extends AppCompatActivity {
         }
 
         if (dots.length > 0 && position < dots.length) {
-            dots[position].setImageResource(R.drawable.dot_active);
-        }
+            dots[position].setImageResource(R.drawable.dot_active); // Create dot image
 
+        }
     }
 
 }

@@ -103,7 +103,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="When a player has one card left, they must call “last card”. The person before them must play their highest card if singles are being played."
+                        android:text="@string/win_lastCard_text"
                         android:textSize="16sp"
                         android:textColor="#555555"
                         android:lineSpacingExtra="4dp" />
@@ -168,13 +168,50 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Remaining players tally penalty points based on how many cards they have left:\n\n• 11–12 cards: double points (e.g., +22 or +24).\n• 13 cards: triple points (e.g., +39)."
+                        android:text="Remaining players tally penalty points based on how many cards they have left:"
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:lineSpacingExtra="4dp"
+                        android:paddingBottom="12dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/win_1to10cards_text"
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:lineSpacingExtra="4dp"
+                        android:paddingBottom="4dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/win_11to12cards_text"
+                        android:textSize="16sp"
+                        android:textColor="#555555"
+                        android:lineSpacingExtra="4dp"
+                        android:paddingBottom="4dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/win_13cards_text"
                         android:textSize="16sp"
                         android:textColor="#555555"
                         android:lineSpacingExtra="4dp"
                         android:paddingBottom="24dp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <!-- Tutorial Imag -->
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="410dp"
+                android:src="@drawable/rules_win_img"
+                android:contentDescription="Last Card Showcase"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:scaleType="fitCenter" />
 
         </LinearLayout>
     </ScrollView>

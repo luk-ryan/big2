@@ -6,35 +6,37 @@
     android:layout_height="match_parent"
     android:background="#80000000"
     android:clickable="true"
-    android:focusable="true" >
+    android:focusable="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="50dp"
-        android:background="@color/divider">
+    <!-- Wrapper for Image and Close Button -->
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
-        <TextView
-            android:id="@+id/tvInfo"
+        <!-- Tutorial Image -->
+        <ImageView
+            android:id="@+id/ivRuleHands"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Display Hand Hierarchy"
-            android:textSize="28sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btnClose"/>
+            android:scaleType="fitCenter"
+            android:src="@drawable/rules_hands_img"
+            android:layout_margin="50dp" />
 
-        <Button
-            android:id="@+id/btnClose"
+        <!-- Close Button (Anchored to Top-Right of Image) -->
+        <ImageView
+            android:id="@+id/ivClose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Close"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvInfo" />
+            android:src="@drawable/close"
+            android:background="?attr/selectableItemBackground"
+            android:padding="8dp"
+            android:elevation="4dp"
+            android:contentDescription="Close"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="top|end"
+            android:layout_margin="8dp" />
+    </FrameLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
-
