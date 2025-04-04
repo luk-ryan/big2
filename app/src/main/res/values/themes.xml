@@ -31,6 +31,5 @@
         <item name="android:textColorSecondary">@color/secondary_text</item>
         <item name="android:textColorHint">@color/accent</item>
 
-        <!-- Divider -->
     </style>
 </resources>
