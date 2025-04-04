@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.big2.R;
 import com.example.big2.ui.fragment.InfoFragment;
+import com.example.big2.ui.utils.DialogUtils;
 import com.example.big2.ui.viewmodel.GameViewModel;
 import com.example.big2.ui.viewmodel.RoundViewModel;
 import com.google.android.material.snackbar.Snackbar;
@@ -176,19 +177,10 @@ public class GameplayActivity extends AppCompatActivity {
 
         // Finish Game Button -
         btnFinishGame.setOnClickListener(v -> {
-                // Create a new AlertDialog to confirm finishing the game
-                new AlertDialog.Builder(this)
-                        .setMessage("Are you sure you want to finish the game?")
-                        .setCancelable(false) // Can't cancel by clicking outside
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // User confirmed, finish the game
-                                finishGame(gameId);
-                            }
-                        })
-                        .setNegativeButton("No", null) // User canceled, no action
-                        .show();
+            // Create a new AlertDialog to confirm finishing the game
+
+            String msgFinish = "Are you sure you want to finish this game? Game will be marked as Completed.";
+            DialogUtils.showConfirmationDialog(this, "Finish Game", msgFinish, () -> finishGame(gameId));
         });
 
         // Game Summary Button - Navigate to Game Summary Activity
