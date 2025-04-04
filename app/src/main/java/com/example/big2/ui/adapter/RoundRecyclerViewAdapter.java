@@ -66,7 +66,7 @@ public class RoundRecyclerViewAdapter extends RecyclerView.Adapter<RoundRecycler
 
 //        // Highlight selected row (FOR LONG PRESS IMPLEMENTATION)
 //        if (position == selectedPosition) {
-//            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.divider));  // Highlight color
+//            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.accent));  // Highlight color
 //        } else {
 //            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.light_primary));  // Default color
 //        }
@@ -106,7 +106,7 @@ public class RoundRecyclerViewAdapter extends RecyclerView.Adapter<RoundRecycler
             // Directly update background color for the newly selected row (Single Click Implementation)
             holder.itemView.setBackgroundColor(
                     ContextCompat.getColor(holder.itemView.getContext(),
-                            selectedPosition == holder.getAdapterPosition() ? R.color.divider : R.color.light_primary)
+                            selectedPosition == holder.getAdapterPosition() ? R.color.accent : R.color.light_primary)
             );
 
             // Show Popup Menu only if the row is selected

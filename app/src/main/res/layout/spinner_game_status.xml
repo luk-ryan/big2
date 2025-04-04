@@ -10,11 +10,10 @@
 
     <ImageView
         android:id="@+id/ivStatusIcon"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
-        android:src="@drawable/ic_circle"
-        android:visibility="gone"
+        android:src="@drawable/ic_arrow_drop_down"
         app:tint="@color/text_icons" />
 
     <TextView

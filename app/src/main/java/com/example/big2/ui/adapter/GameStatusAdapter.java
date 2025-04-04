@@ -53,9 +53,9 @@ public class GameStatusAdapter extends BaseAdapter {
         tvStatusText.setText(statuses[position]);
 
         if (position == 0) { // "All" case
-            ivStatusIcon.setVisibility(View.GONE); // Hide the icon
+            ivStatusIcon.setImageResource(R.drawable.ic_arrow_drop_down);
         } else {
-            ivStatusIcon.setVisibility(View.VISIBLE);
+            ivStatusIcon.setImageResource(R.drawable.ic_circle);
             ivStatusIcon.setColorFilter(ContextCompat.getColor(context, statusColors[position]));
         }
 

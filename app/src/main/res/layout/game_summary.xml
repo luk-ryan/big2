@@ -101,7 +101,7 @@
             android:id="@+id/headerRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/accent"
+            android:background="@color/dark_primary"
             android:padding="8dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
