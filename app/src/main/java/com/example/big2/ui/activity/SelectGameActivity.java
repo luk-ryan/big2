@@ -160,6 +160,14 @@ public class SelectGameActivity extends AppCompatActivity {
         ivBack.setOnClickListener(v -> finish());
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Deselect any selected item in the RecyclerView and refresh the list
+        gameRecyclerViewAdapter.setSelectedPosition(-1);
+        gameRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
     // Filtering method based on game status logic
     private void applyStatusFiltering() {
         String selectedStatus = spinnerFilter.getSelectedItem().toString();
@@ -210,7 +218,7 @@ public class SelectGameActivity extends AppCompatActivity {
         Game selectedGame = gameRecyclerViewAdapter.getSelectedGame();
 
         if (selectedGame == null) {
-            btnStart.setText("Start");
+            btnStart.setText("Select Game");
             btnStart.setEnabled(false);
         } else {
             btnStart.setEnabled(true);

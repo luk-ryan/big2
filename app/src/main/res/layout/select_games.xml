@@ -110,7 +110,7 @@
         android:id="@+id/btnStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start"
+        android:text="Select Game"
         android:textSize="24sp"
         android:padding="12dp"
         android:layout_marginStart="100dp"
