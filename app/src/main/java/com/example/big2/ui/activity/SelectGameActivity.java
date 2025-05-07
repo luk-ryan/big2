@@ -30,6 +30,7 @@ import com.example.big2.ui.viewmodel.RoundViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SelectGameActivity extends AppCompatActivity {
 
@@ -77,9 +78,9 @@ public class SelectGameActivity extends AppCompatActivity {
                 } else {
                     tvNoGames.setVisibility(View.GONE); // Hide "No Games" message
                     rvGames.setVisibility(View.VISIBLE); // Show RecyclerView
-                    gameRecyclerViewAdapter.setGameList(games);
                     allGames = new ArrayList<>(games); // Store all games
                     applyStatusFiltering(); // Apply filter logic
+                    gameRecyclerViewAdapter.setGameList(games);
                 }
             }
         });
@@ -162,11 +163,14 @@ public class SelectGameActivity extends AppCompatActivity {
     // Filtering method based on game status logic
     private void applyStatusFiltering() {
         String selectedStatus = spinnerFilter.getSelectedItem().toString();
-        List<Game> filteredGames = new ArrayList<>();
-        LifecycleOwner lifecycleOwner = this;
+        List<Game> tempFilteredGames = new ArrayList<>();
+        List<Game> orderedFilteredGames = new ArrayList<>();
+
+        final int total = allGames.size();
+        final AtomicInteger counter = new AtomicInteger(0);
 
         for (Game game : allGames) {
-            roundViewModel.getRoundsByGameId(game.getGameId()).observe(lifecycleOwner, rounds -> {
+            roundViewModel.getRoundsByGameId(game.getGameId()).observe(this, rounds -> {
                 String gameStatus;
 
                 if (game.isCompleted()) {
@@ -177,23 +181,30 @@ public class SelectGameActivity extends AppCompatActivity {
                     gameStatus = "In Progress";
                 }
 
-                // Filter based on the selected status
                 if (selectedStatus.equals("All") || selectedStatus.equals(gameStatus)) {
-                    filteredGames.add(game);
+                    // Maintain order using index lookup
+                    tempFilteredGames.add(game);
                 }
 
-                // Update RecyclerView after filtering
-                if (filteredGames.isEmpty()) {
-                    tvNoGames.setVisibility(View.VISIBLE);
-                    rvGames.setVisibility(View.GONE);
-                } else {
-                    tvNoGames.setVisibility(View.GONE);
-                    rvGames.setVisibility(View.VISIBLE);
-                    gameRecyclerViewAdapter.setGameList(filteredGames);
+                // When all observations complete
+                if (counter.incrementAndGet() == total) {
+
+                    // Sort the filtered list by timestamp descending (if that's what your query does)
+                    tempFilteredGames.sort((g1, g2) -> Long.compare(g2.getGameId(), g1.getGameId()));
+
+                    if (tempFilteredGames.isEmpty()) {
+                        tvNoGames.setVisibility(View.VISIBLE);
+                        rvGames.setVisibility(View.GONE);
+                    } else {
+                        tvNoGames.setVisibility(View.GONE);
+                        rvGames.setVisibility(View.VISIBLE);
+                        gameRecyclerViewAdapter.setGameList(tempFilteredGames);
+                    }
                 }
             });
         }
     }
+
 
     public void applySelectionChange() {
         Game selectedGame = gameRecyclerViewAdapter.getSelectedGame();
